@@ -1,33 +1,33 @@
 import os
 
-dirs = ["test",[
-                ["test1", 'file']
-            ],
-        "fff",[
-            "f", "dir"
-        ]
-]
+dirs = ["lab0",
+    ["test", ["f", "f"], ["d", "d"]],
+    ["test2", "d"]
+    ]
 
 content = {}
 
 rights = {}
 
 def main(path, dirs):
-    print("sss")
-    for i in range(0, len(dirs)-2, 2):
-        dir = dirs[i: i+2]
-        print(dir)
-        if type(dir[1]) != list:
-            if type(dir[1]) == "file":
-                with open(path + dir[0]) as file:
-                    file.write(content[dir[0]])
-                    os.chmod(path+dirs[0], rights[dir[0]])
-            else:
-                os.mkdir(path+dir[0])
-                os.chmod[path+dir[0], rights[dir[0]]]
-        else:
-            os.mkdir(path + dir[0])
-            main(path+dir[0], dir[1])
+    name = dirs[0]
+    ipath = path+name
+    if type(dirs[1]) == str:
+        if not os.path.exists(ipath):
+            if dirs[1] == "f":
+                with open(ipath, "w") as f:
+                    if name in content:
+                        f.write(content[name])
+            if dirs[1] == "d":
+                os.mkdir(ipath)
+        if name in rights:
+            os.chmod(ipath, rights[name])
+    else:
+        if not os.path.exists(ipath):
+            os.mkdir(ipath)
+        listofdir = dirs[1:]
+        for i in listofdir:
+            main(ipath + "\\", i)
 
 
 main(os.getcwd() + "\\", dirs)
