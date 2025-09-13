@@ -1,8 +1,61 @@
 import os
 
-dirs = ["lab0",
-    ["test", ["f", "f"], ["d", "d"]],
-    ["test2", "d"]
+dirs = ["lab0", 
+        [
+        "larvitar4", 
+            [
+            "gothitelle", 
+                [
+                "mandibuzz", 
+                    ["swoobat", "d"],
+                    ["electrike", "d"],
+                    ["eevee", "f"],
+                    ["shuppet", "f"],
+                    ["snivy", "d"],
+                    ["cranidos", "d"],
+                    ["manectric", "d"]
+                ],
+                [
+                "tyranitar", 
+                    ["starui", "d"],
+                    ["poliwhirl", "f"]
+                ],
+                [
+                "bibarel",
+                    ["spoink", "d"],
+                    ["bulbasaur", "f"],
+                    ["infernapee", "d"],
+                    ["vanillite", "d"],
+                    ["zebstrika", "f"],
+                    ["leavanny", "d"],
+                    ["slowpoke", "d"]
+                ],
+                [
+                "mantyke",
+                    ["nidorina", "d"],
+                    ["xaty", "f"],
+                    ["slaking", "d"],
+                    ["typhlosion", "d"],
+                    ["vileplume", "f"],
+                    ["vaporeon", "f"]
+                ],
+                [
+                "dugtrio",
+                    ["walrein", "d"],
+                    ["gothitelle", "f"],#могут быть проблеммы с одноимённой пакой при назначени прав
+                    ["dewgong", "d"],
+                    ["happiny", "d"],
+                    ["drilbur", "d"]
+                ]
+            ],
+            [
+            "wingull",
+                [
+                "crustle",
+                    [""]        
+                ]
+            ]
+        ],
     ]
 
 content = {}
