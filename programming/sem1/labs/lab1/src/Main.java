@@ -48,7 +48,6 @@ public class Main{
             System.out.print("\n");
         }
     }
-
     private static boolean isCountInArr(int i, int[] a) {
         for (int e : a){
             if (e == i){
@@ -57,7 +56,6 @@ public class Main{
         }
         return false;
     }
-
     private static double randomCountGenerator(double a, double b){
         return Math.random() * (b-a) + a;
     }
