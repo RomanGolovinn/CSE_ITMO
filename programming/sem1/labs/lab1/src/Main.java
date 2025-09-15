@@ -7,10 +7,23 @@ public class Main{
             l[i] = i+1;
         }
 
+        for (int i : l){
+            System.out.print(i);
+            System.out.print(" ");
+        }
+
         double[] x = new double[11];
         for (int i = 0; i < 11; i++){
             x[i] = randomCountGenerator(-12.0, 11.0);
         }
+
+        System.out.print("\n");
+        for (double i : x){
+            System.out.print(i);
+            System.out.print(" ");
+        }
+
+        System.out.print("\n");
 
         final int[] a = {3, 4, 6, 8, 10, 11, 12};
         final double e = Math.E;
@@ -39,15 +52,23 @@ public class Main{
     }
 
     private static void printArr(double[][] s){
-        DecimalFormat df = new DecimalFormat("0.00");
+        DecimalFormat df = new DecimalFormat(" 0.00 ");
+        DecimalFormat dfmin = new DecimalFormat("0.00 ");
         for (double[] i : s){
             for (double j : i){
-                String fj = df.format(j);
-                System.out.print(fj + " ");
+                if (j > 0){
+                    String fj = df.format(j);
+                    System.out.print(fj + " ");
+                }
+                else{
+                    String fj = dfmin.format(j);
+                    System.out.print(fj + " ");
+                }
             }
             System.out.print("\n");
         }
     }
+
     private static boolean isCountInArr(int i, int[] a) {
         for (int e : a){
             if (e == i){
@@ -56,6 +77,7 @@ public class Main{
         }
         return false;
     }
+
     private static double randomCountGenerator(double a, double b){
         return Math.random() * (b-a) + a;
     }
