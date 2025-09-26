@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+rm -rf lab0
+>>>>>>> 46a3aaf1dc83696a22808d44340096f52fa526ef
 
 mkdir -p lab0
 
@@ -15,21 +19,17 @@ mkdir -p lab0/delcatty8/dratini
 mkdir -p lab0/delcatty8/gurdurr
 touch lab0/delcatty8/unfezant
 
-# содержимое gigalith6
 touch lab0/gigalith6/cottonee
 mkdir -p lab0/gigalith6/lampent
 touch lab0/gigalith6/venonat
 mkdir -p lab0/gigalith6/blaziken
 touch lab0/gigalith6/skiploom
 
-# содержимое gliscor9
 touch lab0/gliscor9/arcanine
 touch lab0/gliscor9/baltoy
 touch lab0/gliscor9/poochyena
 touch lab0/gliscor9/hippopotas
 
-
-# --- 2. КОНТЕНТ ---
 
 echo "Ходы  Bug Bite Electroweb Snore String Shot" > lab0/burmy4
 
@@ -96,43 +96,100 @@ cat > lab0/gliscor9/hippopotas <<EOF
 EOF
 
 
-# --- 3. ПРАВА ---
 
 chmod 755 lab0
+chmod 755 lab0/delcatty8
+chmod 755 lab0/gigalith6
+chmod 755 lab0/gliscor9
+chmod 755 lab0/delcatty8/ledian
+chmod 755 lab0/delcatty8/dratini
+chmod 755 lab0/delcatty8/gurdurr
+chmod 755 lab0/gigalith6/lampent
+chmod 755 lab0/gigalith6/blaziken
 
 chmod 404 lab0/burmy4
-chmod 662 lab0/delcatty8
 chmod 640 lab0/delcatty8/octillery
 chmod 404 lab0/delcatty8/vileplume
-chmod 531 lab0/delcatty8/ledian
-chmod 551 lab0/delcatty8/dratini
-chmod 752 lab0/delcatty8/gurdurr
 chmod 660 lab0/delcatty8/unfezant
-
 chmod 004 lab0/dragonair4
 chmod 006 lab0/gengar9
-
-chmod 551 lab0/gigalith6
 chmod 604 lab0/gigalith6/cottonee
-chmod 674 lab0/gigalith6/lampent
 chmod 620 lab0/gigalith6/venonat
-chmod 611 lab0/gigalith6/blaziken
 chmod 444 lab0/gigalith6/skiploom
-
-chmod 657 lab0/gliscor9
 chmod 404 lab0/gliscor9/arcanine
 chmod 624 lab0/gliscor9/baltoy
 chmod 440 lab0/gliscor9/poochyena
 chmod 444 lab0/gliscor9/hippopotas
 
-ln -s lab0/delcatty8 lab0/Copy_7
-cp lab0/gengar9 lab0/gigalith6/lampent/
-cat lab0/burmy4 > lab0/delcatty8/octilleryburmy
-ln -s ../burmy4 lab0/delcatty8/unfezantburmy
-ln lab0/burmy4 lab0/gigalith6/skiploomburmy
-cat lab0/gigalith6/venonat lab0/gliscor9/baltoy > lab0/burmy4_62
-cp -r lab0/gliscor9 lab0/gigalith6/blaziken
+chmod 662 lab0/delcatty8
+chmod 315 lab0/delcatty8/ledian
+chmod 551 lab0/delcatty8/dratini
+chmod 752 lab0/delcatty8/gurdurr
+chmod 551 lab0/gigalith6
+chmod 674 lab0/gigalith6/lampent
+chmod 311 lab0/gigalith6/blaziken
+chmod 657 lab0/gliscor9
 
+
+
+ln -s delcatty8 lab0/Copy_7
+
+cp lab0/gengar9 lab0/gigalith6/lampent/
+
+cat lab0/burmy4 > lab0/delcatty8/octilleryburmy
+
+ln -s lab0/burmy4 lab0/delcatty8/unfezantburmy
+
+ln lab0/delcatty8 lab0/gigalith6/skiploomburmy
+
+cat lab0/gigalith6/venonat lab0/gliscor9/baltoy > lab0/burmy4_62
+
+cp -r lab0/gliscor9 lab0/gigalith6/blaziken/
+
+<<<<<<< HEAD
 wc lab0/gliscor9/arcanine lab0/gliscor9/baltoy > /tmp/arcanine_baltoy.txt 2>&1
 ls -lt delcatty8 2>/dev/null
 grep -r '' lab0/*y 2>&1 | sort
+=======
+
+
+wc -l lab0/gliscor9/arcanine lab0/gliscor9/baltoy > /tmp/result.txt 2>&1
+
+ls -lt lab0/delcatty8 2>/dev/null
+
+for f in lab0/*y; do
+  [ -f "$f" ] && cat "$f" 2>&1 | sort
+done
+
+for f in lab0/g*; do
+  [ -f "$f" ] && nl "$f" 2>>/tmp/error.log | sort
+done
+
+for f in lab0/v*; do
+  [ -f "$f" ] && wc -l "$f" 2>>/tmp/error.log
+done | sort -nr
+
+cat lab0/delcatty8/vileplume lab0/delcatty8/unfezant lab0/gigalith6/cottonee \
+    lab0/gigalith6/venonat lab0/gigalith6/skiploom lab0/gliscor9/arcanine \
+    2>/dev/null | grep -v "d$"
+
+
+
+chmod 777 lab0/dragonair4 2>/dev/null
+rm -f lab0/dragonair4 2>/dev/null
+
+chmod 777 lab0/gigalith6/venonat 2>/dev/null
+rm -f lab0/gigalith6/venonat 2>/dev/null
+
+chmod 777 lab0/delcatty8 2>/dev/null
+rm -f lab0/delcatty8/unfezantbur* 2>/dev/null
+
+chmod 777 lab0/gigalith6 2>/dev/null
+rm -f lab0/gigalith6/skiploombur* 2>/dev/null
+
+chmod 777 lab0/gliscor9 2>/dev/null
+rm -rf lab0/gliscor9 2>/dev/null
+
+chmod 777 lab0/delcatty8/ 2>/dev/null
+rmdir -f lab0/delcatty8/dratini 2>/dev/null
+>>>>>>> 46a3aaf1dc83696a22808d44340096f52fa526ef
