@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
 rm -rf lab0
+>>>>>>> 46a3aaf1dc83696a22808d44340096f52fa526ef
 
 mkdir -p lab0
 
@@ -143,6 +146,11 @@ cat lab0/gigalith6/venonat lab0/gliscor9/baltoy > lab0/burmy4_62
 
 cp -r lab0/gliscor9 lab0/gigalith6/blaziken/
 
+<<<<<<< HEAD
+wc lab0/gliscor9/arcanine lab0/gliscor9/baltoy > /tmp/arcanine_baltoy.txt 2>&1
+ls -lt delcatty8 2>/dev/null
+grep -r '' lab0/*y 2>&1 | sort
+=======
 
 
 wc -l lab0/gliscor9/arcanine lab0/gliscor9/baltoy > /tmp/result.txt 2>&1
@@ -184,3 +192,4 @@ rm -rf lab0/gliscor9 2>/dev/null
 
 chmod 777 lab0/delcatty8/ 2>/dev/null
 rmdir -f lab0/delcatty8/dratini 2>/dev/null
+>>>>>>> 46a3aaf1dc83696a22808d44340096f52fa526ef
