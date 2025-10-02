@@ -2,7 +2,7 @@ package moves.StatusMoves;
 
 import ru.ifmo.se.pokemon.*;
 
-public class DoubleTeam extends StatusMove {
+public final class DoubleTeam extends StatusMove {
     public DoubleTeam(){
         super(Type.NORMAL, 0, 0);
     }
@@ -13,5 +13,10 @@ public class DoubleTeam extends StatusMove {
         eff.stat(Stat.EVASION, (int)p.getStat(Stat.EVASION)+1);
 
         p.addEffect(eff);
+    }
+
+    @Override
+    protected String describe(){
+        return "Использует DoubleTeam";
     }
 }

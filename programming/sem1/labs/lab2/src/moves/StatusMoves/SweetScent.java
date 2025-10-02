@@ -14,4 +14,9 @@ public final class SweetScent extends StatusMove{
 
         p.addEffect(eff);
     }
+
+    @Override
+    protected String describe(){
+        return "Использует SweetScent";
+    }
 }

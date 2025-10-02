@@ -5,7 +5,7 @@ import ru.ifmo.se.pokemon.Pokemon;
 import ru.ifmo.se.pokemon.SpecialMove;
 import ru.ifmo.se.pokemon.Type;
 
-public class FireBlast extends SpecialMove {
+public final class FireBlast extends SpecialMove {
     public FireBlast(){
         super(Type.FIRE, 110, 85);
     }
@@ -15,5 +15,10 @@ public class FireBlast extends SpecialMove {
         if (Math.random() <= 0.1){
             Effect.burn(p);
         }
+    }
+
+    @Override
+    protected String describe(){
+        return "Использует FireBlast";
     }
 }

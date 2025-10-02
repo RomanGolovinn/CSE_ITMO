@@ -5,7 +5,7 @@ import ru.ifmo.se.pokemon.Pokemon;
 import ru.ifmo.se.pokemon.SpecialMove;
 import ru.ifmo.se.pokemon.Type;
 
-public class Thanderbolt extends SpecialMove {
+public final class Thanderbolt extends SpecialMove {
     public Thanderbolt(){
         super(Type.ELECTRIC, 90, 100);
     }
@@ -15,5 +15,10 @@ public class Thanderbolt extends SpecialMove {
         if (Math.random() <= 0.1){
             Effect.paralyze(p);
         }
+    }
+
+    @Override
+    protected String describe(){
+        return "Использует Thanderbolt";
     }
 }

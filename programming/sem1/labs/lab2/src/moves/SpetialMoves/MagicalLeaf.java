@@ -23,4 +23,9 @@ public final class MagicalLeaf extends SpecialMove {
         p.addEffect(eff);
     }
 
+    @Override
+    protected String describe(){
+        return "Использует MagicalLeaf";
+    }
+
 }
