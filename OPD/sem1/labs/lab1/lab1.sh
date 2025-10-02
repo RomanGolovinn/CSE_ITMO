@@ -97,16 +97,6 @@ EOF
 
 
 
-chmod 755 lab0
-chmod 755 lab0/delcatty8
-chmod 755 lab0/gigalith6
-chmod 755 lab0/gliscor9
-chmod 755 lab0/delcatty8/ledian
-chmod 755 lab0/delcatty8/dratini
-chmod 755 lab0/delcatty8/gurdurr
-chmod 755 lab0/gigalith6/lampent
-chmod 755 lab0/gigalith6/blaziken
-
 chmod 404 lab0/burmy4
 chmod 640 lab0/delcatty8/octillery
 chmod 404 lab0/delcatty8/vileplume
