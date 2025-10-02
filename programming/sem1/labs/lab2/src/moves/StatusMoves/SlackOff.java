@@ -8,5 +8,5 @@ public class SlackOff extends StatusMove {
         super(Type.NORMAL, 0, 0);
     }
 
-    
+
 }
