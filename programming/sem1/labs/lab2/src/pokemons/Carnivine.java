@@ -1,6 +1,6 @@
 package pokemons;
 
-import moves.SpetialMoves.MagicalLeaf;
+import moves.SpecialMoves.MagicalLeaf;
 import moves.StatusMoves.DoubleTeam;
 import moves.StatusMoves.SleepPowder;
 import moves.StatusMoves.SweetScent;
