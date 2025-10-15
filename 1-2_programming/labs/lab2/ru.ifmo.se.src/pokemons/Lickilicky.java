@@ -1,6 +1,6 @@
 package pokemons;
 
-import moves.SpecialMoves.FocusBlast;
+import moves.specialmoves.FocusBlast;
 
 public final class Lickilicky extends Lickitung {
     public Lickilicky(String name, int level){

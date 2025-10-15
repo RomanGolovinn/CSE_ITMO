@@ -1,9 +1,9 @@
 package pokemons;
 
-import moves.SpecialMoves.MagicalLeaf;
-import moves.StatusMoves.DoubleTeam;
-import moves.StatusMoves.SleepPowder;
-import moves.StatusMoves.SweetScent;
+import moves.specialmoves.MagicalLeaf;
+import moves.statusmoves.DoubleTeam;
+import moves.statusmoves.SleepPowder;
+import moves.statusmoves.SweetScent;
 import ru.ifmo.se.pokemon.Pokemon;
 import ru.ifmo.se.pokemon.Type;
 
@@ -14,4 +14,5 @@ public final class Carnivine extends Pokemon {
         setType(Type.GRASS);
         setMove(new MagicalLeaf(), new SweetScent(), new SleepPowder(), new DoubleTeam());
     }
+
 }

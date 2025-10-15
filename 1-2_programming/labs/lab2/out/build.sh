@@ -1,0 +1,4 @@
+BUILD_DIR="out/build"
+SOURCE_DIR="out"
+JAR_NAME="lab2.jar"
+MANIFEST_FILE="MANIFEST.MF"

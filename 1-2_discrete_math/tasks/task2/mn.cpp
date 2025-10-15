@@ -63,7 +63,7 @@ pair<double, vector<int>> find_best(const vector<vector<int>>& all_c,
             c += costs[v];
             w += weights[v];
         }
-        if (w == 0) continue; // защита от деления на ноль
+        if (w == 0) continue;
         double q = (double)c / w;
         if (q > best_q) {
             best_q = q;
@@ -97,18 +97,14 @@ int main(){
         graph[n2][n1] = 1;
     }
 
-    // строим дополнение графа
     not_graph = build_not_g(graph);
 
-    // запускаем Bron–Kerbosch
     vector<int> R, P, X;
     for (int i = 0; i < n; i++) P.push_back(i);
     bronKerbosch(R, P, X);
 
-    // выбираем лучшее множество
     auto [best_q, best_set] = find_best(all_cliques, costs, weights);
 
-    // вывод ответа
     cout << (int)best_set.size() << "\n";
     for (int v : best_set) cout << v << " ";
     cout << "\n";
