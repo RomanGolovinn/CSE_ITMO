@@ -1,23 +1,23 @@
 .idea/
 
 
-/programming/labs/lab1/lab1.iml
-/programming/labs/lab1/.idea/
-/programming/labs/lab1/out/
+/1-2_programming/labs/lab1/lab1.iml
+/1-2_programming/labs/lab1/.idea/
+/1-2_programming/labs/lab1/out/
 
-/programming/sem1/labs/lab2/.idea/
-/programming/sem1/labs/lab2/out/
-/programming/labs/lab2/lab2.iml
-
-
-/OPD/labs/lab1/lab0/
+/1-2_programming/labs/lab2/.idea/
+/1-2_programming/labs/lab2/out/
+/1-2_programming/labs/lab2/lab2.iml
 
 
-/discrete_math/tasks/task2/.vscode
-/discrete_math/tasks/task2/chek_mn.py
-/discrete_math/tasks/task2/mn
-/discrete_math/tasks/task2/results/
-/discrete_math/tasks/task2/test_mn/
-/discrete_math/tasks/task2/dm_code/
+/1-2_OPD/labs/lab1/lab0/
+
+
+/1-2_discrete_math/tasks/task2/.vscode
+/1-2_discrete_math/tasks/task2/chek_mn.py
+/1-2_discrete_math/tasks/task2/mn
+/1-2_discrete_math/tasks/task2/results/
+/1-2_discrete_math/tasks/task2/test_mn/
+/1-2_discrete_math/tasks/task2/dm_code/
 
 /.vscode/
