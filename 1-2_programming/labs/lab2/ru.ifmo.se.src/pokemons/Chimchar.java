@@ -1,6 +1,6 @@
 package pokemons;
 
-import moves.PhisicalMoves.Scratch;
+import moves.PhysicalMoves.Scratch;
 import moves.SpecialMoves.FireBlast;
 import ru.ifmo.se.pokemon.Pokemon;
 import ru.ifmo.se.pokemon.Type;

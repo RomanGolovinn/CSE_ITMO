@@ -11,6 +11,7 @@ public final class SwordDance extends StatusMove {
     public void applySelfEffects(Pokemon p){
         Effect eff = new Effect();
         eff.stat(Stat.ATTACK, (int)p.getStat(Stat.ATTACK)+2);
+        p.addEffect(eff);
     }
 
     @Override

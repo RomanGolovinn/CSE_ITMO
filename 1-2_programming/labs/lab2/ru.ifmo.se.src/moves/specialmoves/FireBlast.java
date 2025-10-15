@@ -1,9 +1,6 @@
 package moves.SpecialMoves;
 
-import ru.ifmo.se.pokemon.Effect;
-import ru.ifmo.se.pokemon.Pokemon;
-import ru.ifmo.se.pokemon.SpecialMove;
-import ru.ifmo.se.pokemon.Type;
+import ru.ifmo.se.pokemon.*;
 
 public final class FireBlast extends SpecialMove {
     public FireBlast(){
@@ -12,8 +9,15 @@ public final class FireBlast extends SpecialMove {
 
     @Override
     public void applyOppEffects(Pokemon p){
-        if (Math.random() <= 0.1){
-            Effect.burn(p);
+//        if (Math.random() <= 0.1){
+//            Effect.burn(p);
+//        }
+
+        var eff = new Effect().chance(0.3).turns(0).condition(Status.BURN);
+        p.addEffect(eff);
+
+        if (eff.success()) {
+            System.out.println("Покемон был подожжён");
         }
     }
 

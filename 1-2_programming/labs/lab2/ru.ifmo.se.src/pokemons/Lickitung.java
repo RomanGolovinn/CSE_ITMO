@@ -1,7 +1,7 @@
 package pokemons;
 
 import moves.SpecialMoves.Thanderbolt;
-import moves.PhisicalMoves.Stomp;
+import moves.PhysicalMoves.Stomp;
 import moves.StatusMoves.SwordDance;
 import ru.ifmo.se.pokemon.Pokemon;
 import ru.ifmo.se.pokemon.Type;
