@@ -36,4 +36,5 @@ def to_base_neg10(num: float, precision: int = 5) -> str:
             return f"{int_str}.{frac_str}"
     return int_str
 
-print(to_base_neg10(float(input())))
+num = to_base_neg10(float(input("Введите число в 10 системе счисления: ")))
+print("Число в -10 системе счисления: ",  num)
