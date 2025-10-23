@@ -1,4 +1,4 @@
-rm -rf lab0
+#rm -rf lab0
 
 mkdir lab0
 
