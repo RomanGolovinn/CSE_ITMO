@@ -4,10 +4,10 @@ import (
 	"errors"
 )
 
-func DecodeHamming(encoded []int) ([]int, error) {
+func DecodeHamming(encoded []int) ([]int, int, error) {
 	n := len(encoded)
 	if n == 0 {
-		return nil, errors.New("пустой ввод")
+		return nil, 0, errors.New("пустой ввод")
 	}
 
 	r := 0
@@ -15,12 +15,12 @@ func DecodeHamming(encoded []int) ([]int, error) {
 		r++
 	}
 	if (1<<r)-1 != n {
-		return nil, errors.New("длина не соответствует коду Хэмминга (ожидается 2^r - 1)")
+		return nil, 0, errors.New("длина не соответствует коду Хэмминга (ожидается 2^r - 1)")
 	}
 
 	for _, b := range encoded {
 		if b != 0 && b != 1 {
-			return nil, errors.New("биты должны быть 0 или 1")
+			return nil, 0, errors.New("биты должны быть 0 или 1")
 		}
 	}
 
@@ -43,7 +43,7 @@ func DecodeHamming(encoded []int) ([]int, error) {
 
 	if syndrome != 0 {
 		if syndrome > n {
-			return nil, errors.New("обнаружена ошибка вне диапазона — возможно, более одной ошибки")
+			return nil, 0, errors.New("обнаружена ошибка вне диапазона — возможно, более одной ошибки")
 		}
 		idx := syndrome - 1
 		bits[idx] = 1 - bits[idx]
@@ -56,7 +56,7 @@ func DecodeHamming(encoded []int) ([]int, error) {
 		}
 	}
 
-	return data, nil
+	return data, syndrome, nil
 }
 
 func isPowerOfTwo(x int) bool {

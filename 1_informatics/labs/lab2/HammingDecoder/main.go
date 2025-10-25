@@ -45,12 +45,13 @@ func main() {
 			os.Exit(1)
 		}
 
-		decoded, err := hamming.DecodeHamming(encoded)
+		decoded, syndrome, err := hamming.DecodeHamming(encoded)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "ошибка декодирования: %v\n", err)
 			os.Exit(1)
 		}
 
 		fmt.Println(bitsToString(decoded))
+		fmt.Printf("Ошибка в бите №%d\n", syndrome)
 	}
 }
