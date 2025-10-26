@@ -7,12 +7,21 @@ public final class FocusBlast extends SpecialMove {
         super(Type.FIGHTING, 120, 70);
     }
 
+    //Эта аттака только у нормальный
+    //Нормальные сильнее огненых
+    //У огненых ниэе защита
+    //У нормальных выше меткость
+    private boolean oppTypeIsFire;
+
     @Override
     public void applyOppEffects(Pokemon p){
-//        if (Math.random() <= 0.1){
-//            Effect eff = new Effect();
-//            eff.stat(Stat.SPECIAL_DEFENSE, (int)p.getStat(Stat.SPECIAL_DEFENSE)-2);
-//        }
+
+        this.oppTypeIsFire = checkType(p.getTypes(), Type.FIRE);
+        if (oppTypeIsFire){
+            System.out.println("Нормальный vs Огненый\n");
+            var eff = new Effect().turns(0).stat(Stat.DEFENSE, (int)p.getStat(Stat.DEFENSE)-2);
+            p.addEffect(eff);
+        }
 
         var eff = new Effect().chance(0.3).turns(0).stat(Stat.SPECIAL_DEFENSE, (int)p.getStat(Stat.SPECIAL_DEFENSE)-2);
         p.addEffect(eff);
@@ -20,6 +29,23 @@ public final class FocusBlast extends SpecialMove {
         if (eff.success()) {
             System.out.println("Специальная защита снижена");
         }
+    }
+
+    @Override
+    public void applySelfEffects(Pokemon p){
+        if (oppTypeIsFire){
+            var eff = new Effect().turns(0).stat(Stat.ACCURACY, (int)p.getStat(Stat.ACCURACY)+2);
+            p.addEffect(eff);
+        }
+    }
+
+    private boolean checkType(Type[] arr, Type type){
+        for (Type t : arr){
+            if (t == type) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
