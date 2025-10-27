@@ -9,7 +9,7 @@ public final class Thanderbolt extends SpecialMove {
 
     //Эта аттака только у нормальный
     //Нормальные сильнее огненых
-    //У огненых ниэе защита
+    //У огненых ниже защита
     //У нормальных выше меткость
     private boolean oppTypeIsFire;
 
