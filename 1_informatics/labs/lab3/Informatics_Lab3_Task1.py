@@ -1,6 +1,6 @@
 import re
 
-pattern = r'(?=(\bВТ\b(?:\s+\w+){0,4}\s+\bИТМО\b))'
+pattern = r'(?=(\bВТ\b(?:\s+\S+){0,4}?\s+\bИТМО\b))'
 
 def check_text(text : str) -> []:
     fragments = []
