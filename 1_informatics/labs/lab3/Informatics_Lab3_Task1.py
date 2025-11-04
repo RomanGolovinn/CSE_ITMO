@@ -1,6 +1,6 @@
 import re
 
-def check_text(text : str) -> []:
+def check_text(text : str):
     fragments = []
     for k in range(0, 5):
         pat = rf'(?=(\bВТ\b(?:\s+\S+){{{k}}}\s+\bИТМО\b))'
