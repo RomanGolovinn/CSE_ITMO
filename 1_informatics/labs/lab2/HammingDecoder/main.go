@@ -1,10 +1,10 @@
 package main
 
 import (
+	"HammingDecode/hamming"
 	"bufio"
 	"fmt"
 	"os"
-	"HammingDecode/hamming"
 )
 
 func stringToBits(s string) ([]int, error) {
@@ -52,6 +52,10 @@ func main() {
 		}
 
 		fmt.Println(bitsToString(decoded))
-		fmt.Printf("Ошибка в бите №%d\n", syndrome)
+		if syndrome == 0 {
+			fmt.Println("Ошибок не обнаружено")
+		} else {
+			fmt.Printf("Ошибка в бите №%d\n", syndrome)
+		}
 	}
 }

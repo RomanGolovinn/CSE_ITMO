@@ -1,19 +1,19 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math"
-	"strconv"
-	"bufio"
 	"os"
+	"strconv"
 )
 
 const (
 	maxFracDigits = 10
 )
 
-func IntToNeg10(n int) string{
-	if n == 0{
+func IntToNeg10(n int) string {
+	if n == 0 {
 		return "0"
 	}
 	digits := ""
@@ -38,16 +38,16 @@ func FractionToNeg10(frac float64) (float64, error) {
 	}
 	fracDigits := fracStr[2:]
 
-	for i := 0; i < len(fracDigits); i++{
+	for i := 0; i < len(fracDigits); i++ {
 		digit := int(fracDigits[i] - '0')
-		if i%2 == 0{
-			digits += (10 - float64(digit)) * math.Pow(10, float64((-1)*i - 1))
+		if i%2 == 0 {
+			digits += (10 - float64(digit)) * math.Pow(10, float64((-1)*i-1))
 			digits += 1 * math.Pow(10, float64((-1)*i))
-		}else{
-			digits += float64(digit) * math.Pow(10, float64((-1)*i - 1))
+		} else {
+			digits += float64(digit) * math.Pow(10, float64((-1)*i-1))
 		}
 	}
-	digits = math.Round(digits*1e5)/1e5
+	digits = math.Round(digits*1e5) / 1e5
 	return digits, nil
 }
 
@@ -55,8 +55,13 @@ func FloatToNeg10(x float64) (float64, error) {
 
 	intPart := int(math.Floor(x))
 	intNeg10, err := strconv.ParseFloat(IntToNeg10(intPart), 64)
-	
+
 	fracNeg10, err := FractionToNeg10(x - float64(intPart))
+	if x-float64(intPart) != 0 {
+		fracNeg10, err = FractionToNeg10(x - float64(intPart))
+	} else {
+		fracNeg10 = 0
+	}
 
 	return intNeg10 + fracNeg10, err
 }
@@ -67,7 +72,7 @@ func main() {
 		"округляются до 5 знаков после запятой")
 	fmt.Println("При вычисленияе чисел с плавающей точкой результат может быть не точный")
 	fmt.Print("Введите число в 10 системе счисления: ")
-	
+
 	scanner := bufio.NewScanner(os.Stdin)
 	if scanner.Scan() {
 		input := scanner.Text()

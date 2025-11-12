@@ -11,7 +11,7 @@ func DecodeHamming(encoded []int) ([]int, int, error) {
 	}
 
 	r := 0
-	for (1<<r) - 1 < n {
+	for (1<<r)-1 < n {
 		r++
 	}
 	if (1<<r)-1 != n {
@@ -29,7 +29,6 @@ func DecodeHamming(encoded []int) ([]int, int, error) {
 
 	syndrome := 0
 	for i := 0; i < r; i++ {
-		_ = 1 << i
 		total := 0
 		for pos := 1; pos <= n; pos++ {
 			if pos&(1<<i) != 0 {
