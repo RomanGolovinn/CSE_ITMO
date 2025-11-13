@@ -1,49 +1,52 @@
 import re
+import unittest
 
-def check_text(text : str):
+def checkText(text : str):
     fragments = []
     for k in range(0, 5):
-        pat = rf'(?=(\bВТ\b(?:\s+\S+){{{k}}}\s+\bИТМО\b))'
+        pat = rf'(\bВТ\b\s(\w+\s){{{k}}}\bИТМО\b)'
         for m in re.finditer(pat, text):
-            fragments.append(m.group(1))
+            fragments.append(m.group(0))
     return fragments
 
-tests = [
-    check_text("ВТ а б ИТМО ВТ ИТМО"),
-    check_text("ВТ ВТ ВТ ИТМО"),
-    check_text("Кафедра ВТ появилась в университете ИТМО в 1937"),
-    check_text("ВТ ИТМО ВТ ИТМО, я не зна какие ещё тесты придумать с ВТ и ИТМО"),
-    check_text("Если этот тест не проходит я пишу псж. Ухажу с ВТ и из ИТМО") #Прошёл :)
-]
+class TestCheckText(unittest.TestCase):
 
-results = [
-    ["ВТ а б ИТМО", "ВТ ИТМО", "ВТ а б ИТМО ВТ ИТМО"],
-    ["ВТ ВТ ВТ ИТМО", "ВТ ВТ ИТМО", "ВТ ИТМО"],
-    ["ВТ появилась в университете ИТМО"],
-    ["ВТ ИТМО", "ВТ ИТМО ВТ ИТМО", "ВТ ИТМО", "ВТ и ИТМО"],
-    ["ВТ и из ИТМО"]
-]
+    def assertSortedListEqual(self, list1, list2, msg=None):
+        self.assertListEqual(sorted(list1), sorted(list2), msg)
 
-def check_results(tests, results):
-    for i in range(5):
-        isOK = True
-        if len(results[i]) != len(tests[i]):
-            isOK = False
-        for j in range(len(tests[i])):
-            if tests[i].count(tests[i][j]) != results[i].count(tests[i][j]):
-                isOK = False
-        for j in range(len(results[i])):
-            if tests[i].count(results[i][j]) != results[i].count(results[i][j]):
-                isOK = False
-        if isOK:
-            print(f"test{i+1} done")
-        else:
-            print(f"test{i+1} felt")
+    def test_case_1(self):
+        text = "ВТ а б ИТМО ВТ ИТМО"
+        expected = ["ВТ а б ИТМО", "ВТ ИТМО", "ВТ а б ИТМО ВТ ИТМО"]
+        self.assertSortedListEqual(checkText(text), expected)
+    
+    def test_case_2(self):
+        text = "ВТ ВТ ВТ ИТМО"
+        expected = ["ВТ ВТ ВТ ИТМО", "ВТ ВТ ИТМО", "ВТ ИТМО"]
+        self.assertSortedListEqual(checkText(text), expected)
+
+    def test_case_3(self):
+        text = "Кафедра ВТ появилась в университете ИТМО в 1937"
+        expected = ["ВТ появилась в университете ИТМО"]
+        self.assertSortedListEqual(checkText(text), expected)
+    
+    def test_case_4(self):
+        text = "ВТ ИТМО ВТ ИТМО, я не зна какие ещё тесты придумать с ВТ и ИТМО"
+        expected = ["ВТ ИТМО", "ВТ ИТМО", "ВТ ИТМО ВТ ИТМО", "ВТ и ИТМО"]
+        self.assertSortedListEqual(checkText(text), expected)
+    
+    def test_case_5(self):
+        text = "Если этот тест не проходит я пишу псж. Ухажу с ВТ и из ИТМО"
+        expected = ["ВТ и из ИТМО"]
+        self.assertSortedListEqual(checkText(text), expected)
+
+loader = unittest.TestLoader()
+suite = loader.loadTestsFromTestCase(TestCheckText)
+runner = unittest.TextTestRunner()
+runner.run(suite)
 
 
-check_results(tests, results)
 
 text = input("Введите текст: ")
-fragments = check_text(text)
+fragments = checkText(text)
 print(fragments)
 
