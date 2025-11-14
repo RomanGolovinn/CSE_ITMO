@@ -1,3 +1,7 @@
+#Golovin Roman Evgenevich
+#Group P3116
+#Date 15.11.2025
+
 import re
 import unittest
 
