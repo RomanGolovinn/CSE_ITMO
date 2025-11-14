@@ -41,7 +41,7 @@ class TestCheckText(unittest.TestCase):
 
 loader = unittest.TestLoader()
 suite = loader.loadTestsFromTestCase(TestCheckText)
-runner = unittest.TextTestRunner()
+runner = unittest.TextTestRunner(verbosity=2)
 runner.run(suite)
 
 
