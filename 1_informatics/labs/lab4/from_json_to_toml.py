@@ -1,10 +1,15 @@
 import json
 import toml
 
-with open('schedule.json', 'r', encoding='utf-8') as file:
-        content = file.read()
+def f(content):
+        internal_data_object = json.loads(content)
+        toml_string = toml.dumps(internal_data_object)
+        return toml_string
 
-print(content, "\n")
-internal_data_object = json.loads(content)
-toml_string = toml.dumps(data)
-print(toml_string)
+if __name__ == "__main__":
+        with open('schedule.json', 'r', encoding='utf-8') as file:
+                content = file.read()
+
+        print(content, "\n")
+        s = f(content)
+        print(s)
