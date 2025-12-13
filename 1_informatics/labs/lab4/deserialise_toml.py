@@ -48,12 +48,3 @@ def convert_to_toml(data: dict) -> str:
     serialize_recursive(data)
     
     return toml_output
-
-def demonstration_toml():
-   
-    toml_output = convert_to_toml(MOCK_INTERNAL_OBJECT)
-    
-
-
-if __name__ == '__main__':
-    demonstration_toml()

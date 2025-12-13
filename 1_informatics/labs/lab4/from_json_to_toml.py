@@ -6,6 +6,13 @@ def f(content):
         toml_string = toml.dumps(internal_data_object)
         return toml_string
 
+
+def convert_for_time_measurement():
+        with open('schedule.json', 'r', encoding='utf-8') as file:
+                content = file.read()
+        f(content)
+
+
 if __name__ == "__main__":
         with open('schedule.json', 'r', encoding='utf-8') as file:
                 content = file.read()
