@@ -50,15 +50,9 @@ def convert_to_toml(data: dict) -> str:
     return toml_output
 
 def demonstration_toml():
-    print("----------------------------------------------------------------")
-    print("TOML Serializer: Словарь Python -> Строка TOML (Универсальный)")
-    print("----------------------------------------------------------------")
-    
+   
     toml_output = convert_to_toml(MOCK_INTERNAL_OBJECT)
     
-    print("--- Результат в формате TOML ---")
-    print(toml_output.strip())
-    print("--------------------------------")
 
 
 if __name__ == '__main__':
