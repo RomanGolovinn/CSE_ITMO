@@ -1,9 +1,4 @@
 class JSONParser:
-    """
-    Рекурсивный нисходящий парсер для упрощенного JSON.
-    Работает с пробельными символами, используя skip_space().
-    """
-    
     def __init__(self, text):
         self.text = text
         self.index = 0
@@ -85,8 +80,6 @@ class JSONParser:
     def parse_string(self):
         """
         Парсит JSON-строку ("..."). 
-        Важно: Внутри этой функции мы НЕ пропускаем пробелы, 
-        чтобы сохранить их в результирующей строке.
         """
         self.parse_char('"')
         start_index = self.index
@@ -99,7 +92,7 @@ class JSONParser:
         return string_value
 
     def parse_number(self):
-        """Парсит число, используя простую логику."""
+        """Парсит число"""
         start_index = self.index
 
         if self.text[self.index] == '-':
@@ -179,6 +172,7 @@ def run_lab_work():
 
 if __name__ == '__main__':
     data = run_lab_work()
+    print(data)
     
     with open('schedule.bin', 'w', encoding='utf-8') as file:
         file.write(str(data))

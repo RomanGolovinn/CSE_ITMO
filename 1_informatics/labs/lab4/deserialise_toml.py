@@ -1,4 +1,5 @@
 def _format_value(value):
+    """Тут просто парсинг данных разных типов"""
     if isinstance(value, str):
         return f'"{value}"'
     elif isinstance(value, bool):
@@ -16,6 +17,7 @@ def convert_to_toml(data: dict) -> str:
     toml_output = ""
     
     def serialize_recursive(current_data, prefix=""):
+        """рекурсивно переводит словарь в томл"""
         nonlocal toml_output
         
         simple_keys = {}
