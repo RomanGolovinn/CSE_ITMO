@@ -9,7 +9,7 @@ class JSONParser:
             self.index += 1
 
     def get_next_char(self):
-        """Возвращает следующий символ и увеличивает индекс, не пропуская пробелы."""
+        """Возвращает следующий символ и увеличивает индекс"""
         if self.index < len(self.text):
             char = self.text[self.index]
             self.index += 1
@@ -31,7 +31,7 @@ class JSONParser:
             raise SyntaxError(f"Ожидался символ '{char}', но найден '{actual_char}' в позиции {self.index - 1}")
 
     def parse_object(self):
-        """Парсит JSON-объект ({...})."""
+        """Парсит JSON-объект"""
         self.parse_char('{')
         data = {}
 
@@ -79,7 +79,7 @@ class JSONParser:
 
     def parse_string(self):
         """
-        Парсит JSON-строку ("..."). 
+        Парсит строку. 
         """
         self.parse_char('"')
         start_index = self.index
