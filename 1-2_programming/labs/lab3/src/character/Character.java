@@ -9,7 +9,7 @@ abstract public class Character {
     public abstract void walk(Place p);
 
     void whatchOnCar(Car c){
-        if (c.goOut){
+        if (c.isGoOut()){
             System.out.println(name + "смотрит вслед за машиной");
         }
     }
@@ -30,4 +30,7 @@ abstract public class Character {
         System.out.println(name + "ушёл(ла) из " + in.name + " в " + out.name);
     }
 
+    public String getName(){
+        return name;
+    }
 }

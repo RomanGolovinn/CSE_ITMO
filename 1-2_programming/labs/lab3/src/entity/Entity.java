@@ -10,4 +10,12 @@ public abstract class Entity {
         this.name = name;
         this.p = p;
     }
+
+    public String getName(){
+        return name;
+    }
+
+    public void setPlace(Place p){
+        this.p = p;
+    }
 }
