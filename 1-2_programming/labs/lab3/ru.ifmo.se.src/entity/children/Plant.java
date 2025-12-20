@@ -3,13 +3,13 @@ package entity.children;
 import entity.Entity;
 import place.Place;
 
-public class Plant extends Entity {
-    int Size;
+public final class Plant extends Entity {
+    int Size = 0;
     public Plant(String name, Place p){
         super(name, p);
     }
 
-    void Grow(){
+    public void grow(){
         this.Size += 1;
     }
 
@@ -18,5 +18,8 @@ public class Plant extends Entity {
             return true;
         }
         return false;
+    }
+    public int getSize(){
+        return Size;
     }
 }

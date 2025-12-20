@@ -3,12 +3,13 @@ package entity.children;
 import entity.Entity;
 import entity.parts.Direction;
 import entity.parts.Door;
+import interfaces.Mobile;
 import place.Place;
 
-public class Car extends Entity {
+public final class Car extends Entity implements Mobile {
     boolean goOut = false;
     Direction dir = Direction.DEGREE_0;
-    Door door = new Door(false);
+    Door door = new Door(true);
     public Car(String name, Place p){
         super(name, p);
     }
@@ -22,15 +23,16 @@ public class Car extends Entity {
         System.out.println("Машина развернулась");
     }
 
-    void moveTo(Place out){
-        out.EntityList.remove(this);
-        System.out.println("Машина уехала из " + out.name);
+    public void moveTo(Place out){
+        turnAround(Direction.DEGREE_0);
+        out.removeEntity(this);
+        System.out.println("Машина уехала из " + out.getName());
     }
 
-    void moveTo(Place out, Place in){
-        out.EntityList.remove(this);
-        in.EntityList.add(this);
-        System.out.println("Машина уехала из "+ out.name + " в " + in.name);
+    public void moveTo(Place out, Place in){
+        out.removeEntity(this);
+        in.addEntity(this);
+        System.out.println("Машина уехала из "+ out.getName() + " в " + in.getName());
     }
 
     public Door getDoor(){

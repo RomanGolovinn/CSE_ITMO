@@ -5,6 +5,9 @@ import place.Place;
 public abstract class Entity {
     String name;
     Place p;
+    public Place getPlace(){
+        return p;
+    }
 
     public Entity(String name, Place p){
         this.name = name;
