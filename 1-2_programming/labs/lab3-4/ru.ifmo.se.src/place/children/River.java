@@ -9,8 +9,7 @@ import java.util.ArrayList;
 public final class River extends Place {
     ArrayList<Plant> plants;
     public River(String name, ArrayList<Plant> plants){
-        ArrayList<Entity> el = new ArrayList<>();
-        super(name, el);
+        super(name, new ArrayList<Entity>());
         this.plants = plants;
     }
 

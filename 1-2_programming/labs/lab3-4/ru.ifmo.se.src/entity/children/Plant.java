@@ -14,10 +14,7 @@ public final class Plant extends Entity {
     }
 
     boolean canLost(){
-        if (Size >= 10){
-            return true;
-        }
-        return false;
+        return Size >= 10;
     }
     public int getSize(){
         return Size;

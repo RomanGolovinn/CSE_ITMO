@@ -8,11 +8,11 @@ public class Door {
     }
 
     public void changeStatus(){
-        DoorIsOpen = !DoorIsOpen;
         if (DoorIsOpen){
             System.out.println("Дверь открылась");
         }else{
             System.out.println("Дверь закрылась");
         }
+        DoorIsOpen = !DoorIsOpen;
     }
 }

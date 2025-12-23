@@ -9,8 +9,7 @@ import java.util.ArrayList;
 public final class Town extends Place {
     ArrayList<Street> streets;
     public Town(String name, ArrayList<Street> streets){
-        ArrayList<Entity> el = new ArrayList<>();
-        super(name, el);
+        super(name, new ArrayList<Entity>());
         this.streets = streets;
     }
 

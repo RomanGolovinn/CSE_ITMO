@@ -7,6 +7,8 @@ import place.Place;
 import place.children.River;
 import place.children.Town;
 
+import java.util.Objects;
+
 abstract public class Character implements Mobile {
     public String name;
 
@@ -63,5 +65,22 @@ abstract public class Character implements Mobile {
                 System.out.println(this.name + " прогуливается по улице " + street.name());
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj) return true;
+        if (getClass().equals(obj.getClass()) && this.name.equals(((Character)obj).name)) return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return "Character{name='" + name + "', + }";
     }
 }

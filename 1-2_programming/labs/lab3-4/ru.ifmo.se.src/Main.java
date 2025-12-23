@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) {
-        Gloves g = new Gloves(Color.blue);
+    public static void main(String[] args) throws LostException {
+        Color[] c = {Color.black, Color.blue, Color.red, Color.yellow, Color.green, Color.white};
+        Gloves g = new Gloves(c[(int) (Math.random()*6)]);
         Neznayka neznayka = new Neznayka("Незнайка", g);
         Knopochka knopochka = new Knopochka("Кнопочка");
         var street = new Street("Улица", 2);
@@ -45,5 +46,6 @@ public class Main {
         }catch (LostException e){
             System.err.println(e.getMessage());
         }
+        neznayka.equals(knopochka);
     }
 }
