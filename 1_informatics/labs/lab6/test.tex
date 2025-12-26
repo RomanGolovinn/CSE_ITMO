@@ -1,0 +1,193 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{paracol}
+\usepackage{wrapfig}
+
+\geometry{margin=1.5cm, left=10mm, right=10mm}
+\pagestyle{empty}
+
+\newcommand{\seg}[3][black]{%
+\begin{tikzpicture}[baseline=-0.5ex]
+  \draw[#1, line width=2.5pt] (0,0) -- (1.2,0);
+  \node[above, font=\scriptsize] at (0,0.05) {#2};
+  \node[above, font=\scriptsize] at (1.2,0.05) {#3};
+\end{tikzpicture}%
+}
+
+\newcommand{\segsm}[3][black]{%
+\begin{tikzpicture}[baseline=-0.5ex]
+  \draw[#1, line width=2.5pt] (0,0) -- (0.8,0);
+  \node[above, font=\scriptsize] at (0,0.05) {#2};
+  \node[above, font=\scriptsize] at (0.8,0.05) {#3};
+\end{tikzpicture}%
+}
+
+\newcommand{\mixsegpow}[6][black]{%
+\begin{tikzpicture}[baseline=0.2ex]
+  \draw[#1, line width=2.5pt] (0,0) -- (#2,0);
+  \draw[#1, line width=2.5pt, dash pattern=on 3pt off 3pt] (#2,0) -- ({#2+#3},0);
+  \node[above, font=\scriptsize] at (0,0.05) {#4};
+  \node[above, font=\scriptsize] at ({#2+#3},0.05) {#5};
+\end{tikzpicture}^{#6}%
+}
+
+\newcommand{\mixseg}[5][black]{%
+\begin{tikzpicture}[baseline=-0.5ex]
+  \draw[#1, line width=2.5pt] (0,0) -- (#2,0);
+  \draw[#1, line width=2.5pt, dash pattern=on 3pt off 3pt] (#2,0) -- ({#2+#3},0);
+  \node[above, font=\scriptsize] at (0,0.05) {#4};
+  \node[above, font=\scriptsize] at ({#2+#3},0.05) {#5};
+\end{tikzpicture}%
+}
+
+\newcommand{\dsegsm}[3][black]{%
+\begin{tikzpicture}[baseline=-0.5ex]
+  \draw[#1, line width=2.5pt, dash pattern=on 3pt off 3pt] (0,0) -- (0.8,0);
+  \node[above, font=\scriptsize] at (0,0.05) {#2};
+  \node[above, font=\scriptsize] at (0.8,0.05) {#3};
+\end{tikzpicture}%
+}
+
+\begin{document}
+
+\noindent
+\textbf{КНИГА II ПРЕДЛ. XIII. ТЕОРЕМА} \hfill 89
+
+\vspace{0.5cm}
+
+\columnratio{0.65}
+\begin{paracol}{2}
+
+\begin{wrapfigure}{l}{0.10\textwidth}
+    \includegraphics[width=0.10\textwidth]{image.png}
+\end{wrapfigure}
+
+\noindent
+\textit{о всяком треугольнике квадрат стороны, стягивающей острый угол, меньше суммы квадратов сторон, содержащих этот угол, на дважды прямоугольник, заключенный между любой из этих сторон и отрезком, отсекаемым перпендикуляром из противоположного угла от этого отрезка или от продленного отрезка.}
+
+\vspace{0.3cm}
+
+\textit{Первый случай.}
+
+$\seg[blue]{C}{A}^2 < \mixsegpow[black]{0.7}{0.5}{B}{C}{2} + \seg[red]{A}{B}^2$ на $2 \cdot \mixseg[black]{0.7}{0.5}{B}{C} \cdot \segsm[black]{B}{D}$.
+
+\vspace{0.3cm}
+
+\textit{Второй случай.}
+
+$\seg[blue]{E}{G}^2 < \seg[red]{E}{F}^2 + \seg[black]{F}{G}^2$ на $2 \cdot \seg[black]{F}{G} \cdot \dsegsm[black]{F}{H}$.
+
+\vspace{0.5cm}
+
+\textit{Предположим, перпендикуляр падает внутри треугольника, тогда (пр. II.7)}
+
+\vspace{0.2cm}
+
+$\mixsegpow[black]{0.7}{0.5}{B}{C}{2} + \segsm[black]{B}{D}^2 = 2 \cdot \mixseg[black]{0.7}{0.5}{B}{C} \cdot \segsm[black]{B}{D} + \dsegsm[black]{D}{C}^2$,
+
+\vspace{0.2cm}
+
+\textit{к каждой добавим $\seg[orange]{A}{D}^2$, тогда}
+
+\vspace{0.2cm}
+
+$\mixsegpow[black]{0.7}{0.5}{B}{C}{2} + \segsm[black]{B}{D}^2 + \seg[orange]{A}{D}^2 = 2 \cdot \mixseg[black]{0.7}{0.5}{B}{C} \cdot \segsm[black]{B}{D} + \dsegsm[black]{D}{C}^2 + \seg[orange]{A}{D}^2$
+
+\vspace{0.2cm}
+
+$\therefore$ (пр. I.47) $\mixsegpow[black]{0.7}{0.5}{B}{C}{2} + \seg[red]{A}{B}^2 = 2 \cdot \mixseg[black]{0.7}{0.5}{B}{C} \cdot \segsm[black]{B}{D} + \seg[blue]{C}{A}^2$,
+
+\vspace{0.2cm}
+
+и $\therefore$ $\seg[blue]{C}{A}^2 < \mixsegpow[black]{0.7}{0.5}{B}{C}{2} + \seg[red]{A}{B}^2$ на $2 \cdot \mixseg[black]{0.7}{0.5}{B}{C} \cdot \dsegsm[black]{D}{C}$.
+
+\vspace{0.5cm}
+
+\textit{Теперь предположим, что перпендикуляр падает вовне треугольника, тогда (пр. II.7)}
+
+\vspace{0.2cm}
+
+$\mixsegpow[black]{0.7}{0.5}{F}{H}{2} + \seg[black]{F}{G}^2 = 2 \cdot \mixseg[black]{0.7}{0.5}{F}{H} \cdot \segsm[black]{F}{G} + \dsegsm[black]{G}{H}^2$,
+
+\vspace{0.2cm}
+
+\textit{к каждой добавим $\seg[orange]{H}{E}^2$, тогда}
+
+\vspace{0.2cm}
+
+$\mixsegpow[black]{0.7}{0.5}{F}{H}{2} + \seg[black]{F}{G}^2 + \seg[orange]{H}{E}^2 = 2 \cdot \mixseg[black]{0.7}{0.5}{F}{H} \cdot \segsm[black]{F}{G} + \dsegsm[black]{G}{H}^2 + \seg[orange]{H}{E}^2$
+
+\vspace{0.2cm}
+
+$\therefore$ (пр. I.47) $\seg[red]{E}{F}^2 + \seg[black]{F}{G}^2 = 2 \cdot \mixseg[black]{0.7}{0.5}{F}{H} \cdot \segsm[black]{F}{G} + \seg[blue]{E}{G}^2$,
+
+\vspace{0.2cm}
+
+$\therefore$ $\seg[blue]{E}{G}^2 < \seg[red]{E}{F}^2 + \seg[black]{F}{G}^2$ на $2 \cdot \mixseg[black]{0.7}{0.5}{F}{H} \cdot \segsm[black]{F}{G}$.
+
+\vspace{0.5cm}
+
+\hfill ч. т. д.
+
+\switchcolumn
+
+\vspace{0.5cm}
+
+\centering
+\textit{Первый случай}
+
+\vspace{0.3cm}
+
+\begin{tikzpicture}[scale=1.2]
+  \coordinate (A) at (1.5,3.5);
+  \coordinate (B) at (0,0);
+  \coordinate (C) at (3.5,0);
+  \coordinate (D) at (1.5,0);
+  
+  \draw[red, line width=3pt] (B) -- (A);
+  \draw[blue, line width=3pt] (A) -- (C);
+  \draw[black, line width=3pt] (B) -- (D);
+  \draw[black, line width=3pt, dash pattern=on 3pt off 3pt] (D) -- (C);
+  \draw[orange, line width=3pt] (A) -- (D);
+  
+  \node[above] at (A) {A};
+  \node[below left] at (B) {B};
+  \node[below right] at (C) {C};
+  \node[below] at (D) {D};
+\end{tikzpicture}
+
+\vspace{1.5cm}
+
+\textit{Второй случай}
+
+\vspace{0.3cm}
+
+\begin{tikzpicture}[scale=1.2]
+  \coordinate (E) at (3.5,3.5);
+  \coordinate (F) at (0,0);
+  \coordinate (H) at (3.5,0);
+  \coordinate (G) at (1.5,0);
+  
+  \draw[red, line width=3pt] (F) -- (E);
+  \draw[orange, line width=3pt] (E) -- (H);
+  \draw[black, line width=3pt] (F) -- (G);
+  \draw[black, line width=3pt, dash pattern=on 3pt off 3pt] (G) -- (H);
+  \draw[blue, line width=3pt] (E) -- (G);
+  
+  \node[above right] at (E) {E};
+  \node[below left] at (F) {F};
+  \node[below right] at (H) {H};
+  \node[below] at (G) {G};
+\end{tikzpicture}
+
+\end{paracol}
+
+\end{document}

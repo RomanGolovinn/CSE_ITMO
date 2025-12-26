@@ -1,0 +1,225 @@
+\documentclass[11pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{lettrine}
+\usepackage{multicol}
+\pagestyle{empty}
+
+\geometry{paperwidth=180mm, paperheight=240mm, left=25mm, right=20mm, top=20mm}
+
+\begin{document}
+\begin{center}
+    48 {\Large КНИГА I ПРЕДЛ. XXIV. ТЕОРЕМА}
+\end{center}
+\begin{multicols}{2}
+\begin{tikzpicture}
+    \coordinate (D) at (0, 0);
+    \coordinate (A) at (3, 3);
+    \coordinate (B) at (4, 0);
+    \coordinate (C) at (2, -1);
+
+    \draw[red, dashed] (D) -- (A);
+    \draw[red] (A) -- (C);
+    \draw[black] (D) -- (B);
+    \draw[blue] (D) -- (C);
+    \draw[black, dashed] (C) -- (B);
+    \draw[blue, dashed] (A) -- (B);
+
+    \node[above] at (A) {A};
+    \node[left] at (D) {D};
+    \node[below] at (C) {C};
+    \node[right] at (B) {B};
+
+    \fill[blue] (D) -- (0:0.5) arc (0:45:0.5);
+    \fill[red] (D) -- (-30:0.5) arc (-30:0:0.5);
+    \fill[black] (C) -- +(30:0.5) arc (30:80:0.5);
+    \fill[yellow] (C) -- +(80:0.5) arc (80:150:0.5);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \coordinate (E) at (3, 4);
+    \coordinate (G) at (0, -2);
+    \coordinate (F) at (4, 0);
+
+    \node[above] at (E) {E};
+    \node[left] at (F) {F};
+    \node[below] at (G) {G};
+
+    \draw[yellow] (G) -- (F);
+    \draw[red] (G) -- (E);
+    \draw[blue] (E) -- (F);
+
+    \draw[black, dashed] (E) -- +(240:0.8) arc (240:290:0.8);
+\end{tikzpicture}
+\columnbreak \\
+Если у двух треугольников по две стороны со-
+ответственно равны друг другу (
+\begin{tikzpicture}
+    \draw[blue] (0,0) node[left]{A} -- (1, 0) node[right]{B};
+\end{tikzpicture}
+=
+\begin{tikzpicture}
+    \draw[blue] (0,0) node[left]{E} -- (1, 0) node[right]{F};
+\end{tikzpicture}
+и
+\begin{tikzpicture}
+    \draw[red] (0,0) node[left]{A} -- (1, 0) node[right]{D};
+\end{tikzpicture}
+=
+\begin{tikzpicture}
+    \draw[red, dashed] (0,0) node[left]{G} -- (1, 0) node[right]{E};
+\end{tikzpicture}
+), и угол заключенный ними в одном
+\begin{tikzpicture}
+    \draw[red, dashed] (0,0) node[left]{B} -- (0.7, 1) node[right]{A};
+    \draw[red] (0.7, 1) -- (0.7, 0);
+    \draw[blue] (0.7, 1) -- (1.4, 0) node[right]{B};
+\end{tikzpicture}
+больше, чем в другом
+\begin{tikzpicture}
+    \draw[red] (0,0) node[left]{E} -- (0.3, 1) node[right]{F};
+    \draw[blue] (0.3, 1) -- (0.6, 0) node[right]{G};
+\end{tikzpicture}
+, то сторона
+\begin{tikzpicture}
+    \draw[black] (0, 0) node[left]{D} -- (1, 0) node[right]{B};
+\end{tikzpicture}
+противолежащая большему углу больше стороны, противолежащей меньшему
+\begin{tikzpicture}
+    \draw[yellow] (0, 0) node[left]{F} -- (1, 0) node[right]{G}
+\end{tikzpicture}
+\\
+Сделаем
+\begin{tikzpicture}
+    \draw[red] (0,0) node[left]{C} -- (0.5, 1) node[right]{A};
+    \draw[blue] (0.5, 1) -- (1, 0) node[right]{B};
+\end{tikzpicture}
+=
+\begin{tikzpicture}
+    \draw[red] (0,0) node[left]{G} -- (0.5, 1) node[right]{E};
+    \draw[blue] (0.5, 1) -- (1, 0) node[right]{F};
+\end{tikzpicture}
+и
+\begin{tikzpicture}
+    \draw[red] (0,0) node[left]{C} -- (1, 0) node[right]{A};
+\end{tikzpicture}
+=
+\begin{tikzpicture}
+    \draw[red] (0,0) node[left]{G} -- (1, 0) node[right]{E};
+\end{tikzpicture}
+\\
+проведём
+\begin{tikzpicture}
+    \draw[blue, dashed] (0,0) node[left]{C} -- (1, 0) node[right]{D};
+\end{tikzpicture}
+и
+\begin{tikzpicture}
+    \draw[black, dashed] (0,0) node[left]{B} -- (1, 0) node[right]{C};
+\end{tikzpicture}
+Поскольку
+\begin{tikzpicture}
+    \draw[red] (0,0) node[left]{C} -- (1, 0) node[right]{A};
+\end{tikzpicture}
+=
+\begin{tikzpicture}
+    \draw[red, dashed] (0,0) node[left]{A} -- (1, 0) node[right]{D};
+\end{tikzpicture}
+\begin{tikzpicture}
+    \fill[black] (0,0) circle (1pt);
+    \fill[black] (0.1,0.1) circle (1pt);
+    \fill[black] (0.2,0) circle (1pt);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \coordinate (D) at (0, 0);
+    \coordinate (A) at (0.5, 0.5);
+    \coordinate (C) at (0.5, -0.5);
+
+    \node[above] at (A) {A};
+    \node[left] at (D) {D};
+    \node[below] at (C) {C};
+    
+    \fill[blue] (D) -- +(0:0.5) arc (0:45:0.5);
+    \fill[red] (D) -- +(-45:0.5) arc (-45:0:0.5);
+\end{tikzpicture}
+{\Large =}
+\begin{tikzpicture}
+    \coordinate (D) at (0, 0);
+    \coordinate (A) at (0.5, 0.5);
+    \coordinate (C) at (0.5, -0.5);
+
+    \node[above] at (A) {A};
+    \node[left] at (D) {D};
+    \node[below] at (C) {C};
+    
+    \fill[yellow] (D) -- +(-45:0.5) arc (-45:45:0.5);
+\end{tikzpicture}
+,но\\
+\begin{tikzpicture}
+    \coordinate (D) at (0, 0);
+    \coordinate (B) at (0.5, 0);
+    \coordinate (C) at (0.5, -0.5);
+
+    \node[above] at (B) {B};
+    \node[left] at (D) {D};
+    \node[below] at (C) {C};
+    
+    \fill[red] (D) -- +(-45:0.5) arc (-45:0:0.5);
+\end{tikzpicture}
+{\Large <}
+\begin{tikzpicture}
+    \coordinate (D) at (0, 0);
+    \coordinate (A) at (0.5, 0.5);
+    \coordinate (C) at (0.5, -0.5);
+
+    \node[above] at (A) {A};
+    \node[left] at (D) {D};
+    \node[below] at (C) {C};
+    
+    \fill[yellow] (D) -- +(-45:0.5) arc (-45:45:0.5);
+\end{tikzpicture}
+И
+\begin{tikzpicture}
+    \fill[black] (0,0) circle (1pt);
+    \fill[black] (0.1,0.1) circle (1pt);
+    \fill[black] (0.2,0) circle (1pt);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw[black] (0,0) node[left]{D} -- (1, 0) node[right]{B};
+\end{tikzpicture}
+=
+\begin{tikzpicture}
+    \draw[black, dashed] (0,0) node[left]{B} -- (1, 0) node[right]{C};
+\end{tikzpicture}
+,но
+\begin{tikzpicture}
+    \draw[black, dashed] (0,0) node[left]{B} -- (1, 0) node[right]{C};
+\end{tikzpicture}
+=
+\begin{tikzpicture}
+    \draw[yellow] (0,0) node[left]{F} -- (1, 0) node[right]{G};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \fill[black] (0,0) circle (1pt);
+    \fill[black] (0.1,0.1) circle (1pt);
+    \fill[black] (0.2,0) circle (1pt);
+\end{tikzpicture}
+\begin{tikzpicture}
+    \draw[black] (0,0) node[left]{D} -- (1, 0) node[right]{B};
+\end{tikzpicture}
+>
+\begin{tikzpicture}
+    \draw[yellow] (0,0) node[left]{F} -- (1, 0) node[right]{G};
+\end{tikzpicture}
+\\
+ч. т. д.
+\end{multicols}
+\end{document}
