@@ -1,10 +1,13 @@
 package io;
 
 import models.Coordinates;
+import models.Flat;
+import models.House;
 import models.enums.Furnish;
 import models.enums.Transport;
 import models.enums.View;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 
@@ -119,7 +122,7 @@ public class AskManager {
     public View askView(){
         while (true) {
             System.out.println("Доступные варианты вида:");
-            for (Furnish f : Furnish.values()) {
+            for (Transport f : Transport.values()) {
                 System.out.println("- " + f.name());
             }
 
@@ -142,7 +145,7 @@ public class AskManager {
     public Transport askTransport(){
         while (true) {
             System.out.println("Доступные варианты транспорта:");
-            for (Furnish f : Furnish.values()) {
+            for (Transport f : Transport.values()) {
                 System.out.println("- " + f.name());
             }
 
@@ -157,7 +160,7 @@ public class AskManager {
         }
     }
 
-    public String askNameHouse(){
+    public String askHouseName(){
         while (true){
             System.out.println("Введите название дома: ");
             String name = scanner.nextLine().trim();
@@ -186,5 +189,36 @@ public class AskManager {
         }
     }
 
+    private Long askNumperOfFloors(){
+        while (true){
+            System.out.println("Введите количество этажей постройки дома: ");
+            String input = readNext();
 
+            try{
+                Long floors = Long.parseLong(input);
+                if (floors == null) throw new IllegalArgumentException("Количество этажей не может быть null");
+                if (floors <= 0) throw new IllegalArgumentException("Количество этажей должен быть больше 0");
+                return floors;
+            }catch (Exception e){
+                System.out.println("Ошибка: " + e.getMessage());
+            }
+        }
+    }
+
+    public House askHouse(){
+        return new House(askHouseName(), askYear(), askNumperOfFloors());
+    }
+
+    public Flat askFlat(){
+        return new Flat(
+                askName(),
+                askCoordinates(),
+                askArea(),
+                askNumberOfRooms(),
+                askFurnish(),
+                askView(),
+                askTransport(),
+                askHouse()
+        );
+    }
 }
