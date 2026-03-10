@@ -20,7 +20,6 @@ public abstract class CollectionManager {
     public abstract Collection<Flat> getCollection();
     public abstract void sort();
 
-    // Общий метод для всех (уже реализован)
     public String getInfo() {
         return "Тип: " + getCollection().getClass().getSimpleName() +
                 "\nИнициализирован: " + lastInitTime +
