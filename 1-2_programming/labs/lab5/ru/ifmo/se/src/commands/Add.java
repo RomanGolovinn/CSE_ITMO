@@ -11,6 +11,7 @@ public class Add implements Command {
     public void execute(String argument, Flat flat){
         if (flat == null){
             System.out.println("Ошибка: Flat не может быть null");
+            return;
         }
         try{
             Collection.add(flat);
@@ -25,6 +26,6 @@ public class Add implements Command {
     }
 
     public String getDescription(){
-        return "add {element}: добавить новый элемент в коллекцию";
+        return "добавить новый элемент в коллекцию";
     }
 }

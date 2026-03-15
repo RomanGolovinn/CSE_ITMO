@@ -40,4 +40,18 @@ public class StackManager extends CollectionManager {
     public void sort() {
         Collections.sort(flats);
     }
+
+    @Override
+    public boolean update(Long id, Flat newFlat) {
+        for (int i = 0; i < flats.size(); i++) {
+            if (flats.get(i).getId().equals(id)) {
+
+                newFlat.setId(id);
+
+                flats.set(i, newFlat);
+                return true;
+            }
+        }
+        return false;
+    }
 }
