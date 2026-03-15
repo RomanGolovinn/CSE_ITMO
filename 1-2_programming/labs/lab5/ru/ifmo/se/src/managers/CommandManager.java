@@ -1,6 +1,7 @@
 package managers;
 
 import commands.Command;
+import models.Flat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,14 +16,14 @@ public class CommandManager {
         commands.put(command.getName(), command);
     }
 
-    public void execute(String commandName, String argument) {
+    public void execute(String commandName, String argument, Flat flat) {
         Command command = commands.get(commandName);
         if (command == null) {
             System.out.println("Команда '" + commandName + "' не найдена. Наберите 'help' для справки.");
             return;
         }
 
-        command.execute(argument);
+        command.execute(argument, flat);
         addToHistory(commandName);
     }
 
