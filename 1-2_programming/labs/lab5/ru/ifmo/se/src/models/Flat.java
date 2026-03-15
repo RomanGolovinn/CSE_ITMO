@@ -37,6 +37,9 @@ public class Flat implements Comparable<Flat>{
     }
     public Long getId(){return id;}
     public String getName() { return name; }
+    public Long getArea() { return area; }
+    public Long getNumberOfRooms() { return numberOfRooms; }
+    public House getHouse() { return house; }
 
     @Override
     public int compareTo(Flat other) {

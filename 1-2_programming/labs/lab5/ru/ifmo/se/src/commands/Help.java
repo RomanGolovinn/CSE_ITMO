@@ -14,7 +14,7 @@ public class Help implements Command {
         System.out.println("Список доступных команд:");
 
         for (Command command : commandManager.getCommands().values()) {
-            System.out.printf(command.getName() + ": " + command.getDescription());
+            System.out.println(command.getName() + ": " + command.getDescription());
         }
     }
 

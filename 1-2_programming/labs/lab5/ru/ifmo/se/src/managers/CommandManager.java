@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class CommandManager {
     private final Map<String, Command> commands = new HashMap<>();
-    private final List<String> commandHistory = new ArrayList<>();
 
     public void register(Command command) {
         commands.put(command.getName(), command);
@@ -24,21 +23,14 @@ public class CommandManager {
         }
 
         command.execute(argument, flat);
-        addToHistory(commandName);
     }
 
-    private void addToHistory(String name) {
-        commandHistory.add(name);
-        if (commandHistory.size() > 11) {
-            commandHistory.remove(0);
-        }
+    public void addCommand(Command command){
+        commands.put(command.getName(), command);
     }
+
 
     public Map<String, Command> getCommands() {
         return commands;
-    }
-
-    public List<String> getHistory() {
-        return commandHistory;
     }
 }

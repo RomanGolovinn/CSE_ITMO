@@ -83,7 +83,7 @@ public class AskManager {
 
     public Long askNumberOfRooms(){
         while (true){
-            System.out.println("Введите площадь: ");
+            System.out.println("Введите количество квартир: ");
             String input = readNext();
             try{
                 Long rooms = Long.parseLong(input);
@@ -122,7 +122,7 @@ public class AskManager {
     public View askView(){
         while (true) {
             System.out.println("Доступные варианты вида:");
-            for (Transport f : Transport.values()) {
+            for (View f : View.values()) {
                 System.out.println("- " + f.name());
             }
 

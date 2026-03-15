@@ -11,6 +11,10 @@ public class House {
         this.numberOfFloors = numberOfFloors;
     }
 
+    public String getName(){
+        return name;
+    }
+
     @Override
     public String toString() {
         return "House{name='" + name + "', year=" + year + ", floors=" + numberOfFloors + "}";

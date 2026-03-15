@@ -1,15 +1,68 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import commands.*;
+import io.AskManager;
+import managers.CommandManager;
+import managers.collection.CollectionManager;
+import managers.collection.StackManager;
+import models.Flat;
+
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner scanner = new Scanner(System.in);
+        AskManager askManager = new AskManager(scanner);
+        CollectionManager collectionManager = new StackManager();
+        CommandManager commandManager = new CommandManager();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        commandManager.addCommand(new Help(commandManager));
+        commandManager.addCommand(new Info(collectionManager));
+        commandManager.addCommand(new Show(collectionManager));
+        commandManager.addCommand(new Add(collectionManager));
+        commandManager.addCommand(new Update(collectionManager));
+        commandManager.addCommand(new RemoveById(collectionManager));
+        commandManager.addCommand(new Clear(collectionManager));
+        commandManager.addCommand(new Exit());
+        commandManager.addCommand(new AddIfMin(collectionManager));
+        commandManager.addCommand(new RemoveGreater(collectionManager));
+        commandManager.addCommand(new Sort(collectionManager));
+        commandManager.addCommand(new FilterByHouse(collectionManager));
+        commandManager.addCommand(new PrintDescending(collectionManager));
+        commandManager.addCommand(new PrintFieldDescendingNumberOfRooms(collectionManager));
+
+        System.out.println("Программа запущена! Введите 'help' для просмотра доступных команд.");
+
+        while (true) {
+            System.out.print("\n> ");
+
+            if (!scanner.hasNextLine()) {
+                System.out.println("Поток ввода закрыт. Завершение программы.");
+                break;
+            }
+
+            String line = scanner.nextLine().trim();
+            if (line.isEmpty()) continue;
+
+            String[] parts = line.split("\\s+", 2);
+            String commandName = parts[0].toLowerCase();
+            String argument = (parts.length > 1) ? parts[1].trim() : "";
+
+            Flat flatArgument = null;
+
+            if (commandName.equals("add") ||
+                    commandName.equals("update") ||
+                    commandName.equals("add_if_min") ||
+                    commandName.equals("remove_greater")) {
+
+                System.out.println("Для этой команды необходимо ввести данные объекта Flat:");
+                try {
+                    flatArgument = askManager.askFlat(); // Запускаем опрос пользователя
+                } catch (Exception e) {
+                    System.out.println("Отмена ввода или ошибка: " + e.getMessage());
+                    continue;
+                }
+            }
+
+            commandManager.execute(commandName, argument, flatArgument);
         }
     }
 }
