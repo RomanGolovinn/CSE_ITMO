@@ -69,3 +69,13 @@ INSERT INTO expectee (character_id, expectation_id) VALUES (2, 1), (3, 1);
 INSERT INTO expecter (character_id, expectation_id) VALUES (1, 1);
 
 
+select c.character_id, c.name, count(exr.character_id) as total_expecters,
+lenght(m.description)/count(m.dcription) as av_len from character c
+join event_participant ep on c.character_id = ep.character_id
+join expectee exe on c.character_id = exe.character_id
+join expectation e on e.expectation_id = exe.expectation_id
+join expecter exr on exr.expectation_id = e.expectation_id
+join mindset m on m.mindset_id = e.mindset_id
+group by c.character_id
+having count(ep.character_id) > 3;
+
