@@ -1,4 +1,4 @@
-package io.command;
+package commands;
 
 import models.Flat;
 
