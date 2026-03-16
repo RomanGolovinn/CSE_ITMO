@@ -220,4 +220,12 @@ public class AskManager {
                 askHouse()
         );
     }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public Scanner getScanner (){
+        return this.scanner;
+    }
 }

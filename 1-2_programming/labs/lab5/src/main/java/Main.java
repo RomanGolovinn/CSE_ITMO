@@ -40,6 +40,7 @@ public class Main {
         commandManager.addCommand(new PrintDescending(collectionManager));
         commandManager.addCommand(new PrintFieldDescendingNumberOfRooms(collectionManager));
         commandManager.addCommand(new Save(collectionManager, jsonManager));
+        commandManager.addCommand(new ExecuteScript(commandManager, askManager));
 
         System.out.println("Программа запущена! Введите 'help' для просмотра доступных команд.");
 
@@ -67,7 +68,7 @@ public class Main {
 
                 System.out.println("Для этой команды необходимо ввести данные объекта Flat:");
                 try {
-                    flatArgument = askManager.askFlat(); // Запускаем опрос пользователя
+                    flatArgument = askManager.askFlat();
                 } catch (Exception e) {
                     System.out.println("Отмена ввода или ошибка: " + e.getMessage());
                     continue;
