@@ -1,4 +1,4 @@
-package main.java.managers.models.enums;
+package models.enums;
 
 public enum View {
     STREET,

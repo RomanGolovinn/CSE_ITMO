@@ -1,4 +1,4 @@
-package main.java.managers.models;
+package models;
 
 public class House {
     private String name; //Поле может быть null

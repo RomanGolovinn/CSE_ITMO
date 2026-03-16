@@ -1,8 +1,8 @@
-package main.java.managers.models;
+package models;
 
-import main.java.managers.models.enums.Furnish;
-import main.java.managers.models.enums.Transport;
-import main.java.managers.models.enums.View;
+import models.enums.Furnish;
+import models.enums.Transport;
+import models.enums.View;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

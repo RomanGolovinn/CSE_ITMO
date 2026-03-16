@@ -1,4 +1,4 @@
-package main.java.managers.models;
+package models;
 
 public class Coordinates {
     private Long x; //Максимальное значение поля: 853, Поле не может быть null

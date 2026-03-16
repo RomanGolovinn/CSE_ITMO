@@ -1,4 +1,4 @@
-package main.java.managers.io;
+package io.ui;
 
 import main.java.managers.models.Coordinates;
 import main.java.managers.models.Flat;
