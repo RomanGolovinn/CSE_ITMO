@@ -1,7 +1,7 @@
-package main.java.managers;
+package managers;
 
 import commands.Command;
-import main.java.managers.models.Flat;
+import models.Flat;
 
 import java.util.HashMap;
 import java.util.Map;

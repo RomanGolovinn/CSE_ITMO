@@ -1,7 +1,7 @@
 package io.file;
 
 
-import main.java.managers.collection.CollectionManager;
+import managers.collection.CollectionManager;
 
 abstract public class FileManager {
     String path;
@@ -12,6 +12,6 @@ abstract public class FileManager {
         this.collection = collection;
     }
 
-    abstract void save();
-    abstract void read();
+    public abstract void save();
+    public abstract void read();
 }

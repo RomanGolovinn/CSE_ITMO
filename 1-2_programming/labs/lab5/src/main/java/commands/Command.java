@@ -1,6 +1,6 @@
 package commands;
 
-import main.java.managers.models.Flat;
+import models.Flat;
 
 public interface Command {
     void execute(String argument, Flat flatArgument);

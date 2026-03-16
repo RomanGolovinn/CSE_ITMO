@@ -1,6 +1,6 @@
 package commands;
 
-import main.java.managers.models.Flat;
+import models.Flat;
 
 public class Exit implements Command{
     public void execute(String argument, Flat flat){

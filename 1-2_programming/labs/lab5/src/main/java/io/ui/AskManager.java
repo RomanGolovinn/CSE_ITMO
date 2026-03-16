@@ -1,11 +1,11 @@
 package io.ui;
 
-import main.java.managers.models.Coordinates;
-import main.java.managers.models.Flat;
-import main.java.managers.models.House;
-import main.java.managers.models.enums.Furnish;
-import main.java.managers.models.enums.Transport;
-import main.java.managers.models.enums.View;
+import models.Coordinates;
+import models.Flat;
+import models.House;
+import models.enums.Furnish;
+import models.enums.Transport;
+import models.enums.View;
 
 import java.util.Scanner;
 

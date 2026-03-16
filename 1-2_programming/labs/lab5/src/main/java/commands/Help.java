@@ -1,7 +1,7 @@
 package commands;
 
-import main.java.managers.CommandManager;
-import main.java.managers.models.Flat;
+import managers.CommandManager;
+import models.Flat;
 
 public class Help implements Command {
     private final CommandManager commandManager;

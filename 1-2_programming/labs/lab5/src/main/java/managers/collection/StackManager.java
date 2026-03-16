@@ -1,6 +1,6 @@
-package main.java.managers.collection;
+package managers.collection;
 
-import main.java.managers.models.Flat;
+import models.Flat;
 
 import java.util.Collection;
 import java.util.Collections;

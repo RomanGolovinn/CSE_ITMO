@@ -1,7 +1,7 @@
 package commands;
 
-import main.java.managers.collection.CollectionManager;
-import main.java.managers.models.Flat;
+import managers.collection.CollectionManager;
+import models.Flat;
 
 public class FilterByHouse implements Command{
     private final CollectionManager collection;

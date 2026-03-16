@@ -17,6 +17,6 @@ public class House {
 
     @Override
     public String toString() {
-        return "House{name='" + name + "', year=" + year + ", floors=" + numberOfFloors + "}";
+        return "{name='" + name + "', year=" + year + ", floors=" + numberOfFloors + "}";
     }
 }

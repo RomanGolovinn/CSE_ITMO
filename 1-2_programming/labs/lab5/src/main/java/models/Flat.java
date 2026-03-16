@@ -63,7 +63,9 @@ public class Flat implements Comparable<Flat>{
     }
     @Override
     public String toString() {
-        return String.format("Flat[ID:%d, Name:%s, Area:%d, Rooms:%d, Furnish:%s]",
-                id, name, area, numberOfRooms, furnish);
+        return String.format("{ID:%d, Name:%s, Coordinates:%s, Area:%d, Rooms:%d, Furnish:%s,"
+                        +" View:%s, Transport:%s, House:%s}",
+                id, name, coordinates.toString(), area, numberOfRooms, furnish, view, transport,
+                house.toString());
     }
 }
