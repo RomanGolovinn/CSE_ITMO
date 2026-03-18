@@ -36,6 +36,8 @@ public class JsonManager extends FileManager{
 
             fos.close();
 
+            System.out.println("Коллекция сохранена");
+
         } catch (Exception e) {
             System.out.println("Ошибка при сохранении в файл: " + e.getMessage());
         }

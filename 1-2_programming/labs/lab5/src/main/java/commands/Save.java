@@ -15,7 +15,6 @@ public class Save implements Command{
 
     public void execute(String argument, Flat flat) {
         file.save();
-        System.out.println("Коллекция сохранена в файл");
     }
 
     public String getName() {

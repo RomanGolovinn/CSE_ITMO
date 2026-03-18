@@ -37,8 +37,9 @@ public class ExecuteScript implements Command {
 
         activeScripts.add(absolutePath);
 
+        Scanner oldScanner = askManager.getScanner();
+
         try (Scanner scanner = new Scanner(file)) {
-            Scanner oldScanner = askManager.getScanner();
             askManager.setScanner(scanner);
 
             while (scanner.hasNextLine()) {
@@ -60,9 +61,7 @@ public class ExecuteScript implements Command {
                         flatArgument = askManager.askFlat();
                     } catch (Exception e) {
                         System.out.println("Отмена ввода или ошибка в скрипте: " + e.getMessage());
-                        askManager.setScanner(oldScanner);
-                        activeScripts.remove(absolutePath);
-                        continue;
+                        break;
                     }
                 }
 
@@ -75,6 +74,7 @@ public class ExecuteScript implements Command {
         } catch (Exception e) {
             System.out.println("Ошибка при чтении скрипта: " + e.getMessage());
         } finally {
+            askManager.setScanner(oldScanner);
             activeScripts.remove(absolutePath);
         }
     }
