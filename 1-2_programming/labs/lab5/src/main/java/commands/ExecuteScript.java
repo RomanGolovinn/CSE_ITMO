@@ -75,7 +75,6 @@ public class ExecuteScript implements Command {
         } catch (Exception e) {
             System.out.println("Ошибка при чтении скрипта: " + e.getMessage());
         } finally {
-
             activeScripts.remove(absolutePath);
         }
     }
