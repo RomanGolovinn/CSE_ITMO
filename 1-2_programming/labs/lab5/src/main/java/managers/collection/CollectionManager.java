@@ -26,4 +26,6 @@ public abstract class CollectionManager {
                 "\nИнициализирован: " + lastInitTime +
                 "\nЭлементов: " + getCollection().size();
     }
+
+    public abstract void setCollection(Collection<Flat> newCollection);
 }

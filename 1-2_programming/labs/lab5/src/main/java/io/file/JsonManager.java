@@ -43,38 +43,24 @@ public class JsonManager extends FileManager{
 
     @Override
     public void read() {
-        try {
-            File file = new File(path);
+        Stack<Flat> localCollection = new Stack<>();
 
-            if (!file.exists()) {
-                System.out.println("Файл не найден. Будет создана новая коллекция.");
-                return;
+        try (FileReader reader = new FileReader(path)) {
+            Type collectionType = new TypeToken<Stack<Flat>>(){}.getType();
+            Stack<Flat> loadedCollection = jsonHandler.fromJson(reader, collectionType);
+
+            if (loadedCollection != null) {
+                localCollection = loadedCollection;
             }
 
-            Scanner scanner = new Scanner(file);
-            String jsonString = "";
-
-            while (scanner.hasNextLine()) {
-                jsonString += scanner.nextLine();
-                // Хана оперативке
-            }
-            scanner.close();
-
-            if (jsonString.isEmpty()) {
-                return;
-            }
-
-            Type type = new TypeToken<Stack<Flat>>(){}.getType();
-            Stack<Flat> loaded = jsonHandler.fromJson(jsonString, type);
-
-            if (loaded != null) {
-                Stack<Flat> current = (Stack<Flat>) collection.getCollection();
-                current.clear();
-                current.addAll(loaded);
-            }
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Ошибка при чтении файла: " + e.getMessage());
+        } catch (JsonSyntaxException e) {
+            System.out.println("Ошибка синтаксиса в файле JSON: " + e.getMessage());
         }
+
+        localCollection.removeIf(flat -> !flat.isValid());
+
+        this.collection.setCollection(localCollection);
     }
 }

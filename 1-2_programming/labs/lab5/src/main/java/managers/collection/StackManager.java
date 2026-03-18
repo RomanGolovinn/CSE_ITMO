@@ -53,4 +53,9 @@ public class StackManager extends CollectionManager {
         }
         return false;
     }
+
+    @Override
+    public void setCollection(Collection<Flat> newCollection){
+        this.flats = (Stack<Flat>) newCollection;
+    }
 }

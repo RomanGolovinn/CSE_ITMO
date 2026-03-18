@@ -11,6 +11,10 @@ public class House {
         this.numberOfFloors = numberOfFloors;
     }
 
+    public Integer getYear(){
+        return year;
+    }
+
     public String getName(){
         return name;
     }

@@ -41,6 +41,18 @@ public class Flat implements Comparable<Flat>{
     public Long getNumberOfRooms() { return numberOfRooms; }
     public House getHouse() { return house; }
 
+    public boolean isValid() {
+        if (id == null || id <= 0) return false;
+        if (name == null || name.trim().isEmpty()) return false;
+        if (coordinates == null || coordinates.getX() > 853) return false;
+        if (area == null || area <= 0) return false;
+        if (numberOfRooms == null || numberOfRooms <= 0) return false;
+        if (creationDate == null) return false;
+        if (house != null && house.getYear() <= 0) return false;
+
+        return true;
+    }
+
     @Override
     public int compareTo(Flat other) {
         return this.name.compareTo(other.getName());
