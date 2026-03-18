@@ -2,6 +2,7 @@ import commands.*;
 import io.file.FileManager;
 import io.file.JsonManager;
 import io.ui.AskManager;
+import io.ui.Console;
 import managers.CommandManager;
 import managers.collection.CollectionManager;
 import managers.collection.StackManager;
@@ -42,40 +43,7 @@ public class Main {
         commandManager.addCommand(new Save(collectionManager, jsonManager));
         commandManager.addCommand(new ExecuteScript(commandManager, askManager));
 
-        System.out.println("Программа запущена! Введите 'help' для просмотра доступных команд.");
-
-        while (true) {
-            System.out.print("\n> ");
-
-            if (!scanner.hasNextLine()) {
-                System.out.println("Поток ввода закрыт. Завершение программы.");
-                break;
-            }
-
-            String line = scanner.nextLine().trim();
-            if (line.isEmpty()) continue;
-
-            String[] parts = line.split("\\s+", 2);
-            String commandName = parts[0].toLowerCase();
-            String argument = (parts.length > 1) ? parts[1].trim() : "";
-
-            Flat flatArgument = null;
-
-            if (commandName.equals("add") ||
-                    commandName.equals("update") ||
-                    commandName.equals("add_if_min") ||
-                    commandName.equals("remove_greater")) {
-
-                System.out.println("Для этой команды необходимо ввести данные объекта Flat:");
-                try {
-                    flatArgument = askManager.askFlat();
-                } catch (Exception e) {
-                    System.out.println("Отмена ввода или ошибка: " + e.getMessage());
-                    continue;
-                }
-            }
-
-            commandManager.execute(commandName, argument, flatArgument);
-        }
+        Console console = new Console(commandManager, askManager);
+        console.start();
     }
 }
