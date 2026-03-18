@@ -60,6 +60,8 @@ public class ExecuteScript implements Command {
                         flatArgument = askManager.askFlat();
                     } catch (Exception e) {
                         System.out.println("Отмена ввода или ошибка в скрипте: " + e.getMessage());
+                        askManager.setScanner(oldScanner);
+                        activeScripts.remove(absolutePath);
                         continue;
                     }
                 }
