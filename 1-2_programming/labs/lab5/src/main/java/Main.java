@@ -10,10 +10,25 @@ import models.Flat;
 
 import java.util.Scanner;
 
+/**
+ * Главный класс приложения.
+ * Отвечает за инициализацию всех компонентов системы: менеджеров, обработчиков ввода-вывода
+ * и регистрацию команд. Управляет жизненным циклом программы.
+ *
+ * @author Roman Golovin
+ */
 public class Main {
+    /**
+     * Точка входа в программу.
+     * Выполняет последовательную настройку окружения, загрузку данных из файла
+     * и запуск интерактивной консоли.
+     *
+     * @param args аргументы командной строки (не используются)
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         AskManager askManager = new AskManager(scanner);
+
         CollectionManager collectionManager = new StackManager();
         CommandManager commandManager = new CommandManager();
 
@@ -22,8 +37,8 @@ public class Main {
             System.out.println("ВНИМАНИЕ: Переменная LAB_FILE_PATH не задана. Используем default.json");
             filePath = "stack.json";
         }
-        FileManager jsonManager = new JsonManager(filePath, collectionManager);
 
+        FileManager jsonManager = new JsonManager(filePath, collectionManager);
         jsonManager.read();
 
         commandManager.addCommand(new Help(commandManager));

@@ -9,18 +9,39 @@ import models.enums.View;
 
 import java.util.Scanner;
 
-
+/**
+ * Класс, отвечающий за интерактивное чтение данных из консоли или скрипта.
+ * Содержит методы для поэтапного заполнения полей объектов {@link Flat}, {@link House} и {@link Coordinates}
+ * с обязательной проверкой ограничений предметной области.
+ *
+ * @author Roman Golovin
+ */
 public class AskManager {
     private Scanner scanner;
 
+    /**
+     * Конструктор менеджера ввода.
+     *
+     * @param scanner объект {@link Scanner}, через который осуществляется чтение данных
+     */
     public AskManager(Scanner scanner) {
         this.scanner = scanner;
     }
 
+    /**
+     * Вспомогательный метод для чтения и обрезки лишних пробелов в строке.
+     *
+     * @return считанная строка с обрезанными пробелами
+     */
     private String readNext() {
         return scanner.nextLine().trim();
     }
 
+    /**
+     * Запрашивает название квартиры. Поле не может быть пустым.
+     *
+     * @return название квартиры
+     */
     public String askName(){
         while (true){
             System.out.println("Введите название квартиры: ");
@@ -33,6 +54,11 @@ public class AskManager {
         }
     }
 
+    /**
+     * Запрашивает координату X. Максимальное значение — 853.
+     *
+     * @return координата X
+     */
     private Long askX() {
         while (true) {
             System.out.print("Введите X: ");
@@ -47,6 +73,11 @@ public class AskManager {
         }
     }
 
+    /**
+     * Запрашивает координату Y. Минимальное значение — больше -226.
+     *
+     * @return координата Y
+     */
     private float askY() {
         while (true) {
             System.out.print("Введите Y: ");
@@ -61,10 +92,20 @@ public class AskManager {
         }
     }
 
+    /**
+     * Создает новый объект координат, запрашивая X и Y.
+     *
+     * @return заполненный объект {@link Coordinates}
+     */
     public Coordinates askCoordinates(){
         return new Coordinates(askX(), askY());
     }
 
+    /**
+     * Запрашивает площадь. Значение должно быть больше 0.
+     *
+     * @return значение площади
+     */
     public Long askArea(){
         while (true){
             System.out.println("Введите площадь: ");
@@ -80,6 +121,11 @@ public class AskManager {
         }
     }
 
+    /**
+     * Запрашивает количество комнат. Значение должно быть больше 0.
+     *
+     * @return количество комнат
+     */
     public Long askNumberOfRooms(){
         while (true){
             System.out.println("Введите количество квартир: ");
@@ -95,6 +141,11 @@ public class AskManager {
         }
     }
 
+    /**
+     * Запрашивает тип отделки из списка доступных перечислений.
+     *
+     * @return элемент перечисления {@link Furnish}
+     */
     public Furnish askFurnish() {
         while (true) {
             System.out.println("Доступные варианты отделки:");
@@ -118,6 +169,11 @@ public class AskManager {
         }
     }
 
+    /**
+     * Запрашивает тип вида из окна.
+     *
+     * @return элемент перечисления {@link View}
+     */
     public View askView(){
         while (true) {
             System.out.println("Доступные варианты вида:");
@@ -141,6 +197,11 @@ public class AskManager {
         }
     }
 
+    /**
+     * Запрашивает тип транспорта рядом.
+     *
+     * @return элемент перечисления {@link Transport}
+     */
     public Transport askTransport(){
         while (true) {
             System.out.println("Доступные варианты транспорта:");
@@ -159,6 +220,11 @@ public class AskManager {
         }
     }
 
+    /**
+     * Запрашивает название дома.
+     *
+     * @return название дома
+     */
     public String askHouseName(){
         while (true){
             System.out.println("Введите название дома: ");
@@ -172,6 +238,11 @@ public class AskManager {
     }
 
 
+    /**
+     * Запрашивает год постройки дома. Должен быть больше 0.
+     *
+     * @return год постройки
+     */
     private Integer askYear(){
         while (true){
             System.out.println("Введите год постройки дома: ");
@@ -188,6 +259,11 @@ public class AskManager {
         }
     }
 
+    /**
+     * Запрашивает количество этажей в доме. Должно быть больше 0.
+     *
+     * @return количество этажей
+     */
     private Long askNumperOfFloors(){
         while (true){
             System.out.println("Введите количество этажей постройки дома: ");
@@ -204,10 +280,21 @@ public class AskManager {
         }
     }
 
+    /**
+     * Собирает и возвращает полностью заполненный объект дома.
+     *
+     * @return объект {@link House}
+     */
     public House askHouse(){
         return new House(askHouseName(), askYear(), askNumperOfFloors());
     }
 
+    /**
+     * Главный метод для сборки нового объекта квартиры.
+     * Поочередно запрашивает все поля у пользователя.
+     *
+     * @return заполненный объект {@link Flat}
+     */
     public Flat askFlat(){
         return new Flat(
                 askName(),
@@ -221,10 +308,21 @@ public class AskManager {
         );
     }
 
+    /**
+     * Устанавливает новый источник ввода.
+     * Используется при переключении между консолью и чтением из скрипта.
+     *
+     * @param scanner новый экземпляр {@link Scanner}
+     */
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
     }
 
+    /**
+     * Возвращает текущий используемый сканер.
+     *
+     * @return текущий сканер
+     */
     public Scanner getScanner (){
         return this.scanner;
     }

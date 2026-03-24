@@ -3,13 +3,31 @@ package commands;
 import managers.collection.CollectionManager;
 import models.Flat;
 
+/**
+ * Команда для добавления нового элемента (квартиры) в коллекцию.
+ * Автоматически генерирует уникальный идентификатор для нового элемента перед его сохранением.
+ *
+ * @author Roman Golovin
+ */
 public class Add implements Command {
     private final CollectionManager collection;
 
+    /**
+     * Конструктор команды.
+     *
+     * @param collection менеджер коллекции, в которую будет добавлен элемент
+     */
     public Add(CollectionManager collection){
         this.collection = collection;
     }
 
+    /**
+     * Выполняет команду добавления элемента в коллекцию.
+     * Автоматически вычисляет максимальный существующий ID и назначает новому элементу ID на единицу больше.
+     *
+     * @param argument строковый аргумент команды (для данной команды не используется)
+     * @param flat     объект квартиры для добавления (не должен быть null)
+     */
     public void execute(String argument, Flat flat){
         if (flat == null){
             System.out.println("Ошибка: Flat не может быть null");
@@ -33,10 +51,20 @@ public class Add implements Command {
         }
     }
 
+    /**
+     * Возвращает имя команды.
+     *
+     * @return имя команды для вызова из консоли ("add")
+     */
     public String getName(){
         return "add";
     }
 
+    /**
+     * Возвращает описание команды.
+     *
+     * @return краткое описание действия команды
+     */
     public String getDescription(){
         return "добавить новый элемент в коллекцию";
     }

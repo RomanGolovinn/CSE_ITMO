@@ -14,9 +14,24 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.Stack;
 
+/**
+ * Менеджер для работы с форматом JSON.
+ * Отвечает за сериализацию коллекции в JSON-файл и десериализацию обратно в объекты Java.
+ * Использует библиотеку Google Gson.
+ *
+ * @author Roman Golovin
+ */
 public class JsonManager extends FileManager{
+    /** Объект Gson для преобразования данных */
     Gson jsonHandler;
 
+    /**
+     * Конструктор менеджера JSON.
+     * Настраивает Gson для красивого вывода и регистрирует адаптер для работы с датами.
+     *
+     * @param path       путь к файлу JSON
+     * @param collection менеджер коллекции для синхронизации
+     */
     public JsonManager(String path, CollectionManager collection){
         super(path, collection);
         this.jsonHandler = new GsonBuilder()
@@ -25,6 +40,10 @@ public class JsonManager extends FileManager{
                 .create();
     }
 
+    /**
+     * Сохраняет текущую коллекцию в файл в формате JSON.
+     * Переводит объекты в строку и записывает её через {@link FileOutputStream}.
+     */
     @Override
     public void save() {
         try {
@@ -43,6 +62,10 @@ public class JsonManager extends FileManager{
         }
     }
 
+    /**
+     * Считывает данные из JSON-файла.
+     * После загрузки производит валидацию каждого объекта и отфильтровывает некорректные элементы.
+     */
     @Override
     public void read() {
         Stack<Flat> localCollection = new Stack<>();
