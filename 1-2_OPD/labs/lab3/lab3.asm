@@ -1,0 +1,21 @@
+org 0x7fd
+word 0xffa6, 0x378, 0x86e8, 0x19
+
+org 0x2a6
+m: word 0x07fd
+i: word 0x0
+len: word 0x0
+c: word 0x0
+
+start: cla
+st c
+ld #0x4
+st len
+ld m
+st i
+cycle: ld (i)+
+bpl itr
+adc (c)+
+itr: loop 0x2a8
+jump cycle
+hlt
