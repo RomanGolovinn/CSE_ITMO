@@ -57,6 +57,9 @@ public class Main {
         commandManager.addCommand(new PrintFieldDescendingNumberOfRooms(collectionManager));
         commandManager.addCommand(new Save(collectionManager, jsonManager));
         commandManager.addCommand(new ExecuteScript(commandManager, askManager));
+        commandManager.addCommand(new Begin(collectionManager));
+        commandManager.addCommand(new Commit(collectionManager));
+        commandManager.addCommand(new RollBack(collectionManager));
 
         Console console = new Console(commandManager, askManager);
         console.start();
