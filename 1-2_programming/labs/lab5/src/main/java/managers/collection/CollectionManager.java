@@ -18,6 +18,8 @@ public abstract class CollectionManager {
     /** Время последнего сохранения (опционально) */
     protected LocalDateTime lastSaveTime;
 
+    protected boolean isTransactionActive = false;
+
     /**
      * Конструктор менеджера. Устанавливает время инициализации при создании объекта.
      */
@@ -63,4 +65,11 @@ public abstract class CollectionManager {
      * @param newCollection новая коллекция элементов
      */
     public abstract void setCollection(Collection<Flat> newCollection);
+
+    public abstract void beginTransaction();
+    public abstract void commitTransaction();
+    public abstract void rollbackTransaction();
+    public boolean isTransactionActive() {
+        return isTransactionActive;
+    }
 }

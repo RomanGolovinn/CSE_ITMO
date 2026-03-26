@@ -15,6 +15,8 @@ public class StackManager extends CollectionManager {
     /** Основное хранилище элементов коллекции */
     private Stack<Flat> flats = new Stack<>();
 
+    private Stack<Flat> savedFlats = new Stack<>();
+
     /**
      * Добавляет новую квартиру в стек.
      *
@@ -107,5 +109,37 @@ public class StackManager extends CollectionManager {
     @SuppressWarnings("unchecked")
     public void setCollection(Collection<Flat> newCollection){
         this.flats = (Stack<Flat>) newCollection;
+    }
+
+    @Override
+    public void beginTransaction() {
+        if (this.isTransactionActive) {
+            throw new IllegalStateException("Транзакция уже активна, сначала завершите текущую.");
+        }
+        this.isTransactionActive = true;
+        this.savedFlats.clear();
+        this.savedFlats.addAll(this.flats);
+    }
+
+    @Override
+    public void commitTransaction() {
+        if (!this.isTransactionActive) {
+            throw new IllegalStateException("Нет активной транзакции");
+        }
+        this.isTransactionActive = false;
+        this.savedFlats.clear();
+    }
+
+    @Override
+    public void rollbackTransaction() {
+        if (!this.isTransactionActive) {
+            throw new IllegalStateException("Нет активной транзакции для отката");
+        }
+        this.isTransactionActive = false;
+
+        this.flats.clear();
+        this.flats.addAll(this.savedFlats);
+
+        this.savedFlats.clear();
     }
 }
