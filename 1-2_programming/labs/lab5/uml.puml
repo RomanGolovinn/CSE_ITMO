@@ -1,0 +1,352 @@
+@startuml
+abstract class io.file.FileManager {
+# String path
+# CollectionManager collection
++ {abstract}void save()
++ {abstract}void read()
+}
+
+
+class commands.AddIfMin {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class commands.ExecuteScript {
+- CommandManager commandManager
+- AskManager askManager
+- {static} Set<String> activeScripts
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class commands.Show {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class commands.Update {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class io.ui.AskManager {
+- Scanner scanner
+- String readNext()
++ String askName()
+- Long askX()
+- float askY()
++ Coordinates askCoordinates()
++ Long askArea()
++ Long askNumberOfRooms()
++ Furnish askFurnish()
++ View askView()
++ Transport askTransport()
++ String askHouseName()
+- Integer askYear()
+- Long askNumperOfFloors()
++ House askHouse()
++ Flat askFlat()
++ void setScanner(Scanner)
++ Scanner getScanner()
+}
+
+
+class commands.Info {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+enum models.enums.Transport {
++  NONE
++  LITTLE
++  NORMAL
+}
+
+class commands.Save {
+- CollectionManager collection
+- FileManager file
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class commands.Help {
+- CommandManager commandManager
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class models.Coordinates {
+- Long x
+- float y
++ Long getX()
++ float getY()
++ String toString()
+}
+
+
+class commands.PrintFieldDescendingNumberOfRooms {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class managers.collection.StackManager {
+- Stack<Flat> flats
+- Stack<Flat> savedFlats
++ void add(Flat)
++ boolean removeById(Long)
++ void clear()
++ Flat getById(Long)
++ Collection<Flat> getCollection()
++ void sort()
++ boolean update(Long,Flat)
++ void setCollection(Collection<Flat>)
++ void beginTransaction()
++ void commitTransaction()
++ void rollbackTransaction()
+}
+
+
+class models.Flat {
+- Long id
+- String name
+- Coordinates coordinates
+- java.time.LocalDateTime creationDate
+- Long area
+- Long numberOfRooms
+- Furnish furnish
+- View view
+- Transport transport
+- House house
++ void setId(Long)
++ Long getId()
++ String getName()
++ Long getArea()
++ Long getNumberOfRooms()
++ House getHouse()
++ boolean isValid()
++ int compareTo(Flat)
++ boolean equals(Object)
++ int hashCode()
++ String toString()
+}
+
+
+interface commands.Command {
+~ void execute(String,Flat)
+~ String getName()
+~ String getDescription()
+}
+
+class commands.Begin {
+- CollectionManager collectionManager
++ String getName()
++ String getDescription()
++ void execute(String,Flat)
+}
+
+
+class commands.PrintDescending {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class commands.Commit {
+- CollectionManager collectionManager
++ String getName()
++ String getDescription()
++ void execute(String,Flat)
+}
+
+
+class commands.Sort {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class managers.CommandManager {
+- Map<String,Command> commands
++ void register(Command)
++ void execute(String,String,Flat)
++ void addCommand(Command)
++ Map<String,Command> getCommands()
+}
+
+
+class commands.Add {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class Main {
++ {static} void main(String[])
+}
+
+class io.file.JsonManager {
+~ Gson jsonHandler
++ void save()
++ void read()
+}
+
+
+class commands.RemoveById {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class commands.Exit {
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+class io.ui.Console {
+- CommandManager commandManager
+- AskManager askManager
++ void start()
+}
+
+
+abstract class managers.collection.CollectionManager {
+# LocalDateTime lastInitTime
+# LocalDateTime lastSaveTime
+# boolean isTransactionActive
++ {abstract}void add(Flat)
++ {abstract}boolean removeById(Long)
++ {abstract}void clear()
++ {abstract}Flat getById(Long)
++ {abstract}Collection<Flat> getCollection()
++ {abstract}void sort()
++ {abstract}boolean update(Long,Flat)
++ String getInfo()
++ {abstract}void setCollection(Collection<Flat>)
++ {abstract}void beginTransaction()
++ {abstract}void commitTransaction()
++ {abstract}void rollbackTransaction()
++ boolean isTransactionActive()
+}
+
+
+class commands.RemoveGreater {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+enum models.enums.Furnish {
++  NONE
++  FINE
++  BAD
++  LITTLE
+}
+
+class models.House {
+- String name
+- Integer year
+- long numberOfFloors
++ Integer getYear()
++ String getName()
++ String toString()
+}
+
+
+class commands.Clear {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class commands.FilterByHouse {
+- CollectionManager collection
++ void execute(String,Flat)
++ String getName()
++ String getDescription()
+}
+
+
+class commands.RollBack {
+- CollectionManager collectionManager
++ String getName()
++ String getDescription()
++ void execute(String,Flat)
+}
+
+
+enum models.enums.View {
++  STREET
++  YARD
++  PARK
++  BAD
++  TERRIBLE
+}
+
+class io.file.LocalDateTimeTypeAdapter {
+- DateTimeFormatter formatter
++ void write(JsonWriter,LocalDateTime)
++ LocalDateTime read(JsonReader)
+}
+
+
+
+
+commands.Command <|.. commands.AddIfMin
+commands.Command <|.. commands.ExecuteScript
+commands.Command <|.. commands.Show
+commands.Command <|.. commands.Update
+commands.Command <|.. commands.Info
+commands.Command <|.. commands.Save
+commands.Command <|.. commands.Help
+commands.Command <|.. commands.PrintFieldDescendingNumberOfRooms
+managers.collection.CollectionManager <|-- managers.collection.StackManager
+models.Comparable <|.. models.Flat
+commands.Command <|.. commands.Begin
+commands.Command <|.. commands.PrintDescending
+commands.Command <|.. commands.Commit
+commands.Command <|.. commands.Sort
+commands.Command <|.. commands.Add
+io.file.FileManager <|-- io.file.JsonManager
+commands.Command <|.. commands.RemoveById
+commands.Command <|.. commands.Exit
+commands.Command <|.. commands.RemoveGreater
+commands.Command <|.. commands.Clear
+commands.Command <|.. commands.FilterByHouse
+commands.Command <|.. commands.RollBack
+com.google.gson.TypeAdapter <|-- io.file.LocalDateTimeTypeAdapter
+@enduml
