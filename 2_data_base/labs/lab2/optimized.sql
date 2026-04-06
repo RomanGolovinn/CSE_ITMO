@@ -1,17 +1,16 @@
-with StudentAges as (
-    select Н_УЧЕНИКИ.ГРУППА,
-    EXTRACT(year from age(Н_ЛЮДИ.ДАТА_РОЖДЕНИЯ)) as v_age
+select 
+    Н_УЧЕНИКИ.ГРУППА, 
+    avg(extract(year from age(Н_ЛЮДИ.ДАТА_РОЖДЕНИЯ))) as AVG_AGE
+from Н_ЛЮДИ
+join Н_УЧЕНИКИ on Н_УЧЕНИКИ.ЧЛВК_ИД = Н_ЛЮДИ.ИД
+where Н_ЛЮДИ.ДАТА_РОЖДЕНИЯ is not null
+group by Н_УЧЕНИКИ.ГРУППА
+having min(Н_ЛЮДИ.ДАТА_РОЖДЕНИЯ) > (
+    select min(Н_ЛЮДИ.ДАТА_РОЖДЕНИЯ)
     from Н_ЛЮДИ
     join Н_УЧЕНИКИ on Н_УЧЕНИКИ.ЧЛВК_ИД = Н_ЛЮДИ.ИД
-),
-
-MaxAge1100 as (
-    select max(v_age) as max_v from StudentAges where ГРУППА = '1100'
-)
-
-select ГРУППА, avg(v_age) from StudentAges
-group by ГРУППА
-having avg(v_age) < (select max_v from maxAge1100);
+    where Н_УЧЕНИКИ.ГРУППА = '1100'
+);
 
 select Н_УЧЕНИКИ.ГРУППА, Н_ЛЮДИ.ИД, Н_ЛЮДИ.ФАМИЛИЯ, Н_ЛЮДИ.ИМЯ,
     Н_ЛЮДИ.ОТЧЕСТВО from Н_УЧЕНИКИ
@@ -24,8 +23,15 @@ where Н_НАПР_СПЕЦ.КОД_НАПРСПЕЦ = '230101'
     and Н_УЧЕНИКИ.КОНЕЦ_ПО_ПРИКАЗУ > '2012-08-31'
     and Н_ФОРМЫ_ОБУЧЕНИЯ.НАИМЕНОВАНИЕ = 'Очная';
 
-select count(distinct Н_УЧЕНИКИ.ИД) from Н_УЧЕНИКИ
-where exists (
-    select 1 from Н_ВЕДОМОСТИ
-    where Н_ВЕДОМОСТИ.ЧЛВК_ИД = Н_УЧЕНИКИ.ЧЛВК_ИД and Н_ВЕДОМОСТИ.ОЦЕНКА = '3'
-);
+with student_averages as (
+    select 
+        ЧЛВК_ИД, 
+        AVG(CAST(ОЦЕНКА as numeric)) as avg_grade
+    from Н_ВЕДОМОСТИ
+    where ОЦЕНКА IN ('2', '3', '4', '5')
+    group by ЧЛВК_ИД
+)
+select COUNT(Н_УЧЕНИКИ.ИД) 
+from Н_УЧЕНИКИ
+join student_averages sa on Н_УЧЕНИКИ.ЧЛВК_ИД = sa.ЧЛВК_ИД
+where sa.avg_grade > 3 and sa.avg_grade < 4;

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -19,13 +20,35 @@ func main() {
 	}
 	defer db.Close()
 
-	content, err := os.ReadFile("inefficient.sql")
+	var wg sync.WaitGroup
+	wg.Add(1)
+
+	go func(wg *sync.WaitGroup) {
+		defer wg.Done()
+		content, err := os.ReadFile("inefficient.sql")
+		if err != nil {
+			log.Fatal("Ошибка чтения файла:", err)
+		}
+
+		start := time.Now()
+		for i := 0; i < 100; i++ {
+			_, err = db.Exec(string(content))
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+		end := time.Now()
+		delta := end.Sub(start)
+		fmt.Println("Inefficient: ", delta)
+	}(&wg)
+
+	content, err := os.ReadFile("optimized.sql")
 	if err != nil {
 		log.Fatal("Ошибка чтения файла:", err)
 	}
 
 	start := time.Now()
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 100; i++ {
 		_, err = db.Exec(string(content))
 		if err != nil {
 			log.Fatal(err)
@@ -33,21 +56,7 @@ func main() {
 	}
 	end := time.Now()
 	delta := end.Sub(start)
-	fmt.Println("Inefficient: ", delta)
-
-	content, err = os.ReadFile("optimized.sql")
-	if err != nil {
-		log.Fatal("Ошибка чтения файла:", err)
-	}
-
-	start = time.Now()
-	for i := 0; i < 1000; i++ {
-		_, err = db.Exec(string(content))
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-	end = time.Now()
-	delta = end.Sub(start)
 	fmt.Println("Optimized: ", delta)
+
+	wg.Wait()
 }
