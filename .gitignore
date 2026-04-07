@@ -41,3 +41,7 @@
 /1_informatics/labs/lab4/__pycache__/
 
 /.vscode/
+
+/2_data_base/labs/lab2/addit/my_dump.sql
+/2_data_base/labs/lab2/db_script
+/2_data_base/labs/lab2/addit/addit_script
