@@ -1,6 +1,7 @@
 import commands.*;
 import io.file.FileManager;
 import io.file.JsonManager;
+import io.net.ClientManager;
 import io.ui.AskManager;
 import io.ui.Console;
 import managers.CommandManager;
@@ -61,7 +62,7 @@ public class Main {
         commandManager.addCommand(new Commit(collectionManager));
         commandManager.addCommand(new RollBack(collectionManager));
 
-        Console console = new Console(commandManager, askManager);
+        Console console = new Console(new ClientManager(), askManager);
         console.start();
     }
 }
