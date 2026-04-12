@@ -1,12 +1,14 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  * Класс, представляющий координаты местоположения квартиры.
  * Содержит координаты по осям X и Y.
  *
  * @author Roman Golovin
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
     /**
      * Координата X.
      */

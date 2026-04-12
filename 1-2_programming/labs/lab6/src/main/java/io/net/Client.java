@@ -17,7 +17,7 @@ public class Client {
     InetAddress address;
     int port;
 
-    Client(InetAddress address, int port) throws SocketException {
+    public Client(InetAddress address, int port) throws SocketException {
         this.socket = new DatagramSocket();
         this.address = address;
         this.port = port;

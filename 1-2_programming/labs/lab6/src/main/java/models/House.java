@@ -1,12 +1,14 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  * Класс, представляющий сущность Дома.
  * Содержит информацию о здании, в котором располагается квартира.
  *
  * @author Roman Golovin
  */
-public class House {
+public class House implements Serializable {
     /**
      * Название дома.
      */

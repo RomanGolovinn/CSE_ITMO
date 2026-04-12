@@ -4,6 +4,7 @@ import models.enums.Furnish;
 import models.enums.Transport;
 import models.enums.View;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
  *
  * @author Roman Golovin
  */
-public class Flat implements Comparable<Flat>{
+public class Flat implements Comparable<Flat>, Serializable {
     /**
      * Уникальный идентификатор квартиры.
      * Значение поля должно быть больше 0. Генерируется автоматически.

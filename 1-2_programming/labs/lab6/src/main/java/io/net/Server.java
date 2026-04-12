@@ -4,6 +4,8 @@ import common.Request;
 import common.Response;
 import common.Serializer;
 import managers.CommandManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,6 +20,8 @@ public class Server {
     private final CommandManager commandManager;
     private final Serializer serializer;
     private DatagramChannel channel;
+
+    private static final Logger logger = LogManager.getLogger(Server.class);
 
     public Server(int port, CommandManager commandManager) {
         this.port = port;
@@ -59,39 +63,40 @@ public class Server {
             buffer.get(data);
 
             Request request = (Request) serializer.deserialize(data);
-            System.out.println("Получен запрос [" + request.getCommandName() + "] от " + clientAddress);
+            logger.info("Получен запрос [{}] от {}", request.getCommandName(), clientAddress);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PrintStream trapStream = new PrintStream(baos);
+            PrintStream trapStream = new PrintStream(baos, true, "UTF-8");
             PrintStream originalOut = System.out;
 
             boolean isSuccess = true;
 
             try {
                 System.setOut(trapStream);
-
                 commandManager.execute(request.getCommandName(), request.getArgument(), request.getFlatArgument());
-
+                System.out.flush();
             } catch (Exception e) {
                 isSuccess = false;
                 System.out.println("Ошибка при выполнении: " + e.getMessage());
+                System.out.flush();
             } finally {
                 System.setOut(originalOut);
             }
 
-            String resultText = baos.toString().trim();
+            String resultText = baos.toString("UTF-8").trim();
             if (resultText.isEmpty() && isSuccess) {
                 resultText = "Команда выполнена успешно.";
             }
 
             Response response = new Response(isSuccess, resultText);
+            logger.info("Отправляем ответ клиенту: [{}]", response.getMessage());
 
             byte[] responseData = serializer.serialize(response);
             ByteBuffer responseBuffer = ByteBuffer.wrap(responseData);
             channel.send(responseBuffer, clientAddress);
 
         } catch (Exception e) {
-            System.out.println("Ошибка обработки запроса: " + e.getMessage());
+            logger.error("Ошибка обработки запроса:", e);
         }
     }
 }
