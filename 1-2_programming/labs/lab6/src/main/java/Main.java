@@ -1,13 +1,12 @@
 import commands.*;
 import io.file.FileManager;
 import io.file.JsonManager;
-import io.net.ClientManager;
+import io.net.Client;
 import io.ui.AskManager;
 import io.ui.Console;
 import managers.CommandManager;
 import managers.collection.CollectionManager;
 import managers.collection.StackManager;
-import models.Flat;
 
 import java.util.Scanner;
 
@@ -62,7 +61,7 @@ public class Main {
         commandManager.addCommand(new Commit(collectionManager));
         commandManager.addCommand(new RollBack(collectionManager));
 
-        Console console = new Console(new ClientManager(), askManager);
+        Console console = new Console(new Client(), askManager);
         console.start();
     }
 }

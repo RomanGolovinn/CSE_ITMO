@@ -10,15 +10,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.nio.ByteBuffer;
 
-public class ClientManager {
+public class Client {
     Serializer serializer = new Serializer();
     DatagramSocket socket;
     InetAddress address;
     int port;
 
-    ClientManager(InetAddress address, int port) throws SocketException {
+    Client(InetAddress address, int port) throws SocketException {
         this.socket = new DatagramSocket();
         this.address = address;
         this.port = port;

@@ -1,6 +1,6 @@
 package io.ui;
 
-import io.net.ClientManager;
+import io.net.Client;
 import models.Flat;
 
 import java.util.NoSuchElementException;
@@ -9,22 +9,22 @@ import java.util.Scanner;
 /**
  * Основной класс консольного интерфейса.
  * Обеспечивает работу интерактивного цикла: чтение строк из ввода,
- * их парсинг и передачу на выполнение в {@link ClientManager}.
+ * их парсинг и передачу на выполнение в {@link Client}.
  *
  * @author Roman Golovin
  */
 public class Console {
-    private final ClientManager clientManager;
+    private final Client client;
     private final AskManager askManager;
 
     /**
      * Конструктор консоли.
      *
-     * @param clientManager менеджер для отправки введёных инструкций на сервер инструкций
+     * @param client менеджер для отправки введёных инструкций на сервер инструкций
      * @param askManager    менеджер опроса для получения сложных объектов (Flat)
      */
-    public Console(ClientManager clientManager, AskManager askManager) {
-        this.clientManager = clientManager;
+    public Console(Client client, AskManager askManager) {
+        this.client = client;
         this.askManager = askManager;
     }
 
@@ -78,7 +78,7 @@ public class Console {
                     }
                 }
 
-                clientManager.sendCommand(commandName, arg, flatArgument);
+                client.sendCommand(commandName, arg, flatArgument);
 
             } catch (NoSuchElementException e) {
                 System.out.println("\nЭкстренное завершение работы.");
