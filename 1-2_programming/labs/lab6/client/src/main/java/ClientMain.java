@@ -9,8 +9,8 @@ import java.util.Scanner;
 public class ClientMain {
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.load();
-        String host = dotenv.get("SERVER_HOST", "127.0.0.1");
-        int port = Integer.parseInt(dotenv.get("SERVER_PORT", "8080"));
+        String host = dotenv.get("SERVER_HOST");
+        int port = Integer.parseInt(dotenv.get("SERVER_PORT"));
 
         try {
             System.out.println("Запуск клиента. Подключение к " + host + ":" + port);

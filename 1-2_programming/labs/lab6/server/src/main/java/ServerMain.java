@@ -17,7 +17,7 @@ public class ServerMain {
         logger.info("Инициализация сервера...");
 
         Dotenv dotenv = Dotenv.load();
-        int port = Integer.parseInt(dotenv.get("SERVER_PORT", "8080"));
+        int port = Integer.parseInt(dotenv.get("SERVER_PORT"));
 
         try {
             CollectionManager collectionManager = new StackManager();
