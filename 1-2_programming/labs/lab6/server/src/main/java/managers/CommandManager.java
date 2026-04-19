@@ -34,14 +34,13 @@ public class CommandManager {
      * @param argument    строковый аргумент, введенный пользователем
      * @param flat        объект квартиры, если он требуется для команды (иначе null)
      */
-    public void execute(String commandName, String argument, Flat flat) {
+    public String execute(String commandName, String argument, Flat flat) {
         Command command = commands.get(commandName);
         if (command == null) {
-            System.out.println("Команда '" + commandName + "' не найдена. Наберите 'help' для справки.");
-            return;
+            return ("Команда '" + commandName + "' не найдена. Наберите 'help' для справки.");
         }
 
-        command.execute(argument, flat);
+        return command.execute(argument, flat);
     }
 
     /**

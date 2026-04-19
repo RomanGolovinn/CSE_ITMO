@@ -27,12 +27,12 @@ public class RollBack implements Command {
     }
 
     @Override
-    public void execute(String argument, Flat flat) {
+    public String execute(String argument, Flat flat) {
         try {
             collectionManager.rollbackTransaction();
-            System.out.println("Транзакция отменена. Коллекция возвращена в исходное состояние.");
+            return("Транзакция отменена. Коллекция возвращена в исходное состояние.");
         } catch (IllegalStateException e) {
-            System.out.println("Ошибка: " + e.getMessage());
+            return("Ошибка: " + e.getMessage());
         }
     }
 }

@@ -32,10 +32,9 @@ public class AddIfMin implements Command{
      * @param argument строковый аргумент команды (не используется)
      * @param flat     объект квартиры для потенциального добавления (не должен быть null)
      */
-    public void execute(String argument, Flat flat){
+    public String execute(String argument, Flat flat){
         if (flat == null){
-            System.out.println("Не указана квартира");
-            return;
+            return ("Не указана квартира");
         }
 
         if (collection.getCollection().isEmpty()) {
@@ -45,11 +44,10 @@ public class AddIfMin implements Command{
             if (flat.compareTo(minFlat) < 0){
                 collection.add(flat);
             }else{
-                System.out.println("Квартира больше или равна наименьшей квартире в коллекции");
-                return;
+                return ("Квартира больше или равна наименьшей квартире в коллекции");
             }
         }
-        System.out.println("Квартира добавлена в коллекцию");
+        return ("Квартира добавлена в коллекцию");
     }
 
     /**

@@ -28,9 +28,8 @@ public class Info implements Command {
      * @param argument строковый аргумент (для данной команды не используется)
      * @param flat     объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flat) {
-        System.out.println("Информация о коллекции:");
-        System.out.println(collection.getInfo());
+    public String execute(String argument, Flat flat) {
+        return("Информация о коллекции:\n") + collection.getInfo();
     }
 
     /**

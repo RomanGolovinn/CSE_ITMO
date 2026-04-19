@@ -28,12 +28,13 @@ public class Help implements Command {
      * @param argument строковый аргумент (для данной команды не используется)
      * @param flat     объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flat) {
-        System.out.println("Список доступных команд:");
+    public String execute(String argument, Flat flat) {
+        String commands = "Список доступных команд:";
 
         for (Command command : commandManager.getCommands().values()) {
-            System.out.println(command.getName() + ": " + command.getDescription());
+            commands += (command.getName() + ": " + command.getDescription() + "\n");
         }
+        return commands;
     }
 
     /**

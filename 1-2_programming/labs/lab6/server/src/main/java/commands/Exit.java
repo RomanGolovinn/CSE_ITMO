@@ -17,9 +17,10 @@ public class Exit implements Command{
      * @param argument строковый аргумент (не используется)
      * @param flat     объект квартиры (не используется)
      */
-    public void execute(String argument, Flat flat){
+    public String execute(String argument, Flat flat){
         System.out.println("Завершение программы");
         System.exit(0);
+        return "";
     }
 
     /**

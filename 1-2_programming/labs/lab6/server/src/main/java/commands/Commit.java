@@ -26,12 +26,12 @@ public class Commit implements Command {
     }
 
     @Override
-    public void execute(String argument, Flat flat) {
+    public String execute(String argument, Flat flat) {
         try {
             collectionManager.commitTransaction();
-            System.out.println("Транзакция успешно зафиксирована. Изменения сохранены.");
+            return ("Транзакция успешно зафиксирована. Изменения сохранены.");
         } catch (IllegalStateException e) {
-            System.out.println("Ошибка: " + e.getMessage());
+            return("Ошибка: " + e.getMessage());
         }
     }
 }

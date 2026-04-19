@@ -32,17 +32,18 @@ public class PrintDescending implements Command{
      * @param argument     строковый аргумент (для данной команды не используется)
      * @param flatArgument объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flatArgument){
+    public String execute(String argument, Flat flatArgument){
         Flat[] descFlats = collection.getCollection().stream().sorted(
                 Comparator.reverseOrder()).toArray(Flat[]::new);
 
         if (descFlats.length == 0){
-            System.out.println("Коллекция пуста");
-            return;
+            return ("Коллекция пуста");
         }
+        String flats = "";
         for (Flat f : descFlats){
-            System.out.println(f);
+            flats += f;
         }
+        return flats;
     }
 
     /**

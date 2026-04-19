@@ -28,16 +28,16 @@ public class Show implements Command {
      * @param argument строковый аргумент (для данной команды не используется)
      * @param flat     объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flat) {
+    public String execute(String argument, Flat flat) {
         if (collection.getCollection().isEmpty()) {
-            System.out.println("Коллекция пуста.");
-            return;
+            return ("Коллекция пуста.");
         }
 
-        System.out.println("Элементы коллекции:");
+        String flats = "Элементы коллекции: \n";
         for (Flat f : collection.getCollection()) {
-            System.out.println(f.toString());
+            flats += (f.toString());
         }
+        return flats;
     }
 
     /**

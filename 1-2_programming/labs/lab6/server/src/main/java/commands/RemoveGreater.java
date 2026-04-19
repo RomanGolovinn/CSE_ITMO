@@ -28,10 +28,10 @@ public class RemoveGreater implements Command {
      * @param argument строковый аргумент (для данной команды не используется)
      * @param flat     объект квартиры, с которым будут сравниваться элементы коллекции (не должен быть null)
      */
-    public void execute(String argument, Flat flat){
+    public String execute(String argument, Flat flat){
         if (flat == null){
-            System.out.println("Не указана квартира");
-            return;
+            return ("Не указана квартира");
+
         }
 
         Flat[] greaterFlats = collection.getCollection().stream().filter(
@@ -42,7 +42,7 @@ public class RemoveGreater implements Command {
             collection.removeById(id);
         }
 
-        System.out.println("Все элементы превышающий заданный удалены");
+        return ("Все элементы превышающий заданный удалены");
     }
 
     /**

@@ -32,8 +32,9 @@ public class Save implements Command{
      * @param argument строковый аргумент (для данной команды не используется)
      * @param flat     объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flat) {
+    public String execute(String argument, Flat flat) {
         file.save();
+        return "";
     }
 
     /**

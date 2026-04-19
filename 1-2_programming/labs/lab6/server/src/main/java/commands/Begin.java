@@ -27,12 +27,12 @@ public class Begin implements Command {
     }
 
     @Override
-    public void execute(String argument, Flat flat) {
+    public String execute(String argument, Flat flat) {
         try {
             collectionManager.beginTransaction();
-            System.out.println("Транзакция успешно начата. Все последующие изменения можно будет отменить.");
+            return ("Транзакция успешно начата. Все последующие изменения можно будет отменить.");
         } catch (IllegalStateException e) {
-            System.out.println("Ошибка: " + e.getMessage());
+            return ("Ошибка: " + e.getMessage());
         }
     }
 }

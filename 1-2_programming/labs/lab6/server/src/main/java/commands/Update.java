@@ -30,14 +30,12 @@ public class Update implements Command {
      * @param argument строковое представление ID квартиры, которую нужно обновить
      * @param flat     новый объект квартиры с актуальными данными
      */
-    public void execute(String argument, Flat flat) {
+    public String execute(String argument, Flat flat) {
         if (argument == null || argument.isEmpty()) {
-            System.out.println("Ошибка: необходимо указать ID квартиры для обновления.");
-            return;
+            return ("Ошибка: необходимо указать ID квартиры для обновления.");
         }
         if (flat == null) {
-            System.out.println("Ошибка: объект Flat не передан.");
-            return;
+            return ("Ошибка: объект Flat не передан.");
         }
 
         try {
@@ -45,20 +43,19 @@ public class Update implements Command {
             Flat oldFlat = collection.getById(id);
 
             if (oldFlat == null) {
-                System.out.println("Квартира с ID " + id + " не найдена.");
-                return;
+                return ("Квартира с ID " + id + " не найдена.");
             }
 
             boolean success = collection.update(id, flat);
 
             if (success){
-                System.out.println("Квартира успешно обновлена!");
+                return ("Квартира успешно обновлена!");
             }else {
-                System.out.println("Квартира с ID " + id + " не найдена.");
+                return ("Квартира с ID " + id + " не найдена.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Ошибка: ID должен быть числом.");
+            return ("Ошибка: ID должен быть числом.");
         }
     }
 

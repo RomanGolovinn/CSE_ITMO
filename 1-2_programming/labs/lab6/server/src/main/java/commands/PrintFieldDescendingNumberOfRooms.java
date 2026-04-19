@@ -32,21 +32,21 @@ public class PrintFieldDescendingNumberOfRooms implements Command{
      * @param argument     строковый аргумент (для данной команды не используется)
      * @param flatArgument объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flatArgument){
+    public String execute(String argument, Flat flatArgument){
         Long[] descNumberOfRooms = collection.getCollection().stream()
                 .map(Flat::getNumberOfRooms)
                 .filter(Objects::nonNull).sorted(Comparator.reverseOrder())
                 .toArray(Long[]::new);
 
         if (descNumberOfRooms.length == 0){
-            System.out.println("В коллекции нет квартир с комнатами");
-            return;
+            return("В коллекции нет квартир с комнатами");
         }
 
-        System.out.println("Количество комнат в порядке убывания");
+        String flats = "Количество комнат в порядке убывания \n";
         for (long n : descNumberOfRooms){
-            System.out.println(n);
+            flats += n;
         }
+        return flats;
     }
 
     /**

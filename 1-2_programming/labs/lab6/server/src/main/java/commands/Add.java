@@ -28,10 +28,9 @@ public class Add implements Command {
      * @param argument строковый аргумент команды (для данной команды не используется)
      * @param flat     объект квартиры для добавления (не должен быть null)
      */
-    public void execute(String argument, Flat flat){
+    public String execute(String argument, Flat flat){
         if (flat == null){
-            System.out.println("Ошибка: Flat не может быть null");
-            return;
+            return "Ошибка: Flat не может быть null";
         }
 
         long id = 1L;
@@ -45,9 +44,9 @@ public class Add implements Command {
         try{
             flat.setId(id);
             collection.add(flat);
-            System.out.println("Квартира успешна добавлена");
+            return "Квартира успешна добавлена";
         }catch (Exception e){
-            System.out.println("Ошибка: " + e.getMessage());
+            return "Ошибка: " + e.getMessage();
         }
     }
 

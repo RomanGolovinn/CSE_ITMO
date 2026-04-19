@@ -29,10 +29,9 @@ public class FilterByHouse implements Command{
      * @param argument название дома для поиска (не может быть null)
      * @param flat     объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flat){
+    public String execute(String argument, Flat flat){
         if (argument == null){
-            System.out.println("Аргумент должен содержать имя дома, не может быть пустым");
-            return;
+            return ("Аргумент должен содержать имя дома, не может быть пустым");
         }
         System.out.println("Квартиры в доме " + argument +": ");
         Flat[] flatsInHouse = collection.getCollection().stream().filter(
@@ -40,12 +39,14 @@ public class FilterByHouse implements Command{
         ).toArray(Flat[]::new);
 
         if (flatsInHouse.length == 0){
-            System.out.println("Не найдено квартир в доме");
-            return;
+            return("Не найдено квартир в доме");
         }
+        String flatsToString = "";
         for (Flat f : flatsInHouse){
-            System.out.println(f);
+            //Конатенация строк в цикле это проблемы гелиуса и его оперативки
+             flatsToString += f.toString();
         }
+        return flatsToString;
     }
 
     /**

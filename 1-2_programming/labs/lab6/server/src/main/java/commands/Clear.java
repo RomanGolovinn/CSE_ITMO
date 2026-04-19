@@ -28,9 +28,9 @@ public class Clear implements Command {
      * @param argument строковый аргумент команды (для данной команды не используется)
      * @param flat     объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flat) {
+    public String execute(String argument, Flat flat) {
         collection.clear();
-        System.out.println("Коллекция успешно очищена.");
+        return ("Коллекция успешно очищена.");
     }
 
     /**

@@ -30,10 +30,9 @@ public class RemoveById implements Command {
      * @param flat     объект квартиры (для данной команды не используется)
      */
     @Override
-    public void execute(String argument, Flat flat) {
+    public String execute(String argument, Flat flat) {
         if (argument == null || argument.isEmpty()) {
-            System.out.println("Ошибка: необходимо указать ID для удаления.");
-            return;
+            return ("Ошибка: необходимо указать ID для удаления.");
         }
 
         try {
@@ -41,12 +40,12 @@ public class RemoveById implements Command {
             boolean success = collection.removeById(id);
 
             if (success) {
-                System.out.println("Квартира с ID " + id + " успешно удалена.");
+                return ("Квартира с ID " + id + " успешно удалена.");
             } else {
-                System.out.println("Квартира с ID " + id + " не найдена.");
+                return ("Квартира с ID " + id + " не найдена.");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Ошибка: ID должен быть числом.");
+            return ("Ошибка: ID должен быть числом.");
         }
     }
 

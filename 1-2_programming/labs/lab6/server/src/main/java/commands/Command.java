@@ -16,7 +16,7 @@ public interface Command {
      * @param argument     строковый аргумент, переданный пользователем вместе с командой (может быть пустым)
      * @param flatArgument объект квартиры, если команда требует ввода сложного элемента (иначе null)
      */
-    void execute(String argument, Flat flatArgument);
+    String execute(String argument, Flat flatArgument);
 
     /**
      * Возвращает имя команды, по которому она вызывается пользователем из консоли.

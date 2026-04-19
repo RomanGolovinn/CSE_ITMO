@@ -28,9 +28,9 @@ public class Sort implements Command {
      * @param argument     строковый аргумент (для данной команды не используется)
      * @param flatArgument объект квартиры (для данной команды не используется)
      */
-    public void execute(String argument, Flat flatArgument){
+    public String execute(String argument, Flat flatArgument){
         collection.sort();
-        System.out.println("Коллекция отсортирована");
+        return ("Коллекция отсортирована");
     }
 
     /**
