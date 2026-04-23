@@ -20,3 +20,19 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    archiveFileName = 'client.jar'
+    manifest {
+        attributes 'Main-Class': 'ClientMain'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
