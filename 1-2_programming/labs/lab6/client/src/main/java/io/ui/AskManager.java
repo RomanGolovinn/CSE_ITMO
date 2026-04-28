@@ -18,6 +18,7 @@ import java.util.Scanner;
  */
 public class AskManager {
     private Scanner scanner;
+    private boolean isInteractive;
 
     /**
      * Конструктор менеджера ввода.
@@ -25,7 +26,12 @@ public class AskManager {
      * @param scanner объект {@link Scanner}, через который осуществляется чтение данных
      */
     public AskManager(Scanner scanner) {
+        this.isInteractive = true;
         this.scanner = scanner;
+    }
+
+    public void setInteractive(boolean interactive) {
+        this.isInteractive = interactive;
     }
 
     /**
@@ -44,10 +50,14 @@ public class AskManager {
      */
     public String askName(){
         while (true){
-            System.out.println("Введите название квартиры: ");
+            if(isInteractive) {
+                System.out.println("Введите название квартиры: ");
+            }
             String name = scanner.nextLine().trim();
             if (name.isEmpty()){
-                System.out.println("Ошибка: имя не может быть пустым");
+                if(isInteractive) {
+                    System.out.println("Ошибка: имя не может быть пустым");
+                }
                 continue;
             }
             return name;
@@ -61,14 +71,18 @@ public class AskManager {
      */
     private Long askX() {
         while (true) {
-            System.out.print("Введите X: ");
+            if(isInteractive) {
+                System.out.print("Введите X: ");
+            }
             String input = readNext();
             try {
                 Long x = Long.parseLong(input);
                 if (x > 853) throw new IllegalArgumentException("X не может быть больше 853.");
                 return x;
             } catch (Exception e) {
-                System.out.println("Ошибка: " + e.getMessage());
+                if(isInteractive) {
+                    System.out.println("Ошибка: " + e.getMessage());
+                }
             }
         }
     }
@@ -80,14 +94,18 @@ public class AskManager {
      */
     private float askY() {
         while (true) {
-            System.out.print("Введите Y: ");
+            if(isInteractive) {
+                System.out.print("Введите Y: ");
+            }
             String input = readNext();
             try {
                 float y = Float.parseFloat(input);
                 if (y <= -226) throw new IllegalArgumentException("Y должен быть больше -226.");
                 return y;
             } catch (Exception e) {
-                System.out.println("Ошибка: " + e.getMessage());
+                if(isInteractive) {
+                    System.out.println("Ошибка: " + e.getMessage());
+                }
             }
         }
     }
@@ -108,7 +126,9 @@ public class AskManager {
      */
     public Long askArea(){
         while (true){
-            System.out.println("Введите площадь: ");
+            if(isInteractive) {
+                System.out.println("Введите площадь: ");
+            }
             String input = readNext();
             try{
                 Long Area = Long.parseLong(input);
@@ -116,7 +136,9 @@ public class AskManager {
                 if (Area < 0) throw new IllegalArgumentException("Area болжно быть больше 0");
                 return Area;
             }catch (Exception e){
-                System.out.println("Ошибка: " + e.getMessage());
+                if(isInteractive) {
+                    System.out.println("Ошибка: " + e.getMessage());
+                }
             }
         }
     }
@@ -128,7 +150,9 @@ public class AskManager {
      */
     public Long askNumberOfRooms(){
         while (true){
-            System.out.println("Введите количество квартир: ");
+            if(isInteractive) {
+                System.out.println("Введите количество квартир: ");
+            }
             String input = readNext();
             try{
                 Long rooms = Long.parseLong(input);
@@ -136,7 +160,9 @@ public class AskManager {
                 if (rooms < 0) throw new IllegalArgumentException("Rooms болжно быть больше 0");
                 return rooms;
             }catch (Exception e){
-                System.out.println("Ошибка: " + e.getMessage());
+                if(isInteractive) {
+                    System.out.println("Ошибка: " + e.getMessage());
+                }
             }
         }
     }
@@ -148,23 +174,30 @@ public class AskManager {
      */
     public Furnish askFurnish() {
         while (true) {
-            System.out.println("Доступные варианты отделки:");
-            for (Furnish f : Furnish.values()) {
-                System.out.println("- " + f.name());
+            if(isInteractive) {
+                System.out.println("Доступные варианты отделки:");
             }
-
-            System.out.print("Введите вариант отделки: ");
+            if(isInteractive) {
+                for (Furnish f : Furnish.values()) {
+                    System.out.println("- " + f.name());
+                }
+                System.out.print("Введите вариант отделки: ");
+            }
             String input = scanner.nextLine().trim();
 
             if (input.isEmpty()) {
-                System.out.println("Ошибка: поле отделки не может быть пустым.");
+                if(isInteractive) {
+                    System.out.println("Ошибка: поле отделки не может быть пустым.");
+                }
                 continue;
             }
 
             try {
                 return Furnish.valueOf(input.toUpperCase());
             } catch (IllegalArgumentException e) {
-                System.out.println("Ошибка: такого варианта нет в списке. Попробуйте снова.");
+                if(isInteractive) {
+                    System.out.println("Ошибка: такого варианта нет в списке. Попробуйте снова.");
+                }
             }
         }
     }
@@ -176,23 +209,29 @@ public class AskManager {
      */
     public View askView(){
         while (true) {
-            System.out.println("Доступные варианты вида:");
-            for (View f : View.values()) {
-                System.out.println("- " + f.name());
-            }
+            if(isInteractive) {
+                System.out.println("Доступные варианты вида:");
+                for (View f : View.values()) {
+                    System.out.println("- " + f.name());
+                }
 
-            System.out.print("Введите вариант вида: ");
+                System.out.print("Введите вариант вида: ");
+            }
             String input = scanner.nextLine().trim();
 
             if (input.isEmpty()) {
-                System.out.println("Ошибка: поле вида не может быть пустым.");
+                if(isInteractive) {
+                    System.out.println("Ошибка: поле вида не может быть пустым.");
+                }
                 continue;
             }
 
             try {
                 return View.valueOf(input.toUpperCase());
             } catch (IllegalArgumentException e) {
-                System.out.println("Ошибка: такого варианта нет в списке. Попробуйте снова.");
+                if(isInteractive) {
+                    System.out.println("Ошибка: такого варианта нет в списке. Попробуйте снова.");
+                }
             }
         }
     }
@@ -204,18 +243,22 @@ public class AskManager {
      */
     public Transport askTransport(){
         while (true) {
-            System.out.println("Доступные варианты транспорта:");
-            for (Transport f : Transport.values()) {
-                System.out.println("- " + f.name());
-            }
+            if(isInteractive) {
+                System.out.println("Доступные варианты транспорта:");
+                for (Transport f : Transport.values()) {
+                    System.out.println("- " + f.name());
+                }
 
-            System.out.print("Введите вариант транспорта: ");
+                System.out.print("Введите вариант транспорта: ");
+            }
             String input = scanner.nextLine().trim();
 
             try {
                 return Transport.valueOf(input.toUpperCase());
             } catch (IllegalArgumentException e) {
-                System.out.println("Ошибка: такого варианта нет в списке. Попробуйте снова.");
+                if(isInteractive) {
+                    System.out.println("Ошибка: такого варианта нет в списке. Попробуйте снова.");
+                }
             }
         }
     }
@@ -227,10 +270,14 @@ public class AskManager {
      */
     public String askHouseName(){
         while (true){
-            System.out.println("Введите название дома: ");
+            if(isInteractive) {
+                System.out.println("Введите название дома: ");
+            }
             String name = scanner.nextLine().trim();
             if (name.isEmpty()){
-                System.out.println("Ошибка: имя не может быть пустым");
+                if(isInteractive) {
+                    System.out.println("Ошибка: имя не может быть пустым");
+                }
                 continue;
             }
             return name;
@@ -245,7 +292,9 @@ public class AskManager {
      */
     private Integer askYear(){
         while (true){
-            System.out.println("Введите год постройки дома: ");
+            if(isInteractive) {
+                System.out.println("Введите год постройки дома: ");
+            }
             String input = readNext();
 
             try{
@@ -254,7 +303,9 @@ public class AskManager {
                 if (year  <= 0) throw new IllegalArgumentException("Год должен быть больше 0");
                 return year;
             }catch (Exception e){
-                System.out.println("Ошибка: " + e.getMessage());
+                if(isInteractive) {
+                    System.out.println("Ошибка: " + e.getMessage());
+                }
             }
         }
     }
@@ -266,7 +317,9 @@ public class AskManager {
      */
     private Long askNumperOfFloors(){
         while (true){
-            System.out.println("Введите количество этажей постройки дома: ");
+            if(isInteractive) {
+                System.out.println("Введите количество этажей постройки дома: ");
+            }
             String input = readNext();
 
             try{
@@ -275,7 +328,9 @@ public class AskManager {
                 if (floors <= 0) throw new IllegalArgumentException("Количество этажей должен быть больше 0");
                 return floors;
             }catch (Exception e){
-                System.out.println("Ошибка: " + e.getMessage());
+                if(isInteractive) {
+                    System.out.println("Ошибка: " + e.getMessage());
+                }
             }
         }
     }

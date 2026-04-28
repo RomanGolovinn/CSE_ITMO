@@ -73,6 +73,7 @@ public class Console {
     }
 
     public void runScript(String fileName) {
+        this.askManager.setInteractive(false);
         if (!scriptHistory.add(fileName)) {
             System.out.println("Рекурсия: " + fileName);
             return;
@@ -112,5 +113,7 @@ public class Console {
         } finally {
             scriptHistory.remove(fileName);
         }
+
+        this.askManager.setInteractive(true);
     }
 }

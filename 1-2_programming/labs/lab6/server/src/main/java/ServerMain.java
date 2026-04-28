@@ -40,7 +40,7 @@ public class ServerMain {
             commandManager.addCommand(new Update(collectionManager));
             commandManager.addCommand(new RemoveById(collectionManager));
             commandManager.addCommand(new Clear(collectionManager));
-            commandManager.addCommand(new Exit());
+            commandManager.addCommand(new Exit(commandManager));
             commandManager.addCommand(new AddIfMin(collectionManager));
             commandManager.addCommand(new RemoveGreater(collectionManager));
             commandManager.addCommand(new Sort(collectionManager));

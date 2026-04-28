@@ -1,5 +1,6 @@
 package commands;
 
+import managers.CommandManager;
 import models.Flat;
 
 /**
@@ -17,8 +18,15 @@ public class Exit implements Command{
      * @param argument строковый аргумент (не используется)
      * @param flat     объект квартиры (не используется)
      */
+    private final CommandManager commandManager;
+
+    public Exit(CommandManager commandManager){
+        this.commandManager = commandManager;
+    }
+
     public String execute(String argument, Flat flat){
         System.out.println("Завершение программы");
+        commandManager.execute("save", "", null);
         System.exit(0);
         return "";
     }
