@@ -54,7 +54,7 @@ public class ServerMain {
 
             logger.info("Коллекция успешно загружена. Элементов: " + collectionManager.getCollection().size());
 
-            Server server = new Server(port, commandManager);
+            Server server = new Server(port, commandManager, jsonManager);
             logger.info("Сервер готов к приему пакетов на порту " + port);
 
             server.start();

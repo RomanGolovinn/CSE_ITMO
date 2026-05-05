@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "name": "МояСуперКвартира",
+    "coordinates": {
+      "x": 10,
+      "y": 20.0
+    },
+    "creationDate": "2026-04-29T18:40:59.697278035",
+    "area": 55,
+    "numberOfRooms": 2,
+    "furnish": "FINE",
+    "view": "PARK",
+    "transport": "NORMAL",
+    "house": {
+      "name": "МойДом",
+      "year": 15,
+      "numberOfFloors": 2
+    }
+  },
+  {
+    "id": 2,
+    "name": "ТестоваяКвартира2",
+    "coordinates": {
+      "x": -5,
+      "y": 15.0
+    },
+    "creationDate": "2026-04-29T18:40:59.813090644",
+    "area": 40,
+    "numberOfRooms": 1,
+    "furnish": "NONE",
+    "view": "STREET",
+    "transport": "NONE",
+    "house": {
+      "name": "ВторойДом",
+      "year": 10,
+      "numberOfFloors": 1
+    }
+  }
+]

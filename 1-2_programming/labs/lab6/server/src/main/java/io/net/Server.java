@@ -3,6 +3,7 @@ package io.net;
 import api.Request;
 import api.Response;
 import api.Serializer;
+import io.file.FileManager;
 import managers.CommandManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,11 +24,13 @@ public class Server {
     private DatagramChannel channel;
     private static final int BUFFER_SIZE = 65535;
     private static final Logger logger = LogManager.getLogger(Server.class);
+    private FileManager fileManager;
 
-    public Server(int port, CommandManager commandManager) {
+    public Server(int port, CommandManager commandManager, FileManager fileManager) {
         this.port = port;
         this.commandManager = commandManager;
         this.serializer = new Serializer();
+        this.fileManager = fileManager;
     }
 
     public void start() {
@@ -83,11 +86,13 @@ public class Server {
             boolean isSuccess = true;
 
             try {
+                fileManager.read();
                 resultText = commandManager.execute(
                         request.getCommandName(),
                         request.getArgument(),
                         request.getFlatArgument()
                 );
+                fileManager.save();
             } catch (Exception e) {
                 isSuccess = false;
                 resultText = "Ошибка при выполнении: " + e.getMessage();
