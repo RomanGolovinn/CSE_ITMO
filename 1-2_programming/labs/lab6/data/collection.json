@@ -36,5 +36,24 @@
       "year": 10,
       "numberOfFloors": 1
     }
+  },
+  {
+    "id": 3,
+    "name": "dsfghdf",
+    "coordinates": {
+      "x": 345,
+      "y": 345.0
+    },
+    "creationDate": "2026-05-06T16:44:56.225335025",
+    "area": 6754,
+    "numberOfRooms": 5643,
+    "furnish": "NONE",
+    "view": "STREET",
+    "transport": "NONE",
+    "house": {
+      "name": "asdfg",
+      "year": 543,
+      "numberOfFloors": 654
+    }
   }
 ]
