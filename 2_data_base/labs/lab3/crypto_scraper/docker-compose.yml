@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: s484969
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: ucheb
+    ports:
+      - "5444:5444"
+    command: ["postgres", "-c", "max_prepared_transactions=10"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  scraper:
+    build: .
+    environment:
+      - DB_HOST=db
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

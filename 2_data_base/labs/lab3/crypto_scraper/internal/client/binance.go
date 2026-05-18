@@ -2,6 +2,8 @@ package client
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 	"strconv"
 
@@ -14,7 +16,7 @@ type BinanceClient struct {
 
 func NewBinanceClient() *BinanceClient {
 	return &BinanceClient{
-		baseURL: "https://api.binance.com",
+		baseURL: "https://api.mexc.com",
 	}
 }
 
@@ -26,11 +28,24 @@ type binanceResponse struct {
 func (c *BinanceClient) FetchPrice(symbol string) (*domain.Ticker, error) {
 	url := c.baseURL + "/api/v3/ticker/price?symbol=" + symbol
 
-	resp, err := http.Get(url)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("User-Agent", "Mozilla/5.0")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("bad status: %d, body: %s", resp.StatusCode, string(bodyBytes))
+	}
 
 	var apiResp binanceResponse
 	if err := json.NewDecoder(resp.Body).Decode(&apiResp); err != nil {
