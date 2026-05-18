@@ -2,11 +2,11 @@ services:
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: s484969
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: ucheb
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5444:5444"
+      - "${DB_PORT}:5432"
     command: ["postgres", "-c", "max_prepared_transactions=10"]
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -15,7 +15,11 @@ services:
   scraper:
     build: .
     environment:
-      - DB_HOST=db
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
     depends_on:
       - db
 
