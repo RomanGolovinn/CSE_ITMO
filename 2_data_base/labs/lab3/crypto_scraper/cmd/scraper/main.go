@@ -52,6 +52,9 @@ func main() {
 	tradingListener := service.NewTradingListener(connStr)
 	go tradingListener.Start()
 
+	soundListener := service.NewSoundListener(connStr)
+	go soundListener.Start()
+
 	scraper := service.NewScraperService(apiClient, dbStorage, "BTCUSDT", 5*time.Second)
 	scraper.Start()
 }
