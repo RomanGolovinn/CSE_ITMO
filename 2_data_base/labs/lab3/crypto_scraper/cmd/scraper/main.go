@@ -47,6 +47,9 @@ func main() {
 	apiClient := client.NewBinanceClient()
 	dbStorage := storage.NewPostgresStorage(db)
 
+	tradingListener := service.NewTradingListener(connStr)
+	go tradingListener.Start()
+
 	scraper := service.NewScraperService(apiClient, dbStorage, "BTCUSDT", 5*time.Second)
 	scraper.Start()
 }

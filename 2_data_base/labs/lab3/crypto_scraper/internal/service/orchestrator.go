@@ -27,7 +27,6 @@ func NewScraperService(api *client.BinanceClient, db *storage.PostgresStorage, s
 
 func (s *ScraperService) Start() {
 	log.Printf("Запуск скрапера для %s. Интервал: %v\n", s.symbol, s.interval)
-
 	t := time.NewTicker(s.interval)
 	defer t.Stop()
 
@@ -46,9 +45,9 @@ func (s *ScraperService) processTick() {
 
 	fmt.Printf("[%s] Получена цена: %.2f$\n", priceData.Symbol, priceData.Price)
 
-	err = s.dbStorage.SavePriceDistributed(priceData)
+	err = s.dbStorage.SavePrice(priceData)
 	if err != nil {
-		log.Println("Ошибка сохранения (2PC):", err)
+		log.Println("Ошибка сохранения:", err)
 		return
 	}
 }
