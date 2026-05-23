@@ -1,0 +1,96 @@
+org 0x100
+
+start:  cla
+main:   in 0x07
+        and m_rdy
+        beq main
+        in 0x06
+        and m_ff
+        beq stop
+        st input
+
+        ld addr_dict
+        st ptr
+        cla
+        st index
+        ld c_12
+        st cnt 
+
+search_lp: 
+        ld (ptr)+
+        sub input
+        beq found
+        
+        ld index
+        add c_1
+        st index
+        
+        ld cnt
+        sub c_1
+        st cnt
+        beq not_found
+        jump search_lp
+
+found:  
+        ld addr_vals
+        add index
+        st ptr
+        ld (ptr)
+        st print_ptr
+        jump do_print
+
+not_found:
+        ld addr_dash
+        st print_ptr
+
+do_print:
+print_lp: ld (print_ptr)+
+        and m_ff
+        beq print_end
+        st tmp
+print_wt: in 0x0D
+        and m_rdy
+        beq print_wt
+        ld tmp
+        out 0x0C
+        jump print_lp
+print_end:  
+        jump main
+
+stop:   hlt
+
+input:     word 0x0000
+ptr:       word 0x0000
+print_ptr: word 0x0000
+index:     word 0x0000
+cnt:       word 0x0000  
+tmp:       word 0x0000
+
+m_rdy:     word 0x0040
+m_ff:      word 0x00FF
+c_1:       word 0x0001
+c_12:      word 0x000C
+
+addr_dict: word $dict_keys
+addr_vals: word $dict_vals
+addr_dash: word $s_dash
+
+dict_keys:
+word 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0xA, 0xB, 0xC, 0xD, 0xE
+
+s_and:   word 0x41, 0x4E, 0x44, 0x0D, 0x0A, 0x00 
+s_or:    word 0x4F, 0x52, 0x0D, 0x0A, 0x00       
+s_add:   word 0x41, 0x44, 0x44, 0x0D, 0x0A, 0x00 
+s_adc:   word 0x41, 0x44, 0x43, 0x0D, 0x0A, 0x00 
+s_sub:   word 0x53, 0x55, 0x42, 0x0D, 0x0A, 0x00 
+s_cmp:   word 0x43, 0x4D, 0x50, 0x0D, 0x0A, 0x00 
+s_loop:  word 0x4C, 0x4F, 0x4F, 0x50, 0x0D, 0x0A, 0x00 
+s_ld:    word 0x4C, 0x44, 0x0D, 0x0A, 0x00       
+s_swam:  word 0x53, 0x57, 0x41, 0x4D, 0x0D, 0x0A, 0x00 
+s_jump:  word 0x4A, 0x55, 0x4D, 0x50, 0x0D, 0x0A, 0x00 
+s_call:  word 0x43, 0x41, 0x4C, 0x4C, 0x0D, 0x0A, 0x00 
+s_st:    word 0x53, 0x54, 0x0D, 0x0A, 0x00       
+s_dash:  word 0x2D, 0x0D, 0x0A, 0x00
+
+dict_vals:
+word $s_and, $s_or, $s_add, $s_adc, $s_sub, $s_cmp, $s_loop, $s_ld, $s_swam, $s_jump, $s_call, $s_st
