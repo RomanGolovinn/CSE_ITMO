@@ -2,14 +2,12 @@ import commands.*;
 import io.db.DatabaseConnectionManager;
 import io.db.FlatDatabaseManager;
 import io.db.UserManager;
-import io.file.FileManager;
-import io.file.JsonManager;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.net.Server;
 import managers.CommandManager;
 import managers.collection.CollectionManager;
-
 import managers.collection.StackManager;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,13 +40,6 @@ public class ServerMain {
 
             CommandManager commandManager = new CommandManager();
 
-            String filePath = System.getenv("LAB_FILE_PATH");
-            if (filePath == null || filePath.isEmpty()) {
-                filePath = "stack.json";
-            }
-
-            FileManager jsonManager = new JsonManager(filePath, collectionManager);
-
             commandManager.addCommand(new Help(commandManager));
             commandManager.addCommand(new Info(collectionManager));
             commandManager.addCommand(new Show(collectionManager));
@@ -69,7 +60,7 @@ public class ServerMain {
 
             logger.info("Коллекция успешно загружена из БД. Элементов: " + collectionManager.getCollection().size());
 
-            Server server = new Server(port, commandManager, jsonManager);
+            Server server = new Server(port, commandManager, userManager);
             logger.info("Сервер готов к приему пакетов на порту " + port);
 
             server.start();

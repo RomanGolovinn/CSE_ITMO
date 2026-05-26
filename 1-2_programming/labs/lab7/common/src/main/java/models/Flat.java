@@ -207,9 +207,9 @@ public class Flat implements Comparable<Flat>, Serializable {
     @Override
     public String toString() {
         return String.format("{ID:%d, Name:%s, Coordinates:%s, Area:%d, Rooms:%d, Furnish:%s,"
-                        +" View:%s, Transport:%s, House:%s}",
+                        +" View:%s, Transport:%s, House:%s, OwnerID:%d}",
                 id, name, coordinates.toString(), area, numberOfRooms, furnish, view, transport,
-                house.toString());
+                house.toString(), ownerId);
     }
 
     public Coordinates getCoordinates() {

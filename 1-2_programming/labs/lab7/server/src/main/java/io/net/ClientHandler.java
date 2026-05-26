@@ -2,83 +2,63 @@ package io.net;
 
 import api.Request;
 import api.Response;
-import api.Serializer;
 import io.db.UserManager;
 import io.auth.UserContext;
 import managers.CommandManager;
 
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.Callable;
 
-public class ClientHandler {
-    private final DatagramChannel channel;
-    private final Serializer serializer;
+public class ClientHandler implements Callable<Response> {
+    private final Request request;
     private final CommandManager commandManager;
     private final UserManager userManager;
 
-    private final ForkJoinPool readPool;
-    private final ExecutorService processPool;
-
-    public ClientHandler(DatagramChannel channel, CommandManager commandManager, UserManager userManager) {
-        this.channel = channel;
-        this.serializer = new Serializer();
+    public ClientHandler(Request request, CommandManager commandManager, UserManager userManager) {
+        this.request = request;
         this.commandManager = commandManager;
         this.userManager = userManager;
-
-        this.readPool = new ForkJoinPool();
-        this.processPool = Executors.newFixedThreadPool(10);
     }
 
-    public void handle(byte[] data, SocketAddress clientAddress) {
-        readPool.submit(() -> {
-            try {
-                Request request = (Request) serializer.deserialize(data);
+    @Override
+    public Response call() {
+        String commandName = request.getCommandName();
+        String username = request.getUsername();
+        String password = request.getPassword();
 
-                processPool.submit(() -> {
-                    Response response = null;
-                    String commandName = request.getCommandName();
+        if ("register".equals(commandName)) {
+            boolean isRegistered = userManager.registerUser(username, password);
+            return new Response(isRegistered, isRegistered ? "Регистрация успешна!" : "Ошибка: пользователь с таким логином уже существует.");
+        }
 
-                    try {
-                        if ("register".equals(commandName)) {
-                            boolean success = userManager.register(request.getUsername(), request.getPassword());
-                            response = new Response(success, success ? "Успешная регистрация" : "Логин занят");
-                        } else {
-                            int ownerId = userManager.authenticate(request.getUsername(), request.getPassword());
+        int userId = userManager.authenticateUser(username, password);
+        if (userId == -1) {
+            return new Response(false, "Ошибка авторизации: неверный логин или пароль.");
+        }
 
-                            if (ownerId == -1) {
-                                response = new Response(false, "Неверный логин или пароль!");
-                            } else {
-                                UserContext.setId(ownerId);
+        UserContext.setId(userId);
 
-                                String resultText = commandManager.execute(commandName, request.getArgument(), request.getFlatArgument());
-                                response = new Response(true, resultText);
-                            }
-                        }
-                    } catch (Exception e) {
-                        response = new Response(false, "Ошибка: " + e.getMessage());
-                    } finally {
-                        UserContext.clear();
-                    }
+        if ("login".equals(commandName)) {
+            return new Response(true, "Вход выполнен успешно!");
+        }
 
-                    Response finalResponse = response;
-                    new Thread(() -> {
-                        try {
-                            byte[] responseData = serializer.serialize(finalResponse);
-                            ByteBuffer buffer = ByteBuffer.wrap(responseData);
-                            channel.send(buffer, clientAddress);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                });
+        String resultText;
+        boolean isSuccess = true;
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        try {
+            resultText = commandManager.execute(
+                    request.getCommandName(),
+                    request.getArgument(),
+                    request.getFlatArgument()
+            );
+        } catch (Exception e) {
+            isSuccess = false;
+            resultText = "Ошибка при выполнении: " + e.getMessage();
+        }
+
+        if (resultText == null || resultText.trim().isEmpty()) {
+            resultText = isSuccess ? "Команда выполнена успешно." : "Произошла неизвестная ошибка.";
+        }
+
+        return new Response(isSuccess, resultText);
     }
 }
