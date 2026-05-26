@@ -21,6 +21,60 @@ public class Console {
         this.askManager = askManager;
     }
 
+    public boolean authorize() {
+        Scanner scanner = askManager.getScanner();
+        System.out.println("Добро пожаловать в систему управления коллекцией!");
+
+        while (true) {
+            System.out.println("\nВыберите действие:");
+            System.out.println("1 - Войти");
+            System.out.println("2 - Зарегистрироваться");
+            System.out.println("3 - Выход");
+            System.out.print("> ");
+
+            if (!scanner.hasNextLine()) return false;
+            String choice = scanner.nextLine().trim();
+
+            if (choice.equals("3") || choice.equals("exit")) {
+                System.out.println("Завершение работы клиента.");
+                return false;
+            }
+
+            if (!choice.equals("1") && !choice.equals("2")) {
+                System.out.println("Ошибка: неверный ввод.");
+                continue;
+            }
+
+            System.out.print("Логин: ");
+            String login = scanner.nextLine().trim();
+            System.out.print("Пароль: ");
+            String password = scanner.nextLine().trim();
+
+            if (login.isEmpty() || password.isEmpty()) {
+                System.out.println("Ошибка: логин и пароль не могут быть пустыми.");
+                continue;
+            }
+
+            client.setCredentials(login, password);
+
+            String commandToSend = choice.equals("2") ? "register" : "help";
+
+            try {
+                Response response = client.sendCommand(commandToSend, "", null);
+                if (response != null && response.isSuccess()) {
+                    System.out.println(choice.equals("2") ? "Регистрация успешна!" : "Вход выполнен успешно!");
+                    return true;
+                } else {
+                    System.out.println("Ошибка: " + (response != null ? response.getMessage() : "нет ответа от сервера"));
+                    client.setCredentials(null, null);
+                }
+            } catch (Exception e) {
+                System.out.println("Сетевая ошибка при обращении к серверу: " + e.getMessage());
+                client.setCredentials(null, null);
+            }
+        }
+    }
+
     private void processCommand(String commandName, String argument, Flat flatArgument) {
         try {
             Response response = client.sendCommand(commandName, argument, flatArgument);
@@ -33,7 +87,7 @@ public class Console {
     }
 
     public void start() {
-        System.out.println("Программа запущена! Введите 'help' для просмотра доступных команд.");
+        System.out.println("Введите 'help' для просмотра доступных команд.");
         try {
             while (true) {
                 System.out.print("\n> ");

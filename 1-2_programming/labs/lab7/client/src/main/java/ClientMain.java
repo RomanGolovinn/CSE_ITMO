@@ -1,3 +1,5 @@
+package main;
+
 import io.github.cdimascio.dotenv.Dotenv;
 import io.net.Client;
 import io.ui.AskManager;
@@ -22,7 +24,9 @@ public class ClientMain {
             AskManager askManager = new AskManager(scanner);
             Console console = new Console(client, askManager);
 
-            console.start();
+            if (console.authorize()) {
+                console.start();
+            }
 
         } catch (Exception e) {
             System.out.println("Критическая ошибка при запуске клиента: " + e.getMessage());

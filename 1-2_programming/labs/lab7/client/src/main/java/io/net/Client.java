@@ -12,10 +12,13 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 public class Client {
-    Serializer serializer = new Serializer();
-    DatagramSocket socket;
-    InetAddress address;
-    int port;
+    private final Serializer serializer = new Serializer();
+    private final DatagramSocket socket;
+    private final InetAddress address;
+    private final int port;
+
+    private String username;
+    private String password;
 
     public Client(InetAddress address, int port) throws SocketException {
         this.socket = new DatagramSocket();
@@ -23,12 +26,17 @@ public class Client {
         this.port = port;
     }
 
+    public void setCredentials(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public Response sendCommand(String commandName, String arg, Flat flat) throws IOException {
-        Request req = new Request(commandName, arg, flat);
+        Request req = new Request(commandName, arg, flat, username, password);
         byte[] serializedReq = new byte[0];
         try {
             serializedReq = this.serializer.serialize(req);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 

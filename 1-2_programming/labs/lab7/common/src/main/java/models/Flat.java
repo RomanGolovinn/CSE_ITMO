@@ -69,6 +69,8 @@ public class Flat implements Comparable<Flat>, Serializable {
      */
     private House house; //Поле может быть null
 
+    private Integer ownerId;
+
     /**
      * Конструктор для создания нового объекта квартиры.
      * Идентификатор (id) не задается в конструкторе, а дата создания генерируется автоматически.
@@ -208,5 +210,37 @@ public class Flat implements Comparable<Flat>, Serializable {
                         +" View:%s, Transport:%s, House:%s}",
                 id, name, coordinates.toString(), area, numberOfRooms, furnish, view, transport,
                 house.toString());
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Furnish getFurnish() {
+        return furnish;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public Transport getTransport() {
+        return transport;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
 }

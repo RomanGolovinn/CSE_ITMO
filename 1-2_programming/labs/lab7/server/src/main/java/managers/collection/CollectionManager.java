@@ -1,75 +1,88 @@
 package managers.collection;
 
+import io.db.FlatDatabaseManager;
 import models.Flat;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-/**
- * Абстрактный менеджер коллекции.
- * Содержит общую логику управления данными: отслеживание времени инициализации,
- * формирование информационной справки и описание контракта для работы с элементами {@link Flat}.
- *
- * @author Roman Golovin
- */
 public abstract class CollectionManager {
-    /** Время последней инициализации коллекции */
     protected LocalDateTime lastInitTime;
-    /** Время последнего сохранения (опционально) */
     protected LocalDateTime lastSaveTime;
-
     protected boolean isTransactionActive = false;
+    protected FlatDatabaseManager dbManager;
 
-    /**
-     * Конструктор менеджера. Устанавливает время инициализации при создании объекта.
-     */
     public CollectionManager() {
         this.lastInitTime = LocalDateTime.now();
     }
 
-    /** Добавляет новую квартиру в коллекцию */
+    public void setDbManager(FlatDatabaseManager dbManager) {
+        this.dbManager = dbManager;
+    }
+
     public abstract void add(Flat flat);
 
-    /** Удаляет квартиру из коллекции по её ID */
     public abstract boolean removeById(Long id);
 
-    /** Полностью очищает коллекцию */
     public abstract void clear();
 
-    /** Возвращает квартиру по её ID */
     public abstract Flat getById(Long id);
 
-    /** Возвращает саму коллекцию объектов */
     public abstract Collection<Flat> getCollection();
 
-    /** Сортирует коллекцию согласно заданному порядку */
     public abstract void sort();
 
-    /** Обновляет данные квартиры с заданным ID */
     public abstract boolean update(Long id, Flat newFlat);
 
-    /**
-     * Формирует краткую информационную сводку о коллекции.
-     *
-     * @return строка с типом коллекции, временем инициализации и количеством элементов
-     */
     public String getInfo() {
         return "Тип: " + getCollection().getClass().getSimpleName() +
                 "\nИнициализирован: " + lastInitTime +
                 "\nЭлементов: " + getCollection().size();
     }
 
-    /**
-     * Заменяет текущую коллекцию новой. Используется при загрузке данных из файла.
-     *
-     * @param newCollection новая коллекция элементов
-     */
     public abstract void setCollection(Collection<Flat> newCollection);
 
     public abstract void beginTransaction();
+
     public abstract void commitTransaction();
+
     public abstract void rollbackTransaction();
+
     public boolean isTransactionActive() {
         return isTransactionActive;
+    }
+
+    public String addFlat(Flat flat, int ownerId) {
+        if (dbManager != null) {
+            Long generatedId = dbManager.addFlat(flat, ownerId);
+            if (generatedId != -1L) {
+                flat.setId(generatedId);
+                flat.setOwnerId(ownerId);
+                this.add(flat);
+                return "Квартира успешно добавлена. ID: " + generatedId;
+            } else {
+                return "Ошибка: не удалось сохранить квартиру в базу данных.";
+            }
+        }
+        return "Ошибка: менеджер базы данных не подключен.";
+    }
+
+    public String removeFlat(Long id, int ownerId) {
+        if (dbManager != null) {
+            boolean dbRemoved = dbManager.removeById(id, ownerId);
+            if (dbRemoved) {
+                this.removeById(id);
+                return "Квартира успешно удалена.";
+            } else {
+                return "Ошибка: квартира не найдена или у вас нет прав на удаление.";
+            }
+        }
+        return "Ошибка: менеджер базы данных не подключен.";
+    }
+
+    public void loadFromDatabase() {
+        if (dbManager != null) {
+            this.setCollection(dbManager.loadCollection());
+        }
     }
 }

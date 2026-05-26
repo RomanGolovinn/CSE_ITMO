@@ -86,13 +86,17 @@ public class StackManager extends CollectionManager {
      */
     @Override
     public boolean update(Long id, Flat newFlat) {
-        for (int i = 0; i < flats.size(); i++) {
-            if (flats.get(i).getId().equals(id)) {
+        if (dbManager.updateFlat(id, newFlat)) {
+            Flat oldFlat = getById(id);
 
-                // Важный момент: сохраняем старый ID для нового объекта
-                newFlat.setId(id);
+            if (oldFlat != null) {
+                this.flats.remove(oldFlat);
 
-                flats.set(i, newFlat);
+                newFlat.setId(oldFlat.getId());
+                newFlat.setOwnerId(oldFlat.getOwnerId());
+
+                this.flats.add(newFlat);
+
                 return true;
             }
         }
@@ -105,12 +109,12 @@ public class StackManager extends CollectionManager {
      *
      * @param newCollection новая коллекция элементов для загрузки
      */
-    @Override
-    @SuppressWarnings("unchecked")
-    public void setCollection(Collection<Flat> newCollection){
-        this.flats = (Stack<Flat>) newCollection;
-    }
 
+    @Override
+    public void setCollection(Collection<Flat> newCollection) {
+        this.flats.clear();
+        this.flats.addAll(newCollection);
+    }
     @Override
     public void beginTransaction() {
         if (this.isTransactionActive) {

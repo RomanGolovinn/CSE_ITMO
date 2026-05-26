@@ -64,4 +64,6 @@ public class House implements Serializable {
     public String toString() {
         return "{name='" + name + "', year=" + year + ", floors=" + numberOfFloors + "}";
     }
+
+    public long getNumberOfFloors(){ return this.numberOfFloors;}
 }

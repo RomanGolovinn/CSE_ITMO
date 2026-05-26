@@ -1,37 +1,53 @@
 import commands.*;
+import io.db.DatabaseConnectionManager;
+import io.db.FlatDatabaseManager;
+import io.db.UserManager;
 import io.file.FileManager;
 import io.file.JsonManager;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.net.Server;
 import managers.CommandManager;
 import managers.collection.CollectionManager;
-import managers.collection.StackManager;
 
+import managers.collection.StackManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ServerMain {
     private static final Logger logger = LogManager.getLogger(ServerMain.class);
+    private static UserManager userManager;
 
     public static void main(String[] args) {
         logger.info("Инициализация сервера...");
 
         Dotenv dotenv = Dotenv.load();
         int port = Integer.parseInt(dotenv.get("SERVER_PORT"));
+        String dbUrl = dotenv.get("DB_URL");
+        String dbUser = dotenv.get("DB_USER");
+        String dbPassword = dotenv.get("DB_PASSWORD");
+
+        if (dbUrl == null || dbUser == null || dbPassword == null) {
+            logger.fatal("Не заданы переменные окружения БД (DB_URL, DB_USER, DB_PASSWORD) в файле .env");
+            System.exit(1);
+        }
 
         try {
+            DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(dbUrl, dbUser, dbPassword);
+            userManager = new UserManager(connectionManager);
+            FlatDatabaseManager flatDbManager = new FlatDatabaseManager(connectionManager);
+
             CollectionManager collectionManager = new StackManager();
+            collectionManager.setDbManager(flatDbManager);
+            collectionManager.loadFromDatabase();
+
             CommandManager commandManager = new CommandManager();
 
             String filePath = System.getenv("LAB_FILE_PATH");
             if (filePath == null || filePath.isEmpty()) {
-                logger.warn("ВНИМАНИЕ: Переменная LAB_FILE_PATH не задана. Используем default.json");
                 filePath = "stack.json";
             }
 
             FileManager jsonManager = new JsonManager(filePath, collectionManager);
-            jsonManager.read();
-
 
             commandManager.addCommand(new Help(commandManager));
             commandManager.addCommand(new Info(collectionManager));
@@ -47,12 +63,11 @@ public class ServerMain {
             commandManager.addCommand(new FilterByHouse(collectionManager));
             commandManager.addCommand(new PrintDescending(collectionManager));
             commandManager.addCommand(new PrintFieldDescendingNumberOfRooms(collectionManager));
-            commandManager.addCommand(new Save(collectionManager, jsonManager));
             commandManager.addCommand(new Begin(collectionManager));
             commandManager.addCommand(new Commit(collectionManager));
             commandManager.addCommand(new RollBack(collectionManager));
 
-            logger.info("Коллекция успешно загружена. Элементов: " + collectionManager.getCollection().size());
+            logger.info("Коллекция успешно загружена из БД. Элементов: " + collectionManager.getCollection().size());
 
             Server server = new Server(port, commandManager, jsonManager);
             logger.info("Сервер готов к приему пакетов на порту " + port);
@@ -62,5 +77,9 @@ public class ServerMain {
         } catch (Exception e) {
             logger.fatal("Критическая ошибка сервера: ", e);
         }
+    }
+
+    public static UserManager getUserManager() {
+        return userManager;
     }
 }
