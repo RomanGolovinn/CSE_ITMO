@@ -18,7 +18,7 @@ public class ServerMain {
     public static void main(String[] args) {
         logger.info("Инициализация сервера...");
 
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         int port = Integer.parseInt(dotenv.get("SERVER_PORT"));
         String dbUrl = dotenv.get("DB_URL");
         String dbUser = dotenv.get("DB_USER");

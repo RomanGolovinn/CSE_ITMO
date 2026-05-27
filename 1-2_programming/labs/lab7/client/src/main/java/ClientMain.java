@@ -1,5 +1,3 @@
-package main;
-
 import io.github.cdimascio.dotenv.Dotenv;
 import io.net.Client;
 import io.ui.AskManager;
@@ -10,7 +8,7 @@ import java.util.Scanner;
 
 public class ClientMain {
     public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();;
         String host = dotenv.get("SERVER_HOST");
         int port = Integer.parseInt(dotenv.get("SERVER_PORT"));
 
