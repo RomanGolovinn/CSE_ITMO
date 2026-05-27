@@ -4,7 +4,6 @@ import api.Request;
 import api.Response;
 import api.Serializer;
 import io.db.UserManager;
-import io.auth.UserContext;
 import managers.CommandManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +16,8 @@ import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
     private final int port;
@@ -26,12 +27,16 @@ public class Server {
     private static final int BUFFER_SIZE = 65535;
     private static final Logger logger = LogManager.getLogger(Server.class);
     private final UserManager userManager;
+    private final ExecutorService processingPool;
+    private final ExecutorService sendingPool;
 
     public Server(int port, CommandManager commandManager, UserManager userManager) {
         this.port = port;
         this.commandManager = commandManager;
         this.serializer = new Serializer();
         this.userManager = userManager;
+        this.processingPool = Executors.newCachedThreadPool();
+        this.sendingPool = Executors.newFixedThreadPool(10);
     }
 
     public void start() {
@@ -39,7 +44,6 @@ public class Server {
             channel = DatagramChannel.open();
             channel.configureBlocking(false);
             channel.bind(new InetSocketAddress(port));
-
             channel.register(selector, SelectionKey.OP_READ);
 
             logger.info("Сервер запущен на порту {}. Ожидание запросов...", port);
@@ -68,77 +72,35 @@ public class Server {
             SocketAddress clientAddress = channel.receive(buffer);
             if (clientAddress == null) return;
 
-            processRequest(buffer, clientAddress);
+            buffer.flip();
+            byte[] data = new byte[buffer.remaining()];
+            buffer.get(data);
+
+            processingPool.submit(() -> processRequestAsync(data, clientAddress));
         } catch (IOException e) {
             logger.error("Ошибка при получении пакета: {}", e.getMessage());
         }
     }
 
-    private void processRequest(ByteBuffer buffer, SocketAddress clientAddress) {
+    private void processRequestAsync(byte[] data, SocketAddress clientAddress) {
         try {
-            buffer.flip();
-            byte[] data = new byte[buffer.remaining()];
-            buffer.get(data);
-
             Request request = (Request) serializer.deserialize(data);
-            logger.info("Получен запрос [{}] от {}", request.getCommandName(), clientAddress);
+            ClientHandler handler = new ClientHandler(request, commandManager, userManager);
+            Response response = handler.call();
 
-            String commandName = request.getCommandName();
-            String username = request.getUsername();
-            String password = request.getPassword();
-
-            if ("register".equals(commandName)) {
-                boolean isRegistered = userManager.registerUser(username, password);
-                Response response = new Response(isRegistered, isRegistered ? "Регистрация успешна!" : "Ошибка: пользователь с таким логином уже существует.");
-                sendResponse(response, clientAddress);
-                return;
-            }
-
-            int userId = userManager.authenticateUser(username, password);
-            if (userId == -1) {
-                Response response = new Response(false, "Ошибка авторизации: неверный логин или пароль.");
-                sendResponse(response, clientAddress);
-                return;
-            }
-
-            UserContext.setId(userId);
-
-            if ("login".equals(commandName)) {
-                Response response = new Response(true, "Вход выполнен успешно!");
-                sendResponse(response, clientAddress);
-                return;
-            }
-
-            String resultText;
-            boolean isSuccess = true;
-
-            try {
-                resultText = commandManager.execute(
-                        request.getCommandName(),
-                        request.getArgument(),
-                        request.getFlatArgument()
-                );
-            } catch (Exception e) {
-                isSuccess = false;
-                resultText = "Ошибка при выполнении: " + e.getMessage();
-            }
-
-            if (resultText == null || resultText.trim().isEmpty()) {
-                resultText = isSuccess ? "Команда выполнена успешно." : "Произошла неизвестная ошибка.";
-            }
-
-            Response response = new Response(isSuccess, resultText);
-            sendResponse(response, clientAddress);
-
+            sendingPool.submit(() -> sendResponseAsync(response, clientAddress));
         } catch (Exception e) {
-            logger.error("Ошибка десериализации или обработки запроса:", e);
+            logger.error("Ошибка обработки запроса: ", e);
         }
     }
 
-    private void sendResponse(Response response, SocketAddress clientAddress) throws IOException {
-        byte[] responseData = serializer.serialize(response);
-        ByteBuffer responseBuffer = ByteBuffer.wrap(responseData);
-        channel.send(responseBuffer, clientAddress);
-        logger.info("Отправлен ответ клиенту");
+    private void sendResponseAsync(Response response, SocketAddress clientAddress) {
+        try {
+            byte[] responseData = serializer.serialize(response);
+            ByteBuffer responseBuffer = ByteBuffer.wrap(responseData);
+            channel.send(responseBuffer, clientAddress);
+        } catch (IOException e) {
+            logger.error("Ошибка отправки ответа: {}", e.getMessage());
+        }
     }
 }
