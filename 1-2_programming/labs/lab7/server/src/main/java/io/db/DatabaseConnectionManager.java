@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.flywaydb.core.Flyway;
+
 public class DatabaseConnectionManager {
     private final String url;
     private final String user;
@@ -23,5 +25,15 @@ public class DatabaseConnectionManager {
 
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
+    }
+
+    public void migrate() {
+        System.out.println("Запуск миграций базы данных...");
+        Flyway flyway = Flyway.configure()
+                .dataSource(url, user, password)
+                .load();
+
+        flyway.migrate();
+        System.out.println("Миграции успешно применены!");
     }
 }

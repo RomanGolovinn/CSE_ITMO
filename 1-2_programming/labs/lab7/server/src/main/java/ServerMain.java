@@ -31,6 +31,9 @@ public class ServerMain {
 
         try {
             DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(dbUrl, dbUser, dbPassword);
+
+            connectionManager.migrate();
+
             userManager = new UserManager(connectionManager);
             FlatDatabaseManager flatDbManager = new FlatDatabaseManager(connectionManager);
 
@@ -60,8 +63,7 @@ public class ServerMain {
 
             logger.info("Коллекция успешно загружена из БД. Элементов: " + collectionManager.getCollection().size());
 
-            Server server = new Server(port, commandManager, userManager);
-            logger.info("Сервер готов к приему пакетов на порту " + port);
+            Server server = new Server(port, commandManager, userManager, flatDbManager, collectionManager);
 
             server.start();
 

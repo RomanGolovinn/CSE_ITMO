@@ -4,6 +4,8 @@ import api.Request;
 import api.Response;
 import api.Serializer;
 import io.db.UserManager;
+import io.db.FlatDatabaseManager;
+import managers.collection.CollectionManager;
 import managers.CommandManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +20,7 @@ import java.nio.channels.Selector;
 import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 public class Server {
     private final int port;
@@ -27,16 +30,21 @@ public class Server {
     private static final int BUFFER_SIZE = 65535;
     private static final Logger logger = LogManager.getLogger(Server.class);
     private final UserManager userManager;
+    private final FlatDatabaseManager dbManager;
+    private final CollectionManager collectionManager;
+    private final ForkJoinPool readPool;
     private final ExecutorService processingPool;
-    private final ExecutorService sendingPool;
 
-    public Server(int port, CommandManager commandManager, UserManager userManager) {
+    public Server(int port, CommandManager commandManager, UserManager userManager,
+                  FlatDatabaseManager dbManager, CollectionManager collectionManager) {
         this.port = port;
         this.commandManager = commandManager;
         this.serializer = new Serializer();
         this.userManager = userManager;
-        this.processingPool = Executors.newCachedThreadPool();
-        this.sendingPool = Executors.newFixedThreadPool(10);
+        this.dbManager = dbManager;
+        this.collectionManager = collectionManager;
+        this.readPool = new ForkJoinPool();
+        this.processingPool = Executors.newFixedThreadPool(10);
     }
 
     public void start() {
@@ -76,19 +84,27 @@ public class Server {
             byte[] data = new byte[buffer.remaining()];
             buffer.get(data);
 
-            processingPool.submit(() -> processRequestAsync(data, clientAddress));
+            readPool.submit(() -> readRequestAsync(data, clientAddress));
         } catch (IOException e) {
             logger.error("Ошибка при получении пакета: {}", e.getMessage());
         }
     }
 
-    private void processRequestAsync(byte[] data, SocketAddress clientAddress) {
+    private void readRequestAsync(byte[] data, SocketAddress clientAddress) {
         try {
             Request request = (Request) serializer.deserialize(data);
-            ClientHandler handler = new ClientHandler(request, commandManager, userManager);
+            processingPool.submit(() -> processRequestAsync(request, clientAddress));
+        } catch (Exception e) {
+            logger.error("Ошибка чтения запроса: ", e);
+        }
+    }
+
+    private void processRequestAsync(Request request, SocketAddress clientAddress) {
+        try {
+            ClientHandler handler = new ClientHandler(request, commandManager, userManager, dbManager, collectionManager);
             Response response = handler.call();
 
-            sendingPool.submit(() -> sendResponseAsync(response, clientAddress));
+            new Thread(() -> sendResponseAsync(response, clientAddress)).start();
         } catch (Exception e) {
             logger.error("Ошибка обработки запроса: ", e);
         }
