@@ -1,4 +1,0 @@
-FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
-COPY client/build/libs/client.jar /app/client.jar
-CMD ["java", "-jar", "client.jar"]

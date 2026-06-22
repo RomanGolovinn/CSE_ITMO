@@ -1,6 +1,7 @@
 package io.ui.gui.controllers;
 
 import api.Response;
+import io.ui.gui.utils.MapVisualizer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -41,6 +42,7 @@ public class MainController {
 
     private ObservableList<Flat> masterData = FXCollections.observableArrayList();
     private Timeline refreshTimeline;
+    private MapVisualizer mapVisualizer;
 
     @FXML
     public void initialize() {
@@ -63,11 +65,8 @@ public class MainController {
 
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(flat -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-                return flat.getName().toLowerCase().contains(lowerCaseFilter);
+                if (newValue == null || newValue.isEmpty()) return true;
+                return flat.getName().toLowerCase().contains(newValue.toLowerCase());
             });
         });
 
@@ -75,14 +74,16 @@ public class MainController {
                 new javafx.collections.transformation.SortedList<>(filteredData);
 
         sortedData.comparatorProperty().bind(table.comparatorProperty());
-
         table.setItems(sortedData);
 
-        refreshTimeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
-            loadCollectionFromServer();
-        }));
-        refreshTimeline.setCycleCount(Timeline.INDEFINITE); // Бесконечный цикл
+        mapVisualizer = new MapVisualizer(mapPane, table, () -> handleUpdate(null));
+
+        refreshTimeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> loadCollectionFromServer()));
+        refreshTimeline.setCycleCount(Timeline.INDEFINITE);
         refreshTimeline.play();
+
+        mapPane.widthProperty().addListener((obs, oldVal, newVal) -> mapVisualizer.draw(masterData));
+        mapPane.heightProperty().addListener((obs, oldVal, newVal) -> mapVisualizer.draw(masterData));
     }
 
     public void initUser(String username) {
@@ -101,6 +102,7 @@ public class MainController {
                             masterData.clear();
                             masterData.addAll(flats);
                             table.refresh();
+                            mapVisualizer.draw(masterData);
                         });
                     }
                 } else {
@@ -179,6 +181,7 @@ public class MainController {
                 Platform.runLater(() -> {
                     if (response.isSuccess()) {
                         masterData.remove(selected);
+                        mapVisualizer.draw(masterData);
                     } else {
                         showAlert("Ошибка", response.getMessage());
                     }
@@ -197,6 +200,7 @@ public class MainController {
                 Platform.runLater(() -> {
                     if (response.isSuccess()) {
                         masterData.clear();
+                        mapVisualizer.draw(masterData);
                     } else {
                         showAlert("Ошибка", response.getMessage());
                     }
