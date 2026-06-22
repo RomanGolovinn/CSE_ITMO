@@ -25,6 +25,7 @@ public class AuthController {
     @FXML private ComboBox<String> languageComboBox;
     @FXML private Button loginButton;
     @FXML private Button registerButton;
+    @FXML private Label titleLabel;
 
     @FXML private ResourceBundle resources;
 
@@ -48,30 +49,31 @@ public class AuthController {
                 case 3: newLocale = new Locale("es", "GT"); break;
                 default: newLocale = new Locale("ru", "RU"); break;
             }
-            changeLanguageOnTheFly(newLocale);
+            updateResources(newLocale);
+            applyLanguage();
         });
     }
 
-    private void changeLanguageOnTheFly(Locale newLocale) {
-        Locale.setDefault(newLocale);
+    private void updateResources(Locale locale) {
+        resources = ResourceBundle.getBundle("bundles.gui", locale);
+    }
 
-        resources = ResourceBundle.getBundle("bundles.gui", newLocale);
-
+    private void applyLanguage() {
         loginField.setPromptText(resources.getString("auth.login.prompt"));
         passwordField.setPromptText(resources.getString("auth.password.prompt"));
         loginButton.setText(resources.getString("auth.button.login"));
         registerButton.setText(resources.getString("auth.button.register"));
+        if(titleLabel != null) titleLabel.setText(resources.getString("auth.title"));
+
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.setTitle(resources.getString("auth.title"));
     }
 
     @FXML
-    void handleLogin(ActionEvent event) {
-        processAuth(true);
-    }
+    void handleLogin(ActionEvent event) { processAuth(true); }
 
     @FXML
-    void handleRegister(ActionEvent event) {
-        processAuth(false);
-    }
+    void handleRegister(ActionEvent event) { processAuth(false); }
 
     private void processAuth(boolean isLogin) {
         String login = loginField.getText().trim();
@@ -87,43 +89,33 @@ public class AuthController {
 
         new Thread(() -> {
             try {
-                if (networkClient == null) {
-                    throw new IllegalStateException("Сетевой клиент не инициализирован!");
-                }
-
                 networkClient.setCredentials(login, password);
-
-                String commandName = isLogin ? "login" : "register";
-
-                Response response = networkClient.sendCommand(commandName, null, null);
-
-                boolean success = response.isSuccess();
-                String message = response.getMessage();
+                Response response = networkClient.sendCommand(isLogin ? "login" : "register", null, null);
 
                 Platform.runLater(() -> {
-                    if (success) {
+                    if (response.isSuccess()) {
                         try {
                             Stage stage = (Stage) loginButton.getScene().getWindow();
-                            ResourceBundle bundle = ResourceBundle.getBundle("bundles.gui", resources.getLocale());
 
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainView.fxml"));
-                            loader.setResources(bundle);
+                            loader.setResources(resources); // Передаем текущий bundle
                             Parent root = loader.load();
 
+                            MainController mainController = loader.getController();
+                            mainController.initUser(login);
+
                             stage.setTitle("Квартиры");
-                            stage.setScene(new Scene(root, 900, 600));
+                            stage.setScene(new Scene(root, 1200, 700));
                             stage.centerOnScreen();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            errorLabel.setText("Ошибка загрузки главного окна");
                         }
                     } else {
-                        errorLabel.setText(message != null ? message : "Неверный логин или пароль");
+                        errorLabel.setText(response.getMessage());
                         setControlsDisabled(false);
                     }
                 });
             } catch (Exception e) {
-                e.printStackTrace();
                 Platform.runLater(() -> {
                     errorLabel.setText(resources.getString("auth.error.network"));
                     setControlsDisabled(false);

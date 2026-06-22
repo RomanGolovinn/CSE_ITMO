@@ -1,15 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.ui.gui.controllers.MainController">
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.ui.gui.controllers.MainController">
+
+    <top>
+        <VBox spacing="10.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+                <Label fx:id="userInfoLabel" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                <Pane HBox.hgrow="ALWAYS" />
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAdd" text="%main.button.add" />
+                <Button fx:id="updateButton" mnemonicParsing="false" onAction="#handleUpdate" text="%main.button.update" />
+                <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemove" text="%main.button.remove" />
+                <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClear" text="%main.button.clear" />
+                <Pane HBox.hgrow="ALWAYS" />
+                <Label text="%main.filter.label" />
+                <TextField fx:id="filterField" promptText="%main.filter.prompt" />
+            </HBox>
+        </VBox>
+    </top>
+
     <center>
-        <Label text="Главное окно (В разработке)">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
+        <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+
+            <VBox>
+                <TableView fx:id="table" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
+                        <TableColumn fx:id="nameCol" prefWidth="150.0" text="%main.table.name" />
+                        <TableColumn fx:id="areaCol" prefWidth="75.0" text="%main.table.area" />
+                        <TableColumn fx:id="roomsCol" prefWidth="100.0" text="%main.table.rooms" />
+                        <TableColumn fx:id="xCol" prefWidth="60.0" text="X" />
+                        <TableColumn fx:id="yCol" prefWidth="60.0" text="Y" />
+                        <TableColumn fx:id="houseNameCol" prefWidth="120.0" text="%form.label.house.name" />
+                        <TableColumn fx:id="houseYearCol" prefWidth="75.0" text="%form.label.house.year" />
+                        <TableColumn fx:id="houseFloorsCol" prefWidth="90.0" text="%form.label.house.floors" />
+                        <TableColumn fx:id="ownerCol" prefWidth="100.0" text="%main.table.owner" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <VBox style="-fx-background-color: #f0f0f0;">
+                <Pane fx:id="mapPane" VBox.vgrow="ALWAYS" />
+            </VBox>
+
+        </SplitPane>
     </center>
+
 </BorderPane>

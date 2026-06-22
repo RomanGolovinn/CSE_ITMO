@@ -10,7 +10,7 @@ public class Response implements Serializable {
 
     private final boolean success;
     private final String message;
-    private final Collection<Flat> collection; // Понадобится для команды show
+    private Collection<Flat> collection;
 
     public Response(boolean success, String message, Collection<Flat> collection) {
         this.success = success;
@@ -25,4 +25,7 @@ public class Response implements Serializable {
     public boolean isSuccess() { return success; }
     public String getMessage() { return message; }
     public Collection<Flat> getCollection() { return collection; }
+    public void setCollection(Collection<Flat> collection) {
+        this.collection = collection;
+    }
 }

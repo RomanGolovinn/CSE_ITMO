@@ -82,6 +82,12 @@ public class ClientHandler implements Callable<Response> {
             resultText = "Ошибка: " + e.getMessage();
         }
 
-        return new Response(isSuccess, resultText);
+        Response response = new Response(isSuccess, resultText);
+
+        if ("show".equals(commandName) && isSuccess) {
+            response.setCollection(collectionManager.getCollection());
+        }
+
+        return response;
     }
 }

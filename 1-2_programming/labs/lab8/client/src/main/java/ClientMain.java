@@ -18,7 +18,7 @@ public class ClientMain extends Application {
             io.ui.gui.controllers.AuthController.networkClient =
                     new io.net.Client(InetAddress.getLocalHost(), 48496);
         } catch (Exception e) {
-            System.err.println("Ошибка создания сетевого клиента: " + e.getMessage());
+            System.err.println(e.getMessage());
         }
 
         launch(args);
@@ -31,7 +31,7 @@ public class ClientMain extends Application {
 
         URL fxmlLocation = getClass().getResource("/views/AuthView.fxml");
         if (fxmlLocation == null) {
-            throw new RuntimeException("Не удалось найти файл /views/AuthView.fxml. Проверьте структуру папок!");
+            throw new RuntimeException("Error");
         }
 
         FXMLLoader loader = new FXMLLoader(fxmlLocation);

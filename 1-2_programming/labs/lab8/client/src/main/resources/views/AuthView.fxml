@@ -21,7 +21,7 @@
         <ComboBox fx:id="languageComboBox" prefWidth="150.0" />
     </HBox>
 
-    <Label text="%auth.title">
+    <Label fx:id="titleLabel" text="%auth.title">
         <font>
             <Font name="System Bold" size="24.0" />
         </font>
