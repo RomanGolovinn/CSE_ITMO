@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"commands"},{"l":"io.file"},{"l":"io.ui"},{"l":"managers"},{"l":"managers.collection"},{"l":"models"},{"l":"models.enums"}];updateSearchResults();
