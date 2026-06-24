@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lab8-env-file
+data:
+  .env: |
+    DB_URL=jdbc:postgresql://postgres-service:5432/studs
+    DB_USER=local_user
+    DB_PASSWORD=password

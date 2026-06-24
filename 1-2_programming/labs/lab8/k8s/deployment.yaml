@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab8-server-deployment
+  labels:
+    app: lab8-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lab8-server
+  template:
+    metadata:
+      labels:
+        app: lab8-server
+    spec:
+      containers:
+        - name: server-container
+          image: lab8-server-image:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 1234
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "256Mi"
+            limits:
+              cpu: "30m"
+              memory: "512Mi"
+          volumeMounts:
+            - name: env-volume
+              mountPath: /app/.env
+              subPath: .env
+      #
+        - name: cpu-stress-sidecar
+          image: polinux/stress
+          command: ["stress"]
+          args: ["--cpu", "1", "--timeout", "600s"]
+          resources:
+           requests:
+             cpu: "10m"
+           limits:
+             cpu: "30m"
+      #
+      volumes:
+        - name: env-volume
+          configMap:
+            name: lab8-env-file

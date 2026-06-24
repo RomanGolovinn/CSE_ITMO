@@ -9,6 +9,9 @@ import io.auth.UserContext;
 import managers.CommandManager;
 
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
+import java.util.List;
+import models.Flat;
 
 public class ClientHandler implements Callable<Response> {
     private final Request request;
@@ -74,6 +77,19 @@ public class ClientHandler implements Callable<Response> {
                     isSuccess = false;
                     resultText = "Объект не найден или у вас нет прав.";
                 }
+            } else if ("clear".equals(commandName)) {
+                int deletedCount = dbManager.removeByOwnerId(userId);
+                if (deletedCount >= 0) {
+                    collectionManager.removeByOwnerId(userId);
+                    resultText = "Очистка завершена. Удалено ваших объектов: " + deletedCount;
+                } else {
+                    isSuccess = false;
+                    resultText = "Ошибка при удалении из базы данных.";
+                }
+            } else if ("printDescending".equals(commandName)) {
+                resultText = "Коллекция отсортирована по убыванию.";
+            } else if ("info".equals(commandName)) {
+                resultText = collectionManager.getInfo();
             } else {
                 resultText = commandManager.execute(commandName, request.getArgument(), request.getFlatArgument());
             }
@@ -86,6 +102,11 @@ public class ClientHandler implements Callable<Response> {
 
         if ("show".equals(commandName) && isSuccess) {
             response.setCollection(collectionManager.getCollection());
+        } else if ("printDescending".equals(commandName) && isSuccess) {
+            List<Flat> descendingList = collectionManager.getCollection().stream()
+                    .sorted((f1, f2) -> Long.compare(f2.getId(), f1.getId()))
+                    .collect(Collectors.toList());
+            response.setCollection(descendingList);
         }
 
         return response;

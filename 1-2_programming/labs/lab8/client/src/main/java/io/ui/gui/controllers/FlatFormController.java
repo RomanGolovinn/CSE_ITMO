@@ -79,6 +79,11 @@ public class FlatFormController {
             long x = Long.parseLong(xField.getText().trim());
             Float y = Float.parseFloat(yField.getText().trim());
 
+            if (x < 0 || x > 800 || y < 0 || y > 600 || area < 1 || area > 250) {
+                showAlert("Лимит превышен: X (0-800), Y (0-600), Площадь (1-250)");
+                return;
+            }
+
             Furnish furnish = furnishComboBox.getValue();
             View view = viewComboBox.getValue();
             Transport transport = transportComboBox.getValue();

@@ -195,4 +195,19 @@ public class FlatDatabaseManager {
             return false;
         }
     }
+
+    public int removeByOwnerId(int ownerId) {
+        String sql = "DELETE FROM flats WHERE owner_id = ?";
+
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, ownerId);
+            return pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }

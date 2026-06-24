@@ -199,8 +199,8 @@ public class MainController {
                 Response response = AuthController.networkClient.sendCommand("clear", null, null);
                 Platform.runLater(() -> {
                     if (response.isSuccess()) {
-                        masterData.clear();
-                        mapVisualizer.draw(masterData);
+                        showAlert("Очистка", response.getMessage());
+                        loadCollectionFromServer();
                     } else {
                         showAlert("Ошибка", response.getMessage());
                     }
@@ -209,6 +209,74 @@ public class MainController {
                 Platform.runLater(() -> showAlert("Ошибка сети", "Не удалось очистить коллекцию"));
             }
         }).start();
+    }
+
+    @FXML
+    void handlePrintDescending(ActionEvent event) {
+        new Thread(() -> {
+            try {
+                Response response = AuthController.networkClient.sendCommand("printDescending", null, null);
+                if (response.isSuccess()) {
+                    Collection<Flat> descendingFlats = response.getCollection();
+                    if (descendingFlats != null) {
+                        Platform.runLater(() -> {
+                            masterData.clear();
+                            masterData.addAll(descendingFlats);
+                            table.refresh();
+                            mapVisualizer.draw(masterData);
+                            showAlert("Сортировка", "Данные отсортированы по убыванию (по ID).");
+                        });
+                    }
+                } else {
+                    Platform.runLater(() -> showAlert("Ошибка", response.getMessage()));
+                }
+            } catch (Exception e) {
+                Platform.runLater(() -> showAlert("Ошибка сети", "Не удалось отсортировать коллекцию"));
+            }
+        }).start();
+    }
+
+    @FXML
+    void handleInfo(ActionEvent event) {
+        new Thread(() -> {
+            try {
+                Response response = AuthController.networkClient.sendCommand("info", null, null);
+                Platform.runLater(() -> {
+                    if (response.isSuccess()) {
+                        showAlert("Информация о коллекции", response.getMessage());
+                    } else {
+                        showAlert("Ошибка", response.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> showAlert("Ошибка сети", "Не удалось получить информацию"));
+            }
+        }).start();
+    }
+
+    @FXML
+    void handleLogout(ActionEvent event) {
+        if (refreshTimeline != null) {
+            refreshTimeline.stop();
+        }
+
+        Stage currentStage = (Stage) mapPane.getScene().getWindow();
+        currentStage.close();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AuthView.fxml"));
+            java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundles.gui", java.util.Locale.getDefault());
+            loader.setResources(bundle);
+            Parent root = loader.load();
+
+            Stage authStage = new Stage();
+            authStage.setTitle("Авторизация");
+            authStage.setScene(new Scene(root));
+            authStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Ошибка", "Не удалось открыть окно авторизации");
+        }
     }
 
     private void showAlert(String title, String content) {

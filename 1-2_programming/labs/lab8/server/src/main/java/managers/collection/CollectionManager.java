@@ -85,4 +85,8 @@ public abstract class CollectionManager {
             this.setCollection(dbManager.loadCollection());
         }
     }
+
+    public void removeByOwnerId(int ownerId) {
+        getCollection().removeIf(flat -> flat.getOwnerId() == ownerId);
+    }
 }

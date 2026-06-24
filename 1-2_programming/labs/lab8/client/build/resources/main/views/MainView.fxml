@@ -22,6 +22,7 @@
             <HBox alignment="CENTER_LEFT" spacing="20.0">
                 <Label fx:id="userInfoLabel" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
                 <Pane HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false" onAction="#handleLogout" text="Logout" />
             </HBox>
 
             <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -29,6 +30,8 @@
                 <Button fx:id="updateButton" mnemonicParsing="false" onAction="#handleUpdate" text="%main.button.update" />
                 <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemove" text="%main.button.remove" />
                 <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClear" text="%main.button.clear" />
+                <Button mnemonicParsing="false" onAction="#handlePrintDescending" text="Print Descending" />
+                <Button mnemonicParsing="false" onAction="#handleInfo" text="Info" />
                 <Pane HBox.hgrow="ALWAYS" />
                 <Label text="%main.filter.label" />
                 <TextField fx:id="filterField" promptText="%main.filter.prompt" />
