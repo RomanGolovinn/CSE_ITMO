@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Лабораторная работа №1</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <h1>Лабораторная работа №1</h1>
+
+    <p class="student-info">
+        ФИО:
+        <span>Головин Роман</span>
+
+        &nbsp; | &nbsp;
+
+        Группа:
+        <span>P3216</span>
+
+        &nbsp; | &nbsp;
+
+        Вариант:
+        <span>22603</span>
+    </p>
+
+</header>
+
+<main>
+
+    <section class="coordinate-section">
+
+        <h2>Область попадания</h2>
+
+        <div class="canvas-container">
+
+            <canvas
+                id="coordinateCanvas"
+                width="680"
+                height="500">
+
+                Ваш браузер не поддерживает Canvas.
+
+            </canvas>
+
+        </div>
+
+    </section>
+
+    <section class="form-section">
+
+        <h2>Проверка точки</h2>
+
+        <form id="pointForm" novalidate>
+
+            <div class="form-row">
+
+                <label for="x">
+                    X
+                </label>
+
+                <input
+                    id="x"
+                    name="x"
+                    type="text"
+                    inputmode="decimal"
+                    autocomplete="off"
+                    placeholder="от -5 до 5"
+                >
+
+                <small
+                    id="xError"
+                    class="field-error">
+                </small>
+
+            </div>
+
+            <div class="form-row">
+
+                <label for="y">
+                    Y
+                </label>
+
+                <input
+                    id="y"
+                    name="y"
+                    type="text"
+                    inputmode="decimal"
+                    autocomplete="off"
+                    placeholder="от -3 до 3"
+                >
+
+                <small
+                    id="yError"
+                    class="field-error">
+                </small>
+
+            </div>
+
+            <div class="form-row">
+
+                <label for="r">
+                    R
+                </label>
+
+                <select
+                    id="r"
+                    name="r">
+
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+
+                </select>
+
+                <small
+                    id="rError"
+                    class="field-error">
+                </small>
+
+            </div>
+
+            <button
+                type="submit"
+                class="submit-button">
+
+                Проверить точку
+
+            </button>
+
+        </form>
+
+        <p
+            id="formMessage"
+            class="form-message">
+        </p>
+
+    </section>
+
+    <section class="results-section">
+
+        <h2>Результаты проверок</h2>
+
+        <div class="table-container">
+
+            <table id="resultsTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>R</th>
+                        <th>Результат</th>
+                        <th>Дата и время</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="resultsBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <button
+            id="clearResults"
+            type="button"
+            class="clear-button">
+
+            Очистить историю
+
+        </button>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+
+    Веб-программирование · Лабораторная работа №1
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
