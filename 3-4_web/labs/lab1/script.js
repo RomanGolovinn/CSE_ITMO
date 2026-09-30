@@ -82,6 +82,10 @@ function parseNumber(value) {
         return null;
     }
 
+    if (/\.\d{11,}/.test(normalized)) {
+        return null;
+    }
+
     const number =
         Number(normalized);
 
@@ -117,9 +121,9 @@ function validateForm() {
 
     if (x === null) {
         xError.textContent =
-            "Введите число.";
+            "Неверный формат.";
         valid = false;
-    } else if (x < -5 || x > 5) {
+    } else if (x <= -5 || x >= 5) {
         xError.textContent =
             "X должен быть от -5 до 5.";
         valid = false;
@@ -127,9 +131,9 @@ function validateForm() {
 
     if (y === null) {
         yError.textContent =
-            "Введите число.";
+            "Неверный формат.";
         valid = false;
-    } else if (y < -3 || y > 3) {
+    } else if (y <= -3 || y >= 3) {
         yError.textContent =
             "Y должен быть от -3 до 3.";
         valid = false;
