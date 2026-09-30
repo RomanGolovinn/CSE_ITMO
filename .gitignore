@@ -81,7 +81,13 @@
 /2_data_base/labs/lab3/crypto_scraper/.env
 
 
-/3-proglang/seminars/sem1/hello.o
-/3-proglang/seminars/sem1/hello
-/3-proglang/seminars/sem1/err.txt
-/3-proglang/seminars/sem1/hello.txt
+/3_proglang/seminars/sem1/hello.o
+/3_proglang/seminars/sem1/hello
+/3_proglang/seminars/sem1/err.txt
+/3_proglang/seminars/sem1/hello.txt
+
+/3_proglang/seminars/sem2/func.o
+/3_proglang/seminars/sem2/func
+/3_proglang/seminars/sem2/print.o
+/3_proglang/seminars/sem2/print
+
