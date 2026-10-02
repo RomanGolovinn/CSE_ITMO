@@ -44,27 +44,30 @@ print_char:
 
 ; Переводит строку (выводит символ с кодом 0xA)
 print_newline:
+    sub rsp, 8
     mov rdi, 0xA
     call print_char
+    add rsp, 8
     ret
 
 ; Выводит беззнаковое 8-байтовое число в десятичном формате 
 ; Совет: выделите место в стеке и храните там результаты деления
 ; Не забудьте перевести цифры в их ASCII коды.
 print_uint:
-    sub rsp, 32
+    ; 40 байт: 32 под цифры и 8 для выравнивания стека перед вызовами
+    sub rsp, 40
 
     mov rax, rdi
     mov r8, rsp
     add r8, 31
-    xor rcx, rcx
+    xor r10, r10
 
     test rax, rax
     jnz .convert
 
     mov byte [r8], '0'
-    inc rcx
-    jmp .print
+    mov r10, 1
+    jmp .write
 .convert:
     xor rdx, rdx
     mov r9, 10
@@ -74,7 +77,7 @@ print_uint:
     mov byte [r8], dl
 
     dec r8
-    inc rcx
+    inc r10
 
     test rax, rax
     jnz .convert
@@ -82,43 +85,79 @@ print_uint:
 .print:
     inc r8
 
-.print_loop:
-    movzx edi, byte [r8]
-    call print_char
+.write:
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, r8
+    mov rdx, r10
+    syscall
 
-    inc r8
-    dec rcx
-    jnz .print_loop
-
-    add rsp, 32
+    add rsp, 40
     ret
 
 
 ; Выводит знаковое 8-байтовое число в десятичном формате 
 print_int:
+    push rbx
+    mov rbx, rdi
     test rdi, rdi
     jns .positive
 
-    push rdi
     mov rdi, '-'
     call print_char
-    pop rdi
-
+    mov rdi, rbx
     neg rdi
 
 .positive:
     call print_uint
+    pop rbx
     ret
 
 
 ; Принимает два указателя на нуль-терминированные строки, возвращает 1 если они равны, 0 иначе
 string_equals:
+.loop:
+    mov al, [rdi]
+    cmp al, [rsi]
+    jne .not_equal
+
+    test al, al
+    jz .equal
+
+    inc rdi
+    inc rsi
+    jmp .loop
+
+.equal:
+    mov rax, 1
+    ret
+
+.not_equal:
     xor rax, rax
     ret
 
+
 ; Читает один символ из stdin и возвращает его. Возвращает 0 если достигнут конец потока
 read_char:
-    xor rax, rax
+    sub rsp, 8
+
+    xor eax, eax        ; syscall read = 0
+    xor edi, edi        ; stdin = 0
+    mov rsi, rsp        ; buffer
+    mov edx, 1          ; 1 byte
+    syscall
+
+    test rax, rax
+    jz .eof
+
+    movzx eax, byte [rsp]
+
+    add rsp, 8
+    ret
+
+.eof:
+    xor eax, eax
+    add rsp, 8
     ret 
 
 ; Принимает: адрес начала буфера, размер буфера
@@ -130,6 +169,84 @@ read_char:
 ; Эта функция должна дописывать к слову нуль-терминатор
 
 read_word:
+    push r12
+    push r13
+    push r14
+    push r15
+    sub rsp, 8
+
+    mov r12, rdi        ; buffer
+    mov r13, rsi        ; buffer size
+    xor r14, r14        ; length
+
+.skip_spaces:
+    call read_char
+    test rax, rax
+    jz .fail
+
+    cmp al, ' '
+    je .skip_spaces
+    cmp al, 9
+    je .skip_spaces
+    cmp al, 10
+    je .skip_spaces
+
+    ; Первый символ слова
+    ; Оставляем один байт в буфере для нуль-терминатора.
+    cmp r13, 1
+    jbe .fail
+    mov r15, r13
+    dec r15
+    cmp r14, r15
+    jae .fail
+
+    mov [r12 + r14], al
+    inc r14
+
+.read_loop:
+    call read_char
+    test rax, rax
+    jz .finish
+
+    cmp al, ' '
+    je .finish
+    cmp al, 9
+    je .finish
+    cmp al, 10
+    je .finish
+
+    ; Нужен ещё один байт + \0
+    mov r15, r13
+    dec r15
+    cmp r14, r15
+    jae .fail
+
+    mov [r12 + r14], al
+    inc r14
+    jmp .read_loop
+
+.finish:
+    mov byte [r12 + r14], 0
+
+    mov rax, r12
+    mov rdx, r14
+
+    add rsp, 8
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    ret
+
+.fail:
+    xor eax, eax
+    xor edx, edx
+
+    add rsp, 8
+    pop r15
+    pop r14
+    pop r13
+    pop r12
     ret
  
 
@@ -138,9 +255,29 @@ read_word:
 ; Возвращает в rax: число, rdx : его длину в символах
 ; rdx = 0 если число прочитать не удалось
 parse_uint:
-    xor rax, rax
-    ret
+    xor rax, rax        ; result = 0
+    xor rdx, rdx        ; length = 0
 
+.loop:
+    movzx rcx, byte [rdi]
+
+    cmp cl, '0'
+    jb .done
+
+    cmp cl, '9'
+    ja .done
+
+    sub cl, '0'
+    imul rax, rax, 10
+    add rax, rcx
+
+    inc rdx
+    inc rdi
+
+    jmp .loop
+
+.done:
+    ret
 
 
 
@@ -150,12 +287,92 @@ parse_uint:
 ; Возвращает в rax: число, rdx : его длину в символах (включая знак, если он был) 
 ; rdx = 0 если число прочитать не удалось
 parse_int:
-    xor rax, rax
-    ret 
+    sub rsp, 8
+    xor rdx, rdx
+
+    movzx rcx, byte [rdi]
+
+    cmp cl, '-'
+    je .negative
+
+    cmp cl, '+'
+    je .positive
+
+    jmp .parse
+
+.negative:
+    inc rdi
+    call parse_uint
+
+    test rdx, rdx
+    jz .fail
+
+    neg rax
+    inc rdx
+    add rsp, 8
+    ret
+
+.positive:
+    inc rdi
+    call parse_uint
+
+    test rdx, rdx
+    jz .fail
+
+    inc rdx
+    add rsp, 8
+    ret
+
+.parse:
+    call parse_uint
+    add rsp, 8
+    ret
+
+.fail:
+    xor eax, eax
+    xor edx, edx
+    add rsp, 8
+    ret
 
 ; Принимает указатель на строку, указатель на буфер и длину буфера
 ; Копирует строку в буфер
 ; Возвращает длину строки если она умещается в буфер, иначе 0
 string_copy:
-    xor rax, rax
+    xor rcx, rcx
+
+.find_length:
+    cmp byte [rdi + rcx], 0
+    je .length_found
+
+    inc rcx
+    jmp .find_length
+
+.length_found:
+    ; RCX = длина без \0
+    ; Нужно RCX + 1 байт
+
+    mov rax, rcx
+    inc rax
+
+    cmp rax, rdx
+    ja .fail
+
+    xor rcx, rcx
+
+.copy:
+    mov al, [rdi + rcx]
+    mov [rsi + rcx], al
+
+    cmp al, 0
+    je .success
+
+    inc rcx
+    jmp .copy
+
+.success:
+    mov rax, rcx
+    ret
+
+.fail:
+    xor eax, eax
     ret
