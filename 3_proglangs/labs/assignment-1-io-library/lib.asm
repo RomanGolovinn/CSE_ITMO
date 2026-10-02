@@ -52,13 +52,64 @@ print_newline:
 ; Совет: выделите место в стеке и храните там результаты деления
 ; Не забудьте перевести цифры в их ASCII коды.
 print_uint:
-    xor rax, rax
+    sub rsp, 32
+
+    mov rax, rdi
+    mov r8, rsp
+    add r8, 31
+    xor rcx, rcx
+
+    test rax, rax
+    jnz .convert
+
+    mov byte [r8], '0'
+    inc rcx
+    jmp .print
+.convert:
+    xor rdx, rdx
+    mov r9, 10
+    div r9
+
+    add dl, '0'
+    mov byte [r8], dl
+
+    dec r8
+    inc rcx
+
+    test rax, rax
+    jnz .convert
+
+.print:
+    inc r8
+
+.print_loop:
+    movzx edi, byte [r8]
+    call print_char
+
+    inc r8
+    dec rcx
+    jnz .print_loop
+
+    add rsp, 32
     ret
+
 
 ; Выводит знаковое 8-байтовое число в десятичном формате 
 print_int:
-    xor rax, rax
+    test rdi, rdi
+    jns .positive
+
+    push rdi
+    mov rdi, '-'
+    call print_char
+    pop rdi
+
+    neg rdi
+
+.positive:
+    call print_uint
     ret
+
 
 ; Принимает два указателя на нуль-терминированные строки, возвращает 1 если они равны, 0 иначе
 string_equals:
