@@ -343,9 +343,13 @@ parse_int:
 ; Копирует строку в буфер
 ; Возвращает длину строки если она умещается в буфер, иначе 0
 string_copy:
-    sub rsp, 8
+    push rdi
+    push rsi
+    push rdx
     call string_length
-    add rsp, 8
+    pop rdx
+    pop rsi
+    pop rdi
 
     mov r8, rax
 
