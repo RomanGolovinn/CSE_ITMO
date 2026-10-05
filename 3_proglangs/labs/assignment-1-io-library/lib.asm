@@ -58,50 +58,44 @@ print_char:
 ; Переводит строку (выводит символ с кодом 0xA)
 print_newline:
     mov rdi, 0xA
-    jump print_char
+    jmp print_char
 
 
 ; Выводит беззнаковое 8-байтовое число в десятичном формате 
 ; Совет: выделите место в стеке и храните там результаты деления
 ; Не забудьте перевести цифры в их ASCII коды.
 print_uint:
-    ; 40 байт: 32 под цифры и 8 для выравнивания стека перед вызовами
     sub rsp, 40
 
     mov rax, rdi
-    mov r8, rsp
-    add r8, 31
-    xor r10, r10
+    lea r8, [rsp + 31]
+
+    ; Нуль-терминатор
+    mov byte [r8], 0
 
     test rax, rax
     jnz .convert
 
+    ; Особый случай: 0
+    dec r8
     mov byte [r8], '0'
-    mov r10, 1
-    jmp .write
+    jmp .print
+
 .convert:
     xor rdx, rdx
     mov r9, 10
     div r9
 
-    add dl, '0'
-    mov byte [r8], dl
-
     dec r8
-    inc r10
+    add dl, '0'
+    mov [r8], dl
 
     test rax, rax
     jnz .convert
 
 .print:
-    inc r8
-
-.write:
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, r8
-    mov rdx, r10
-    syscall
+    mov rdi, r8
+    call print_string
 
     add rsp, 40
     ret
@@ -349,8 +343,11 @@ parse_int:
 ; Копирует строку в буфер
 ; Возвращает длину строки если она умещается в буфер, иначе 0
 string_copy:
+    sub rsp, 8
     call string_length
-    mov r8, rax              
+    add rsp, 8
+
+    mov r8, rax
 
     inc r8
     cmp r8, rdx
