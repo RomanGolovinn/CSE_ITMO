@@ -1,11 +1,24 @@
 section .text
  
- 
+global exit
+global string_length
+global print_string
+global print_char
+global print_newline
+global print_uint
+global print_int
+global string_equals
+global read_char
+global read_word
+global parse_uint
+global parse_int
+global string_copy
+
+
 ; Принимает код возврата и завершает текущий процесс
 exit:
     mov rax, 60
     syscall
-    ret
 
 ; Принимает указатель на нуль-терминированную строку, возвращает её длину
 string_length:
@@ -44,11 +57,9 @@ print_char:
 
 ; Переводит строку (выводит символ с кодом 0xA)
 print_newline:
-    sub rsp, 8
     mov rdi, 0xA
-    call print_char
-    add rsp, 8
-    ret
+    jump print_char
+
 
 ; Выводит беззнаковое 8-байтовое число в десятичном формате 
 ; Совет: выделите место в стеке и храните там результаты деления
@@ -147,8 +158,8 @@ read_char:
     mov edx, 1          ; 1 byte
     syscall
 
-    test rax, rax
-    jz .eof
+    cmp eax, 1
+    jne .eof
 
     movzx eax, byte [rsp]
 
@@ -338,23 +349,11 @@ parse_int:
 ; Копирует строку в буфер
 ; Возвращает длину строки если она умещается в буфер, иначе 0
 string_copy:
-    xor rcx, rcx
+    call string_length
+    mov r8, rax              
 
-.find_length:
-    cmp byte [rdi + rcx], 0
-    je .length_found
-
-    inc rcx
-    jmp .find_length
-
-.length_found:
-    ; RCX = длина без \0
-    ; Нужно RCX + 1 байт
-
-    mov rax, rcx
-    inc rax
-
-    cmp rax, rdx
+    inc r8
+    cmp r8, rdx
     ja .fail
 
     xor rcx, rcx
@@ -370,7 +369,8 @@ string_copy:
     jmp .copy
 
 .success:
-    mov rax, rcx
+    mov rax, r8
+    dec rax
     ret
 
 .fail:
