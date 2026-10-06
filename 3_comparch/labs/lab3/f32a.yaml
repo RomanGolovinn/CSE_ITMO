@@ -1,0 +1,15 @@
+name: "hello_user_cstr test"
+limit: 2000
+memory_size: 0x1000
+memory_mapped_io:
+  0x80: [65, 108, 105, 99, 101, 10]
+  0x84: []
+reports:
+  - name: Check results
+    slice: last
+    view: |
+      symio[0x84]: {io:0x84:sym}
+      {memory:0:31}
+    assert: |
+      symio[0x84]: "" >>> "What is your name?\nHello, Alice!"
+      mem[0x000..0x01f] (32 B): 	48 65 6c 6c 6f 2c 20 41 6c 69 63 65 21 00 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f
