@@ -17,13 +17,30 @@ section .text
 global _start
 
 _start:
-    mov rdi, input_buffer
-    mov esi, 256
-    call read_word
+    xor r12d, r12d
+
+.read_line:
+    call read_char
     test rax, rax
+    jz .line_complete
+
+    cmp al, 10
+    je .line_complete
+    cmp al, 13
+    je .line_complete
+
+    cmp r12, 255
+    jae .input_error
+    mov [input_buffer + r12], al
+    inc r12
+    jmp .read_line
+
+.line_complete:
+    mov byte [input_buffer + r12], 0
+    test r12, r12
     jz .input_error
 
-    mov rdi, rax
+    mov rdi, input_buffer
     mov rsi, dict_head
     call find_word
     test rax, rax
