@@ -1,93 +1,63 @@
+# IDE and editor metadata
 .idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
 
+# Java and Gradle output
+.gradle/
+build/
+out/
+target/
+*.class
 
-/1-2_programming/labs/lab1/lab1.iml
-/1-2_programming/labs/lab1/.idea/
+# Local environments, caches, and generated Python files
+.env
+.env.*
+!.env.example
+!.env.*.example
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Existing repository-specific generated artifacts
 /1-2_programming/labs/lab1/out/
-
-/1-2_programming/labs/lab2/.idea/
 /1-2_programming/labs/lab2/out/
-/1-2_programming/labs/lab2/lab2.iml
-
-/1-2_programming/labs/lab3-4/.idea/
 /1-2_programming/labs/lab3-4/out/
-
-/1-2_programming/labs/lab6/.idea/
-/1-2_programming/labs/lab6/out/
-/1-2_programming/labs/lab6/build/
-/1-2_programming/labs/lab6/.env
-/1-2_programming/labs/lab6/.env.s1
-/1-2_programming/labs/lab6/.env.s2
-/1-2_programming/labs/lab6/stack.json
-/1-2_programming/labs/lab6/.gradle/
-/1-2_programming/labs/lab6/build/
-/1-2_programming/labs/lab6/docs/
-/1-2_programming/labs/lab6/server/build/
-/1-2_programming/labs/lab6/client/build/
-/1-2_programming/labs/lab6/common/build/
-/1-2_programming/labs/lab6/data/collection.json
-
-/1-2_programming/labs/lab7/.idea/
-/1-2_programming/labs/lab7/out/
-/1-2_programming/labs/lab7/build/
-/1-2_programming/labs/lab7/.env
-/1-2_programming/labs/lab7/.env.s1
-/1-2_programming/labs/lab7/.env.s2
-/1-2_programming/labs/lab7/stack.json
-/1-2_programming/labs/lab7/.gradle/
-/1-2_programming/labs/lab7/build/
-/1-2_programming/labs/lab7/docs/
-/1-2_programming/labs/lab7/server/build/
-/1-2_programming/labs/lab7/client/build/
-/1-2_programming/labs/lab7/common/build/
-/1-2_programming/labs/lab7/data/collection.json
-
-/1-2_programming/labs/lab5/.idea/
-/1-2_programming/labs/lab5/out/
-/1-2_programming/labs/lab5/build/
-/1-2_programming/labs/lab5/.env
 /1-2_programming/labs/lab5/stack.json
-/1-2_programming/labs/lab5/.gradle/
-/1-2_programming/labs/lab5/build/
 /1-2_programming/labs/lab5/docs/
-
-
-
-
+/1-2_programming/labs/lab6/stack.json
+/1-2_programming/labs/lab6/docs/
+/1-2_programming/labs/lab6/data/collection.json
+/1-2_programming/labs/lab7/stack.json
+/1-2_programming/labs/lab7/docs/
+/1-2_programming/labs/lab7/data/collection.json
 
 /1-2_OPD/labs/lab1/lab0/
 
-
-/1-2_discrete_math/tasks/task3/.vscode
 /1-2_discrete_math/tasks/task3/dm_code/
 /1-2_discrete_math/tasks/task3/mn
 /1-2_discrete_math/tasks/task3/results/
 /1-2_discrete_math/tasks/task3/test_mn/
-
 /1-2_discrete_math/tasks/task4/main
-/1-2_discrete_math/tasks/task4/build/
 /1-2_discrete_math/tasks/task4/a.out
-
-
-/1_informatics/labs/lab4/venv/
-/1_informatics/labs/lab4/__pycache__/
-
-/.vscode/
 
 /2_data_base/labs/lab2/addit/my_dump.sql
 /2_data_base/labs/lab2/db_script
 /2_data_base/labs/lab2/addit/addit_script
-
 /2_data_base/labs/lab3/crypto_scraper/.env
-
 
 /3_proglang/seminars/sem1/hello.o
 /3_proglang/seminars/sem1/hello
 /3_proglang/seminars/sem1/err.txt
 /3_proglang/seminars/sem1/hello.txt
-
 /3_proglang/seminars/sem2/func.o
 /3_proglang/seminars/sem2/func
 /3_proglang/seminars/sem2/print.o
 /3_proglang/seminars/sem2/print
-

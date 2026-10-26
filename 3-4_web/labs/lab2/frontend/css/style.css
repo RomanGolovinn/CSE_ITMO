@@ -1,0 +1,245 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.header {
+    width: 100%;
+    padding: 25px 40px 20px;
+    text-align: center;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.header h1 {
+    margin: 0 0 12px;
+    font-family: fantasy;
+    color: #111111;
+    font-size: 32px;
+}
+
+.student-info {
+    margin: 0;
+    color: #333333;
+    font-size: 15px;
+}
+
+.student-info span {
+    font-weight: bold;
+}
+
+main {
+    width: 100%;
+    padding: 25px 20px 50px;
+}
+
+main > section {
+    width: 680px;
+    max-width: 100%;
+    margin: 0 auto 30px;
+}
+
+main section h2 {
+    margin: 0 0 12px;
+    color: #111111;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.canvas-container {
+    width: 680px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    overflow-x: auto;
+}
+
+#coordinateCanvas {
+    display: block;
+    width: 680px;
+    height: 500px;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #bdbdbd;
+}
+
+.form-row {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.form-row label {
+    display: inline-block;
+    width: 45px;
+    color: #111111;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.form-row label::after {
+    content: ":";
+}
+
+.form-row input,
+.form-row select {
+    width: 220px;
+    height: 36px;
+    margin: 0;
+    padding: 6px 8px;
+    border: 1px solid #bdbdbd;
+    border-radius: 2px;
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: normal;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+    outline: none;
+    border-color: #777777;
+}
+
+.form-row input:invalid:not(:placeholder-shown) {
+    border-color: #c62828;
+}
+
+.field-error {
+    display: block;
+    min-height: 18px;
+    margin-left: 45px;
+    color: #c62828;
+    font-size: 13px;
+}
+
+button {
+    padding: 8px 18px;
+    border: 1px solid #888888;
+    border-radius: 2px;
+    background: #eeeeee;
+    color: #111111;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e2e2e2;
+}
+
+button:active {
+    background: #d5d5d5;
+    transform: none;
+}
+
+.clear-button {
+    margin-top: 15px;
+}
+
+.form-message {
+    min-height: 22px;
+    margin: 10px 0 0;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.form-message.success {
+    color: #198754;
+}
+
+.form-message.error {
+    color: #c62828;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    font-size: 14px;
+}
+
+#resultsTable th,
+#resultsTable td {
+    padding: 8px 10px;
+    border: 1px solid #bdbdbd;
+    text-align: center;
+}
+
+#resultsTable th {
+    background: #eeeeee;
+    color: #111111;
+    font-weight: 400;
+}
+
+#resultsTable tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+#resultsTable tbody tr:hover {
+    background: #f1f1f1;
+}
+
+.result-hit {
+    color: #198754;
+    font-weight: bold;
+}
+
+.result-miss {
+    color: #c62828;
+    font-weight: bold;
+}
+
+.empty-row td {
+    color: #777777;
+    font-style: italic;
+}
+
+.footer {
+    padding: 20px;
+    border-top: 1px solid #eeeeee;
+    text-align: center;
+    color: #777777;
+    font-size: 14px;
+}
+
+@media (max-width: 720px) {
+    .header {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    main {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    main > section {
+        width: 100%;
+    }
+
+    #coordinateCanvas {
+        width: 100%;
+        height: auto;
+    }
+
+    .header h1 {
+        font-size: 25px;
+    }
+}
