@@ -9,7 +9,7 @@
 
     <title>Лабораторная работа №2</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
 </head>
 
 <body>
@@ -62,27 +62,21 @@
 
         <form id="pointForm" novalidate>
 
-            <div class="form-row">
-
-                <label for="x">
-                    X
-                </label>
-
-                <input
-                    id="x"
-                    name="x"
-                    type="text"
-                    inputmode="decimal"
-                    autocomplete="off"
-                    placeholder="от -5 до 5"
-                >
-
-                <small
-                    id="xError"
-                    class="field-error">
-                </small>
-
-            </div>
+            <fieldset class="form-row choice-row">
+                <legend>X</legend>
+                <div class="choice-group" id="xChoices">
+                    <label class="choice-option"><input type="checkbox" name="x" value="-4"> -4</label>
+                    <label class="choice-option"><input type="checkbox" name="x" value="-3"> -3</label>
+                    <label class="choice-option"><input type="checkbox" name="x" value="-2"> -2</label>
+                    <label class="choice-option"><input type="checkbox" name="x" value="-1"> -1</label>
+                    <label class="choice-option"><input type="checkbox" name="x" value="0"> 0</label>
+                    <label class="choice-option"><input type="checkbox" name="x" value="1"> 1</label>
+                    <label class="choice-option"><input type="checkbox" name="x" value="2"> 2</label>
+                    <label class="choice-option"><input type="checkbox" name="x" value="3"> 3</label>
+                    <label class="choice-option"><input type="checkbox" name="x" value="4"> 4</label>
+                </div>
+                <small id="xError" class="field-error"></small>
+            </fieldset>
 
             <div class="form-row">
 
@@ -96,7 +90,7 @@
                     type="text"
                     inputmode="decimal"
                     autocomplete="off"
-                    placeholder="от -3 до 3"
+                    placeholder="от -5 до 5"
                 >
 
                 <small
@@ -106,30 +100,20 @@
 
             </div>
 
-            <div class="form-row">
-
-                <label for="r">
-                    R
-                </label>
-
-                <select
-                    id="r"
-                    name="r">
-
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-
-                </select>
-
+            <fieldset class="form-row choice-row">
+                <legend>R</legend>
+                <div class="choice-group">
+                    <label class="choice-option"><input type="radio" name="r" value="1" checked> 1</label>
+                    <label class="choice-option"><input type="radio" name="r" value="1.5"> 1.5</label>
+                    <label class="choice-option"><input type="radio" name="r" value="2"> 2</label>
+                    <label class="choice-option"><input type="radio" name="r" value="2.5"> 2.5</label>
+                    <label class="choice-option"><input type="radio" name="r" value="3"> 3</label>
+                </div>
                 <small
                     id="rError"
                     class="field-error">
                 </small>
-
-            </div>
+            </fieldset>
 
             <button
                 type="submit"
@@ -197,7 +181,7 @@
 
 </footer>
 
-<script src="js/script.js"></script>
+<script src="js/script.js?v=3"></script>
 
 </body>
 

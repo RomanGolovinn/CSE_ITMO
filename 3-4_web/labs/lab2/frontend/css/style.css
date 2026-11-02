@@ -91,7 +91,7 @@ main section h2 {
     content: ":";
 }
 
-.form-row input,
+.form-row input[type="text"],
 .form-row select {
     width: 220px;
     height: 36px;
@@ -106,14 +106,68 @@ main section h2 {
     line-height: normal;
 }
 
-.form-row input:focus,
+.form-row input[type="text"]:focus,
 .form-row select:focus {
     outline: none;
     border-color: #777777;
 }
 
-.form-row input:invalid:not(:placeholder-shown) {
+.form-row input[type="text"]:invalid:not(:placeholder-shown) {
     border-color: #c62828;
+}
+
+.choice-row {
+    display: grid;
+    grid-template-columns: 45px minmax(0, 1fr);
+    min-width: 0;
+    padding: 0;
+    border: 0;
+}
+
+.choice-row legend {
+    grid-column: 1;
+    grid-row: 1;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.choice-row legend::after {
+    content: ":";
+}
+
+.choice-group {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin: 0;
+    min-height: 36px;
+    align-items: center;
+}
+
+.form-row .choice-option {
+    display: inline-flex;
+    width: auto;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.form-row .choice-option::after {
+    content: none;
+}
+
+.choice-option input {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.choice-row .field-error {
+    grid-column: 2;
+    margin-left: 0;
 }
 
 .field-error {
