@@ -5,6 +5,10 @@
 *.iws
 *.ipr
 
+
+.venv/
+
+
 # Java and Gradle output
 .gradle/
 build/
