@@ -107,7 +107,9 @@ async function sendRequest(parameters) {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
         },
-        body: new URLSearchParams(parameters)
+        body: parameters instanceof URLSearchParams
+            ? parameters
+            : new URLSearchParams(parameters)
     });
     return { status: response.status, payload: await response.json() };
 }
@@ -132,34 +134,32 @@ form.addEventListener("submit", async function(event) {
         return;
     }
 
-    formMessage.textContent = "Отправка запросов…";
+    formMessage.textContent = "Отправка точек…";
     formMessage.className = "form-message";
     try {
-        const checkedPoints = [];
-        let lastPayload = null;
-        for (const x of validation.xs) {
-            const response = await sendRequest({
-                action: "check",
-                x: String(x),
-                y: String(validation.y),
-                r: String(validation.r)
-            });
-            lastPayload = response.payload;
-            applyServerResponse(lastPayload);
-            if (!response.status.toString().startsWith("2") || lastPayload.error) {
-                showError(lastPayload.error || "Ошибка сервера: " + response.status);
-                return;
-            }
-            if (Array.isArray(lastPayload.results) && lastPayload.results.length > 0) {
-                checkedPoints.push(lastPayload.results[0]);
-            }
+        const parameters = new URLSearchParams({
+            action: "check",
+            y: String(validation.y),
+            r: String(validation.r)
+        });
+        validation.xs.forEach(function(x) {
+            parameters.append("x", String(x));
+        });
+
+        const response = await sendRequest(parameters);
+        const payload = response.payload;
+        applyServerResponse(payload);
+        if (!response.status.toString().startsWith("2") || payload.error) {
+            showError(payload.error || "Ошибка сервера: " + response.status);
+            return;
         }
 
+        const checkedPoints = payload.results.slice(0, validation.xs.length);
         const hits = checkedPoints.filter(function(point) { return point.hit; }).length;
         formMessage.textContent = "Проверено точек: " + checkedPoints.length
             + "; попаданий: " + hits + ". Серверное время: "
-            + formatDate(lastPayload.currentTime) + "; время последнего запроса: "
-            + Number(lastPayload.executionTimeMs).toFixed(3) + " мс.";
+            + formatDate(payload.currentTime) + "; время обработки: "
+            + Number(payload.executionTimeMs).toFixed(3) + " мс.";
         formMessage.className = hits === checkedPoints.length
             ? "form-message success"
             : "form-message error";

@@ -4,6 +4,8 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import ru.itmo.lab2.core.PointRequest;
 import ru.itmo.lab2.core.PointService;
@@ -34,19 +36,27 @@ public final class FastCgiRequestHandler {
                 throw new IllegalArgumentException("Content-Type must be application/x-www-form-urlencoded");
             }
 
-            Map<String, String> form = parseForm(body);
-            String action = form.getOrDefault("action", "check");
+            Map<String, List<String>> form = parseForm(body);
+            String action = firstValue(form, "action", "check");
             if ("history".equals(action)) {
                 // Return the current server-side history without adding a point.
             } else if ("clear".equals(action)) {
                 pointService.getHistory().clear();
             } else if ("check".equals(action)) {
-                PointRequest request = PointValidator.validate(
-                        form.get("x"),
-                        form.get("y"),
-                        form.get("r")
-                );
-                pointService.check(request);
+                List<String> rawXs = form.getOrDefault("x", List.of());
+                if (rawXs.isEmpty()) {
+                    throw new IllegalArgumentException("At least one X value is required");
+                }
+
+                String y = firstValue(form, "y", null);
+                String r = firstValue(form, "r", null);
+                List<PointRequest> requests = new ArrayList<>();
+                for (String x : rawXs) {
+                    requests.add(PointValidator.validate(x, y, r));
+                }
+                for (PointRequest request : requests) {
+                    pointService.check(request);
+                }
             } else {
                 throw new IllegalArgumentException("Unknown action");
             }
@@ -67,8 +77,13 @@ public final class FastCgiRequestHandler {
         return new HandlerResponse(status, json);
     }
 
-    private Map<String, String> parseForm(String body) {
-        Map<String, String> values = new LinkedHashMap<>();
+    private String firstValue(Map<String, List<String>> form, String name, String defaultValue) {
+        List<String> values = form.get(name);
+        return values == null || values.isEmpty() ? defaultValue : values.get(0);
+    }
+
+    private Map<String, List<String>> parseForm(String body) {
+        Map<String, List<String>> values = new LinkedHashMap<>();
         if (body == null || body.isEmpty()) {
             return values;
         }
@@ -82,9 +97,11 @@ public final class FastCgiRequestHandler {
             String encodedValue = separator < 0 ? "" : pair.substring(separator + 1);
             String name = URLDecoder.decode(encodedName, StandardCharsets.UTF_8);
             String value = URLDecoder.decode(encodedValue, StandardCharsets.UTF_8);
-            if (values.putIfAbsent(name, value) != null) {
+            List<String> fieldValues = values.computeIfAbsent(name, ignored -> new ArrayList<>());
+            if (!"x".equals(name) && !fieldValues.isEmpty()) {
                 throw new IllegalArgumentException("Duplicate parameter: " + name);
             }
+            fieldValues.add(value);
         }
         return values;
     }
