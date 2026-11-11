@@ -9,8 +9,8 @@
     };\
 \
     void list_##type##_push(struct list_##type **list, type value){\
-        
-    }
+        \
+    };\
 
 DEFINE_LIST(int64_t)
 DEFINE_LIST(double)
